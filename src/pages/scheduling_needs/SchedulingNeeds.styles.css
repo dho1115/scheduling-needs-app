@@ -1,0 +1,32 @@
+.scheduling-needs-div {
+   min-height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: salmon;
+}
+
+.availableShifts {
+   display: grid;
+   grid-template-columns: auto auto auto;
+   padding: 1.5px;
+   border: 1.5px solid black;
+}
+
+.availableshifts-even {
+   background-color: wheat;
+}
+
+.available-shifts-header {
+   display: flex;
+   justify-content: center;
+}
+
+.availableShiftsOdd {
+   background-color: lightgreen;
+}
+
+.avaiable-shifts-container {
+   border: 3px solid black;
+   background-color: antiquewhite;
+}
