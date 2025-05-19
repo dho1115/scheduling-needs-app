@@ -1,10 +1,13 @@
 import { useLocation } from 'react-router-dom';
 import { Button, Container, Form, FormGroup } from 'reactstrap';
+
+//Components
 import ErrorBoundary from '../../components/ErrorBoundary';
+import SchedulingNeedsCandidate from '../../components/scheduling_needs/candidate/SchedulingNeedsCandidate';
 
 import './SchedulingNeeds.styles.css';
 
-const SchedulingNeeds = ({shiftsArray}) => {
+const SchedulingNeeds = ({shiftsArray, role}) => {
    const location = useLocation();
 
    return (
@@ -26,15 +29,11 @@ const SchedulingNeeds = ({shiftsArray}) => {
                            <h3>Time: {time}</h3>
                            {comments && <h5>Supervisor comments: {comments}</h5>}
                            <hr />
-                           {/* Form viewable for Candidate Only!!! */}
-                           <Form>
-                              <FormGroup>
-                                 <Button color='danger'>SELECT THIS SHIFT!!!</Button>
-                              </FormGroup>
-                              <FormGroup>
-                                 <Button color='success'>ONLY DO PARTIAL!!!</Button>
-                              </FormGroup>
-                           </Form>
+                           <ErrorBoundary fallback={<h3>Something went wrong trying to render Candidate component in SchedulingNeeds.jsx</h3>}>
+                              {
+                                 role == 'candidate' && <SchedulingNeedsCandidate _shiftID={_shiftID} />
+                              } {/* Component visible only to candidate. */}
+                           </ErrorBoundary>                           
                         </div>
                      ))
                   }
