@@ -7,6 +7,7 @@ import SchedulingNeedsCandidate from './candidate/SchedulingNeedsCandidate';
 
 import './SchedulingNeeds.styles.css';
 
+
 const SchedulingNeeds = ({shiftsArray, role}) => {
    const location = useLocation();
 
@@ -29,11 +30,17 @@ const SchedulingNeeds = ({shiftsArray, role}) => {
                            <h3>Time: {time}</h3>
                            {comments && <h5>Supervisor comments: {comments}</h5>}
                            <hr />
-                           <ErrorBoundary fallback={<h3>Something went wrong trying to render Candidate component in SchedulingNeeds.jsx</h3>}>
+                           <ErrorBoundary fallback={<h3>Something went wrong trying to render <span color='danger'>Candidate</span> component in SchedulingNeeds.jsx</h3>}>
                               {
                                  role == 'candidate' && <SchedulingNeedsCandidate _shiftID={_shiftID} />
                               } {/* Component visible only to candidate. */}
-                           </ErrorBoundary>                           
+                           </ErrorBoundary>
+                           <ErrorBoundary fallback={<h3>Something went wrong trying to render <span color='danger'>Scheduling Supervisor</span> component in SchedulingNeeds.jsx</h3>}>
+                              {
+                                 role === 'supervisor' && 
+                                 <Button color='danger' size='lg' onClick={() => console.log("A dropdown menu of the APPLICANTS!!!")}>YOU HAVE APPLICANTS FOR THIS SHIFT!!!</Button>
+                              } {/* Component only visible to Supervisor. */}
+                           </ErrorBoundary>
                         </div>
                      ))
                   }
