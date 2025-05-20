@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Form, FormGroup } from 'reactstrap'
 
 import "./SchedulingNeedsCandidate.styles.css"
-const SchedulingNeedsCandidate = ({_shifID}) => {
+const SchedulingNeedsCandidate = ({_shiftID}) => {
   return (
     <div>
       <Form>
