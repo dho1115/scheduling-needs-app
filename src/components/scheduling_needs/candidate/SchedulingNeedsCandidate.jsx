@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Form, FormGroup } from 'reactstrap'
 
-import "./SchedulingNeedsCandidate.styles.css"
-const SchedulingNeedsCandidate = ({_shiftID}) => {
+import { ShiftContext } from '../../../App';
+
+import "./SchedulingNeedsCandidate.styles.css";
+
+const SchedulingNeedsCandidate = ({ _shiftID }) => {
+  const shift = useContext(ShiftContext);
+  
   return (
     <div>
       <Form>
