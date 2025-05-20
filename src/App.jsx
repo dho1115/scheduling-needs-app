@@ -5,6 +5,7 @@ export const ShiftContext = createContext();
 
 //Pages;
 import Homepage from "./pages/homepage/Homepage";
+import SupervisorPage from "./pages/supervisor/SupervisorPage";
 
 function App() {
   const [shifts, setShifts] = useState({});
@@ -14,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/supervisor" element={<SupervisorPage />} />
         </Routes>
       </BrowserRouter>
     </ShiftContext.Provider>
