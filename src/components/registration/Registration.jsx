@@ -5,7 +5,7 @@ import './Registration.styles.css';
 const Registration = ({ text }) => {
    const bgColor = text.toLowerCase() == 'login' ? 'login' : 'signup'
    return (
-      <div className={`registration-div ${bgColor}`}>
+      <div className={`registration-div ${bgColor}`} onClick={() => alert(`Modal for ${text.toUpperCase()} will appear.`)}>
          <h1 style={{textAlign: 'center'}}>{text}</h1>
       </div>
    )
