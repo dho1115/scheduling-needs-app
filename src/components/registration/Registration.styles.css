@@ -1,8 +1,14 @@
 .registration-div {
    width: 100%;
-   border: 1.5px solid black;
+   border: 5px solid black;
    padding: 1%;
-   margin: 1%
+   margin: 1%;
+   cursor: pointer;
+}
+
+.registration-div:active {
+   scale: 1.05;
+   border: 5px solid lightseagreen;
 }
 
 .login {
