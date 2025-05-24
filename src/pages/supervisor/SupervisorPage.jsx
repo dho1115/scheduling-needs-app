@@ -1,8 +1,5 @@
 import React, { useContext } from 'react';
-import { Outlet } from 'react-router-dom';
-
-//Components.
-import SchedulingNeeds from '../../components/scheduling_needs/SchedulingNeeds';
+import { Outlet, Link } from 'react-router-dom';
 
 import { ShiftContext } from '../../App';
 
@@ -18,7 +15,8 @@ const SupervisorPage = () => {
   return (
     <div>
       <nav className='SupervisorPage-nav'>
-        <strong>View Available Shifts</strong>
+        <strong><Link to="/">Login Page</Link></strong>
+        <strong><Link to="/supervisor/available shifts">View Available Shifts</Link></strong>
         <strong>Add Shift</strong>
         <strong>Cancel Available Shift</strong>
       </nav>
