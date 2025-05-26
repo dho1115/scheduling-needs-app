@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-export function useFetch(url) {
-   const [employeeData, setEmployeeData] = useState({})
+export function useFetch(url, initial=null) {
+   const [employeeData, setEmployeeData] = useState(initial)
 
    useEffect(() => {
       fetch(url).then(res => {
@@ -11,7 +11,7 @@ export function useFetch(url) {
          return res.json()
       }).then(data => {
          console.log("SUCCESS!!! ", data);
-         setEmployeeData(prvData => ({ ...prvData, ...data }));
+         setEmployeeData(employeeData);
       }).catch(err => console.error({err, errCode: err.code, errMessage: err.message}))
       return () => {
        
