@@ -13,12 +13,12 @@ import SupervisorPage from "./pages/supervisor/SupervisorPage";
 
 function App() {
   const [shiftsArray, setShiftsArray] = useState([]);
-  const [role, setRole] = useState({});
-  const [employee, setEmployee] = useFetch("http://localhost:3003/employees");
+  const [currentUser, setCurrentUser] = useState({});
+  const [employees, setEmployees] = useFetch("http://localhost:3003/employees");
 
   return (
     <ShiftContext.Provider
-      value={{ shiftsArray, setShiftsArray, role, setRole, employee, setEmployee }}
+      value={{ shiftsArray, setShiftsArray, currentUser, setCurrentUser, employees, setEmployees }}
     >
       <BrowserRouter>
         <Routes>
