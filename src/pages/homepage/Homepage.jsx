@@ -23,10 +23,6 @@ const Homepage = () => {
 
   return (
     <div className='homepage-div'>
-      <Container className='homepage-container' style={{position: (!registrationMode.register && !registrationMode.login) ? 'relative' : 'absolute'}}>        
-        <Registration text="LOGIN" toggle={loginToggle} />
-        <Registration text="SIGN UP" toggle={registerToggle} />
-      </Container>
       {
         registrationMode.register
         &&
@@ -37,6 +33,10 @@ const Homepage = () => {
         &&
         <Login isOpen={registrationMode.login} toggle={loginToggle} />
       }
+      <Container className='homepage-container'>        
+        <Registration text="LOGIN" toggle={loginToggle} />
+        <Registration text="SIGN UP" toggle={registerToggle} />
+      </Container>
     </div>
   )
 }

@@ -24,6 +24,10 @@
    background-color: lightpink;
 }
 
+.registration-wrapper {
+   position: relative;
+}
+
 .signup {
    background-color: yellow;
 }
