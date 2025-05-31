@@ -1,5 +1,5 @@
 .registration-div {
-   width: 100%;
+   max-width: 100%;
    border: 5px solid black;
    padding: 1%;
    margin: 1%;

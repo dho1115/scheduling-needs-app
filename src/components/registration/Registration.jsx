@@ -4,16 +4,18 @@ import ErrorBoundary from '../ErrorBoundary';
 
 import './Registration.styles.css';
 
-const Registration = ({ text, toggle }) => {
+const Registration = ({ text, toggle, registrationComponent }) => {
    const bgColor = text.toLowerCase() == 'login' ? 'login' : 'signup';
    const location = useLocation();
 
    try {
       return (
          <ErrorBoundary fallback={<h1>Oops... something went wrong in {location.pathname}.</h1>}>
-            <div className={`registration-div ${bgColor}`} onClick={toggle}>
-               <h1 style={{textAlign: 'center'}}>{text}</h1>
-            </div>
+            <div style={{width: '50%'}}>
+               <div className={`registration-div ${bgColor}`} onClick={toggle}>
+                  <h1 style={{textAlign: 'center'}}>{text}</h1>
+               </div>
+            </div>            
          </ErrorBoundary>
       )
    } catch (error) {
