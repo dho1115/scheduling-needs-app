@@ -11,6 +11,7 @@ const Registration = ({ text, toggle, registrationComponent }) => {
    try {
       return (
          <ErrorBoundary fallback={<h1>Oops... something went wrong in {location.pathname}.</h1>}>
+            {registrationComponent}
             <div style={{width: '50%'}}>
                <div className={`registration-div ${bgColor}`} onClick={toggle}>
                   <h1 style={{textAlign: 'center'}}>{text}</h1>
