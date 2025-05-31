@@ -23,19 +23,17 @@ const Homepage = () => {
 
   return (
     <div className='homepage-div'>
-      {
-        registrationMode.register
-        &&
-        <Register isOpen={registrationMode.register} toggle={registerToggle} />
-      }
-      {
-        registrationMode.login
-        &&
-        <Login isOpen={registrationMode.login} toggle={loginToggle} />
-      }
       <Container className='homepage-container'>        
-        <Registration text="LOGIN" toggle={loginToggle} />
-        <Registration text="SIGN UP" toggle={registerToggle} />
+        <Registration
+          text="LOGIN"
+          toggle={loginToggle}
+          registrationComponent={<Login isOpen={registrationMode.login} toggle={loginToggle} />}
+        />
+        <Registration
+          text="SIGN UP"
+          toggle={registerToggle}
+          registrationComponent={<Register isOpen={registrationMode.register} toggle={registerToggle} />}
+        />
       </Container>
     </div>
   )

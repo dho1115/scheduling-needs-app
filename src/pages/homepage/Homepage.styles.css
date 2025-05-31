@@ -12,6 +12,7 @@
    align-items: center;
    background-color: maroon;
    position: relative;
+   overflow: hidden;
 }
 
 .login, .signup {
