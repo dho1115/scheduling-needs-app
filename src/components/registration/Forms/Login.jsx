@@ -10,7 +10,7 @@ const Login = ({ isOpen, toggle, ...args }) => {
    const { role, setRole, employee, setEmployee } = shiftcontext;
 
    return (
-      <div>
+      <div className='modal-div'>
          <Modal
             isOpen={isOpen}
             backdrop='static'

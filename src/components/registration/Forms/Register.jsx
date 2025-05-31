@@ -18,7 +18,7 @@ const Register = ({ isOpen, toggle }) => {
    }
 
    return (
-      <div>
+      <div className='modal-div'>
          <Modal
             isOpen={isOpen}
             toggle={toggle}
