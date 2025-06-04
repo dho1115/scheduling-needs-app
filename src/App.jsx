@@ -8,7 +8,8 @@ export const ShiftContext = createContext();
 import SchedulingNeeds from "./components/scheduling_needs/SchedulingNeeds";
 
 //Pages;
-import Homepage from "./pages/homepage/Homepage";
+import
+Homepage from "./pages/homepage/Homepage";
 import SupervisorPage from "./pages/supervisor/SupervisorPage";
 
 function App() {
