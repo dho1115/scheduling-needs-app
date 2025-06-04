@@ -7,15 +7,13 @@
 }
 
 .homepage-div {
-   min-width: 100%;
+   width: 100%;
    height: 100vh;
    display: flex;
    align-items: center;
    background-color: maroon;
    position: relative;
    overflow: hidden;
-   z-index: 0;
-}
 
 .login, .signup {
    border: 1.5px solid black;
