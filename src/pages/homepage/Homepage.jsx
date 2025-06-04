@@ -6,12 +6,12 @@ import Login from '../../components/registration/Forms/Login';
 import Register from '../../components/registration/Forms/Register';
 
 //Dependencies.
-import { Container, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 import './Homepage.styles.css';
 
 const Homepage = () => {
-  const [registrationMode, setRegistrationMode] = useState({ register: true, login: false });
+  const [registrationMode, setRegistrationMode] = useState({ register: false, login: false });
   const registerToggle = () => setRegistrationMode(prvMode => ({...prvMode, register: !prvMode.register, login: false}));
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
@@ -22,7 +22,7 @@ const Homepage = () => {
   }, [])
 
   return (
-    <div>
+    <div className='homepage-div'>
       <Container className='homepage-container'>        
         <Registration
           text="LOGIN"
