@@ -1,9 +1,10 @@
 .registration-div {
-   max-width: 100%;
+   width: 100%;
    border: 5px solid black;
    padding: 1%;
    margin: 1%;
    cursor: pointer;
+   position: relative
 }
 
 .registration-div:active {
