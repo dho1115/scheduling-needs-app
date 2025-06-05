@@ -1,6 +1,7 @@
 {
    "employees": [
-      {"1111111": {"role": "supervisor", "name": "supervisor1"}}, 
-      {"2222222": {"role": "candidate", "name": "jamie smith", "base": 3311}}, {"3333333": {"role": "candidate", "name": "acey ryan", "base": 1051}}
+      {"1111111": {"role": "supervisor", "name": "supervisor1", "_id": "1111111"}}, 
+      {"2222222": {"role": "candidate", "name": "jamie smith", "base": 3311, "_id": "2222222"}}, 
+      {"3333333": {"role": "candidate", "name": "acey ryan", "base": 1051, "_id": "3333333"}}
    ]
 }
