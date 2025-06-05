@@ -7,6 +7,10 @@
    position: relative
 }
 
+.registration-div-wrapper {
+   width: 49%
+}
+
 .registration-div:active {
    scale: 1.05;
    border: 5px solid lightseagreen;
