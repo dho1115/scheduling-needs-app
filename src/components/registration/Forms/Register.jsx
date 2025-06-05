@@ -13,8 +13,8 @@ const Register = ({ isOpen, toggle }) => {
 
    function handleRegistration(e) {
       e.preventDefault()
-      const curretnUserDetails = { ...currentUser, _id: uniqid(currentUser.role == 'candidate' ? 'c-' : 's-') };
-      console.log("SUBMITTED: ", curretnUserDetails);
+      const currentUserDetails = { ...currentUser, _id: uniqid(currentUser.role == 'candidate' ? 'c-' : 's-') };
+      console.log("SUBMITTED: ", currentUserDetails);
    }
 
    return (
