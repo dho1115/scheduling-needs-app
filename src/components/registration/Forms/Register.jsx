@@ -1,4 +1,5 @@
-import React, {useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react';
+import uniqid from 'uniqid';
 import { Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { ShiftContext } from '../../../App';
 import { useFetch } from '../../../functions/FetchHook';
@@ -12,7 +13,8 @@ const Register = ({ isOpen, toggle }) => {
 
    function handleRegistration(e) {
       e.preventDefault()
-      console.log("SUBMITTED: ", currentUser)
+      const curretnUserDetails = { ...currentUser, _id: uniqid(currentUser.role == 'candidate' ? 'c-' : 's-') };
+      console.log("SUBMITTED: ", curretnUserDetails);
    }
 
    return (
@@ -22,20 +24,25 @@ const Register = ({ isOpen, toggle }) => {
          backdrop='static'
       >
          <ModalHeader toggle={toggle}>
-            <h1>New User - Register.</h1>
+            <strong>New User - Register.</strong>
          </ModalHeader>
          <ModalBody>
-            <Form onSubmit={() => handleRegistration} className='registration-form'>
+            <Form onSubmit={handleRegistration} className='registration-form'>
                <FormGroup>
-                  <Label for='employeeID'>EMPLOYEE ID</Label>
-                  <Input type='number' placeholder='employee id' id='employeeID' onChange={e => setCurrentUser(prvData => ({...prvData, employeeID: e.target.value}))} />
+                  <Label for='employeeID'>name</Label>
+                  <Input type='text' placeholder='employee name' id='employee name' onChange={e => setCurrentUser(prvData => ({...prvData, name: e.target.value}))} />
                </FormGroup>
                <FormGroup>
                   <Label for='password'>PASSWORD</Label>
                   <Input type='password' placeholder='password' id='password' onChange={e => setCurrentUser(prvData => ({...prvData, password: e.target.value}))} required />
                </FormGroup>
+               <FormGroup tag="fieldset">
+                  <legend>WHAT IS YOUR ROLE?</legend>
+                  <Input type='radio' name='radio1' value='candidate' onChange={e => setCurrentUser(prv => ({...prv, role: e.target.value}))} />{' '}<Label check>PHARMACIST.</Label>
+                  <Input type='radio' name='radio1' value='supervisor' onChange={e => setCurrentUser(prv => ({...prv, role: e.target.value}))} />{' '}<Label check>SHIFT SUPERVISOR.</Label>
+               </FormGroup>
                <FormGroup>
-                  <button type="button" className="btn btn-danger btn-lg btn-block">SUBMIT</button>
+                  <button type="submit" className="btn btn-danger btn-lg btn-block">SUBMIT</button>
                </FormGroup>
             </Form>
          </ModalBody>
