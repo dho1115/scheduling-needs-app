@@ -26,7 +26,20 @@
       "password": "agardner",
       "role": "candidate",
       "base": "3777"
+    },
+    {
+      "id": "c-mbwm1j9c",
+      "name": "Shawne Carter",
+      "password": "scarter",
+      "role": "candidate",
+      "base": "5007"
     }
   ],
-  "currentUser": {}
+  "currentUser": {
+    "id": "c-mbwm1j9c",
+    "name": "Shawne Carter",
+    "password": "scarter",
+    "role": "candidate",
+    "base": "5007"
+  }
 }
