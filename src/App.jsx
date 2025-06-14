@@ -14,7 +14,7 @@ import SupervisorPage from "./pages/supervisor/SupervisorPage";
 
 function App() {
   const [shiftsArray, setShiftsArray] = useState([]);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({id: '', name: '', password: '', role: ''});
   const [employees, setEmployees] = useFetch("http://localhost:3003/employees");
 
   return (
