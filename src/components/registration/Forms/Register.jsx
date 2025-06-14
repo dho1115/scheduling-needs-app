@@ -1,13 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import uniqid from 'uniqid';
 import { Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { ShiftContext } from '../../../App';
-import { useFetch } from '../../../functions/FetchHook';
-import { PostRequest } from '../../../functions/postRequest';
+import { PostCurrentUser, PostRequest } from '../../../functions/postRequest';
 
 import "../Registration.styles.css";
 
 const Register = ({ isOpen, toggle }) => {
+   const formRef = useRef();
+   const navigate = useNavigate();
    const shiftcontext = useContext(ShiftContext);
    const { currentUser, setCurrentUser, employees, setEmployees } = shiftcontext;
    const { name, password, role } = currentUser;
@@ -17,7 +19,9 @@ const Register = ({ isOpen, toggle }) => {
       const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
       const currentUserDetails = { ...currentUser, id: _id };
       PostRequest('http://localhost:3003/employees', currentUserDetails);
-      toggle()
+      PostCurrentUser('http://localhost:3003/currentUser', currentUserDetails);
+      toggle();
+      setCurrentUser({ id: '', name: '', password: '', role: '' });
    }
 
    useEffect(() => {
@@ -34,7 +38,7 @@ const Register = ({ isOpen, toggle }) => {
             <strong>New User - Register.</strong>
          </ModalHeader>
          <ModalBody>
-            <Form onSubmit={handleRegistration} className='registration-form'>
+            <Form onSubmit={handleRegistration} className='registration-form' ref={formRef}>
                <FormGroup>
                   <Label for='employeeID'>name</Label>
                   <Input type='text' value={name} placeholder='employee name' id='employee name' onChange={e => setCurrentUser(prvData => ({...prvData, name: e.target.value}))} />
@@ -66,9 +70,3 @@ const Register = ({ isOpen, toggle }) => {
 }
 
 export default Register
-
-/* 
-   {"1111111": {"role": "supervisor", "name": "supervisor1", "_id": "1111111"}}, 
-   {"2222222": {"role": "candidate", "name": "jamie smith", "base": 3311, "_id": "2222222"}}, 
-   {"3333333": {"role": "candidate", "name": "acey ryan", "base": 1051, "_id": "3333333"}}
-*/
