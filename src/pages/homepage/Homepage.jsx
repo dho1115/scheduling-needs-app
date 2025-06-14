@@ -16,9 +16,7 @@ const Homepage = () => {
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
   useEffect(() => {
-    return () => {
-      setRegistrationMode({ register: false, login: false });
-    };
+    return () => setRegistrationMode({ register: false, login: false });
   }, [])
 
   return (
