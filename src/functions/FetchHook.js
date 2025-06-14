@@ -11,7 +11,7 @@ export function useFetch(url, initial=null) {
          return res.json()
       }).then(data => {
          console.log("SUCCESS!!! ", data);
-         setEmployeeData(employeeData);
+         setEmployeeData(data);
       }).catch(err => console.error({err, errCode: err.code, errMessage: err.message}))
       return () => {
        
@@ -20,3 +20,4 @@ export function useFetch(url, initial=null) {
 
    return [employeeData, setEmployeeData]
 }
+
