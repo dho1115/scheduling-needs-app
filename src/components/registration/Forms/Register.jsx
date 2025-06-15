@@ -11,8 +11,8 @@ const Register = ({ isOpen, toggle }) => {
    const formRef = useRef();
    const navigate = useNavigate();
    const shiftcontext = useContext(ShiftContext);
-   const { currentUser, setCurrentUser, employees, setEmployees } = shiftcontext;
-   const { name, password, role } = currentUser;
+   const { currentUser, setCurrentUser } = shiftcontext;
+   const { name, password } = currentUser;
 
    function handleRegistration(e) {
       e.preventDefault()
