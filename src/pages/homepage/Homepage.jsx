@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 //Components
 import Registration from '../../components/registration/Registration';
@@ -7,15 +7,19 @@ import Register from '../../components/registration/Forms/Register';
 
 //Dependencies.
 import { Container } from 'reactstrap';
+import { ShiftContext } from '../../App';
 
 import './Homepage.styles.css';
 
 const Homepage = () => {
+  const { currentUser } = useContext(ShiftContext);
   const [registrationMode, setRegistrationMode] = useState({ register: false, login: false });
   const registerToggle = () => setRegistrationMode(prvMode => ({...prvMode, register: !prvMode.register, login: false}));
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
   useEffect(() => {
+    if (currentUser) console.log(`WELCOME TO YOUR HOMEPAGE, ${JSON.stringify(currentUser)}!!!`);
+    else console.log(`Nobody is logged in because currentUser is ${JSON.stringify(currentUser)}.`)
     return () => setRegistrationMode({ register: false, login: false });
   }, [])
 
