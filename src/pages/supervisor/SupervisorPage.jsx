@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-
+import NavigationBar from '../../components/navigation-bar/NavigationBar';
 import { ShiftContext } from '../../App';
 
 import "./SupervisorPage.styles.css";
@@ -14,14 +14,8 @@ const SupervisorPage = () => {
 
   return (
     <div>
-      <nav className='SupervisorPage-nav p-3'>
-        <strong><Link to="/">Login Page</Link></strong>
-        <strong><Link to="/supervisor/available shifts">View Available Shifts</Link></strong>
-        <strong>Add Shift</strong>
-        <strong>Cancel Available Shift</strong>
-        <strong>LOG OUT!!!</strong>
-      </nav>
-      <div>
+      <NavigationBar />
+      <div className='p-1'>
         <h3>Welcome to your page, <span style={{color: 'red'}}>{currentUser.name}</span>!!!</h3>
       </div>
       <Outlet />
