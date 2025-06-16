@@ -1,0 +1,20 @@
+.logoff:hover {
+   cursor: pointer;
+   color: red;
+}
+
+.navigation {
+   display: flex;
+   justify-content: space-between;
+   border-bottom: 1.5px solid black;
+   background-color: bisque;
+}
+
+.navlink {
+   text-decoration: none;
+   color: black;
+}
+
+.navlink:hover {
+   color: red;
+}
