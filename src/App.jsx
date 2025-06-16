@@ -18,8 +18,7 @@ function App() {
 
   useFetch("http://localhost:3003/employees", data => setEmployees(prvEmployees => ([...prvEmployees, ...data])));
   useFetch("http://localhost:3003/currentUser", data => setCurrentUser(prvUser => ({ ...prvUser, ...data })));
-  
-  console.log({ currentUser, employees });
+
   
   return (
     <ShiftContext.Provider
