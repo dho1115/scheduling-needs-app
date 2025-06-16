@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "json": "json-server --watch ./src/database.json -p 3003 -d 500"
+    "json": "json-server --watch ./src/database.json -p 3003 -d 1500"
   },
   "dependencies": {
     "bootstrap": "^5.3.6",
