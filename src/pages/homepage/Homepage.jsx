@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //Components
 import Registration from '../../components/registration/Registration';
@@ -12,14 +13,14 @@ import { ShiftContext } from '../../App';
 import './Homepage.styles.css';
 
 const Homepage = () => {
+  const navigate = useNavigate();
   const { currentUser } = useContext(ShiftContext);
   const [registrationMode, setRegistrationMode] = useState({ register: false, login: false });
   const registerToggle = () => setRegistrationMode(prvMode => ({...prvMode, register: !prvMode.register, login: false}));
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
   useEffect(() => {
-    if (currentUser) console.log(`WELCOME TO YOUR HOMEPAGE, ${JSON.stringify(currentUser)}!!!`);
-    else console.log(`Nobody is logged in because currentUser is ${JSON.stringify(currentUser)}.`)
+    if (currentUser.id && currentUser.name) navigate('/supervisor');
     return () => setRegistrationMode({ register: false, login: false });
   }, [Object.keys(currentUser).length])
 
