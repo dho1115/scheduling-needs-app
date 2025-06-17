@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes, } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 import { useFetch } from "./functions/FetchHook";
 
 export const ShiftContext = createContext();
@@ -16,9 +16,15 @@ function App() {
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
   const [employees, setEmployees] = useState([]);
 
-  useFetch("http://localhost:3003/employees", data => setEmployees(prvEmployees => ([...prvEmployees, ...data])));
-  useFetch("http://localhost:3003/currentUser", data => setCurrentUser(prvUser => ({ ...prvUser, ...data })));
-
+  useFetch(
+    "http://localhost:3003/employees",
+    data => setEmployees(prvEmployees => ([...prvEmployees, ...data])),
+    () => setEmployees([])
+  );
+  useFetch(
+    "http://localhost:3003/currentUser",
+    data => setCurrentUser(prvUser => ({ ...prvUser, ...data }))
+  );
   
   return (
     <ShiftContext.Provider
@@ -27,9 +33,16 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/supervisor/*" element={<SupervisorPage />}>
-            <Route path="available shifts" element={<SchedulingNeeds />} />
-          </Route>
+          {
+            (currentUser.id && currentUser.name)
+            &&
+            (
+              <Route path="/supervisor/*" element={<SupervisorPage />}>
+                <Route path="available shifts" element={<SchedulingNeeds />} />
+              </Route>
+            )
+          }
+          <Route path="*" element={<Navigate replace to='/' />} />
         </Routes>
       </BrowserRouter>
     </ShiftContext.Provider>
