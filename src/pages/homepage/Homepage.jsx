@@ -37,8 +37,17 @@ const Homepage = () => {
             toggle={registerToggle}
           />
         </Container>
-        <Register isOpen={registrationMode.register} toggle={registerToggle} />
-        <Login isOpen={registrationMode.login} toggle={loginToggle} />
+        {/* ======= MODALS FOR LOGIN - SIGNUP ======= */}
+        <Register
+          isOpen={registrationMode.register}
+          toggle={registerToggle} 
+        />
+        <Login
+          isOpen={registrationMode.login}
+          toggle={loginToggle}
+          loginIsOpen={registrationMode.login}
+        />
+        {/* ========================================= */}
       </Suspense>
     </div>
   )
