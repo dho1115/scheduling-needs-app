@@ -4,6 +4,7 @@ import uniqid from 'uniqid';
 import { Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { ShiftContext } from '../../../App';
 import { PostCurrentUser, PostRequest } from '../../../functions/postRequest';
+import { fetchDataPromise } from '../../../functions/FetchHook';
 
 import "../Registration.styles.css";
 
@@ -19,9 +20,19 @@ const Register = ({ isOpen, toggle }) => {
       const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
       const currentUserDetails = { ...currentUser, id: _id };
       PostRequest('http://localhost:3003/employees', currentUserDetails);
-      PostCurrentUser('http://localhost:3003/currentUser', currentUserDetails);
-      toggle();
-      setCurrentUser({ id: '', name: '', password: '', role: '' });
+      PostCurrentUser('http://localhost:3003/currentUser', currentUserDetails).then(result => {
+         console.log({ from: 'PostCurrentUser', message: 'success!!!', result });
+         return fetchDataPromise('http://localhost:3003/currentUser')
+            .then(loggedInUser => {
+               setCurrentUser(prv => ({ ...prv, ...loggedInUser }));
+               if (!(currentUser.id && currentUser.name)) throw new Error(`ERROR INSIDE FETCHDATAPROMISE!!! NO CURRENT USER (at least, not yet): ${currentUser}.`)
+               else {
+                  toggle();
+                  navigate(`/supervisor/welcome/${currentUser.id}`);
+               }
+            })
+            .catch(error => console.error({from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, errorCode: error.code, status: error.status }));
+      })
    }
 
    useEffect(() => {
