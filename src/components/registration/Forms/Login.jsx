@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ShiftContext } from '../../../App';
 import { PostCurrentUser } from '../../../functions/postRequest';
+import { fetchDataPromise } from '../../../functions/FetchHook';
 
 import "../Registration.styles.css";
 
@@ -25,11 +26,15 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
             PostCurrentUser('http://localhost:3003/currentUser', { ...findMatch })
                .then(result => {
                   console.log({ message: 'From Login.jsx: PostCurrentUser success!!!', result });
-                  if (currentUser.name && currentUser.id) {
-                     navigate(`/supervisor/welcome/${currentUser.id}/`);
-                     toggle();
-                  } //If currentUser has populated.
-                  else throw new Error(`There is no currentUser (at least not yet), as currentUser is currently ${JSON.stringify(currentUser)}`) //Error thrown.
+                  return fetchDataPromise('http://localhost:3003/currentUser').then(data => {
+                     console.log({ from: 'fetchDataPromise/currentUser', message: 'SUCCESS!!!', data });
+                     setCurrentUser(prvCurrentUser => ({ ...prvCurrentUser, ...data }));
+                     if (!(currentUser.id && currentUser.name)) throw new Error(`NO CURRENT USER (at least, not yet): ${JSON.stringify(currentUser)}!!!`)
+                     else {
+                        toggle();
+                        navigate(`/supervisor/welcome/${currentUser.id}`);
+                     }
+                  }).catch(error => console.error({ from: 'fetchDataPromise/currentUser', errorCode: error.code, errorMessage: error.message, status: error.status }));
                })
                .catch(error => {
                   console.error({ message: 'From Login.jsx on PostCurrentUser... ERROR!!!', error, errorMessage: error.message, errorCode: error.code });
