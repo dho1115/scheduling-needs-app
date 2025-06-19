@@ -20,9 +20,9 @@ const Homepage = () => {
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
   useEffect(() => {
-    if (currentUser.id && currentUser.name) navigate('/supervisor');
+    if (currentUser.id && currentUser.name) navigate(`/supervisor/welcome/${currentUser.id}/`);
     return () => setRegistrationMode({ register: false, login: false });
-  }, [Object.keys(currentUser).length])
+  }, [currentUser.id])
 
   return (
     <div className='homepage-div'>
