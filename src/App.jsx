@@ -1,30 +1,41 @@
 import { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
-import { useFetch } from "./functions/FetchHook";
-
-export const ShiftContext = createContext();
 
 //Components;
 import SchedulingNeeds from "./components/scheduling_needs/SchedulingNeeds";
 
+//Functions & dependencies.
+import { fetchDataPromise } from "./functions/FetchHook";
+
 //Pages;
 import Homepage from "./pages/homepage/Homepage";
 import SupervisorPage from "./pages/supervisor/SupervisorPage";
+
+export const ShiftContext = createContext();
 
 function App() {
   const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
   const [employees, setEmployees] = useState([]);
 
-  useFetch(
-    "http://localhost:3003/employees",
-    data => setEmployees(prvEmployees => ([...prvEmployees, ...data])),
-    () => setEmployees([]),
-  );
-  useFetch(
-    "http://localhost:3003/currentUser",
-    data => setCurrentUser(prvUser => ({ ...prvUser, ...data }))
-  );
+  useEffect(() => {
+    fetchDataPromise("http://localhost:3003/employees")
+      .then(result => {
+        console.log({ from: 'fetchDataPromise/employees call', message: 'SUCCESS!!!', result });
+        setEmployees(prv => ([...prv, ...result]))
+      })
+      .catch(err => console.error({ from: 'fetchDataPromise/employees', err, errMessage: err.message, status: err.status }));
+
+    fetchDataPromise("http://localhost:3003/currentUser")
+      .then(result => {
+        console.log({ from: 'fetchDataPromise/employees call', message: 'SUCCESS!!!', result });
+        setCurrentUser(prv => ({ ...prv, ...result }));
+      })
+      .catch(err => console.error({ from: 'fetchDataPromise/currentUser', err, errMessage: err.message, status: err.status }));
+    return () => {
+      
+    }
+  }, []);
   
   return (
     <ShiftContext.Provider
