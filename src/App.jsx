@@ -19,7 +19,7 @@ function App() {
   useFetch(
     "http://localhost:3003/employees",
     data => setEmployees(prvEmployees => ([...prvEmployees, ...data])),
-    () => setEmployees([])
+    () => setEmployees([]),
   );
   useFetch(
     "http://localhost:3003/currentUser",
@@ -33,15 +33,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          {
-            (currentUser.id && currentUser.name)
-            &&
-            (
-              <Route path="/supervisor/*" element={<SupervisorPage />}>
-                <Route path="available shifts" element={<SchedulingNeeds />} />
-              </Route>
-            )
-          }
+          <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
+            <Route path="available shifts" element={<SchedulingNeeds />} />
+          </Route>
           <Route path="*" element={<Navigate replace to='/' />} />
         </Routes>
       </BrowserRouter>
