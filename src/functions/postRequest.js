@@ -10,9 +10,7 @@ export const PostCurrentUser = (url, jsonBody) => fetch(url, {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },
    body: JSON.stringify(jsonBody)
-}).then(data => {
-   console.log(`SUCCESS!!! Posted ${JSON.stringify(data)}.`)
-   return data;
-}).then(response => {
-   console.log("RESPONSE:", response.json());
-}).catch(error => console.error({ message: 'PostCurrentUser (function) error!!!', error, status: error.status, code: error.code, errMessage: error.message }));
+})
+   .then(data => data)
+   .then(response => console.log("RESPONSE:", response.json()))
+   .catch(error => console.error({ message: 'PostCurrentUser (function) error!!!', error, status: error.status, code: error.code, errMessage: error.message }));
