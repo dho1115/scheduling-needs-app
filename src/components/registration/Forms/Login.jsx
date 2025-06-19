@@ -1,25 +1,40 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, Alert } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
 import { ShiftContext } from '../../../App';
+import { PostCurrentUser } from '../../../functions/postRequest';
 
 import "../Registration.styles.css";
 
 const Login = ({ isOpen, toggle, loginIsOpen }) => {
+   const navigate = useNavigate();
    const [loginData, setLoginData] = useState({ id: '', password: '' });
    const [validationAlert, setValidationAlert] = useState({ userNotFound: false });
+   const [postError, setPostError] = useState("");
    const shiftcontext = useContext(ShiftContext);
-   const { employees, setEmployees, currentUser, setCurrentUser } = shiftcontext;
+   const { employees, currentUser, setCurrentUser } = shiftcontext;
 
    const onHandleLogin = e => {
       e.preventDefault()
       try {
-         const findMatch = employees.filter(({ password, id }) => ((loginData.password == password) && (loginData.id == id)));
-         if (!findMatch.length) {
+         const findMatch = employees.find(({ password, id }) => ((loginData.password == password) && (loginData.id == id)));
+         if (!findMatch) {
             throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees... DAMN YOU!!!`);
          } else {
-            setValidationAlert(prv => ({ ...prv, userNotFound: false }));
-            toggle();
+            PostCurrentUser('http://localhost:3003/currentUser', { ...findMatch })
+               .then(result => {
+                  console.log({ message: 'From Login.jsx: PostCurrentUser success!!!', result });
+                  if (currentUser.name && currentUser.id) {
+                     navigate(`/supervisor/welcome/${currentUser.id}/`);
+                     toggle();
+                  } //If currentUser has populated.
+                  else throw new Error(`There is no currentUser (at least not yet), as currentUser is currently ${JSON.stringify(currentUser)}`) //Error thrown.
+               })
+               .catch(error => {
+                  console.error({ message: 'From Login.jsx on PostCurrentUser... ERROR!!!', error, errorMessage: error.message, errorCode: error.code });
+                  setPostError(`There is no currentUser (at least not yet), as currentUser is currently ${JSON.stringify(currentUser)}.`);
+               })
          }
       } catch (error) {
          setValidationAlert(prv => ({...prv, userNotFound: true }));
@@ -30,12 +45,17 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
    
    useEffect(() => {
       if (!loginIsOpen) {
+         setPostError("");
          setValidationAlert(prv => ({ ...prv, userNotFound: false }));
          setLoginData(prv => ({ ...prv, id: '', password: '' }));
       }
-      return () => setValidationAlert(prv => ({ ...prv, userNotFound: false }));
-   }, [loginIsOpen]) //cleanup. resets the state to original.
+      return () => {
+         setValidationAlert(prv => ({ ...prv, userNotFound: false }));
+         setPostError("");
+      };
+   }, [loginIsOpen]) //cleanup. resets the state to original & removes <Alert />.
 
+   console.log(currentUser)
    return (
       <Modal
          isOpen={isOpen}
@@ -50,6 +70,7 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
                   :
                   <Alert color='danger' className='w-100'><strong>NO SUCH USER EXISTS!!!</strong></Alert>
             }
+            {postError && postError}
          </ModalHeader>
          <ModalBody>
             <Form onSubmit={onHandleLogin} className='registration-form'>
