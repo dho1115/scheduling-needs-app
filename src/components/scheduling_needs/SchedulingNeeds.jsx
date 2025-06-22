@@ -25,9 +25,9 @@ const SchedulingNeeds = () => {
                      </header>
                      <div className='availableShifts'>
                         {
-                           shiftsArray.map(({_shiftID, storeNumber, location, date, time, urgent, comments}, idx) => (
+                           shiftsArray.map(({id, storeNumber, location, date, time, urgent, comments}, idx) => (
                               <div key={idx}>
-                                 <h3>Shift ID: {_shiftID}.</h3>
+                                 <h3>Shift ID: {id}.</h3>
                                  {urgent && <h1 style={{color: 'red'}}>URGENT!!!</h1>}
                                  <h1>Store Number: {storeNumber}</h1>
                                  <h3>location: {location}</h3>
