@@ -36,9 +36,9 @@ const Register = ({ isOpen, toggle }) => {
       })
    }
 
-   useEffect(() => {
-      return () => setCurrentUser({ id: '', name: '', password: '', role: '' });
-   }, [])
+   // useEffect(() => {
+   //    return () => setCurrentUser({ id: '', name: '', password: '', role: '' });
+   // }, []) //THIS hook cas resetting my logged in user to initial state and preventing the login!!!
 
    return (
       <Modal
