@@ -3,7 +3,7 @@ export const NavigationLinks = (objects = null) => {
       return [
          { name: "Login Page", to: "/", restrictions: null },
          { name: "View Available Shifts", to: `/${objects.role}/welcome/${objects.id}/available shifts`, restrictions: null },
-         { name: "Add Shift", to: "/", restrictions: 'supervisor' },
+         { name: "Add Shift", to: `/${objects.role}/welcome/${objects.id}/add shift`, restrictions: 'supervisor' },
          { name: "Cancel Available Shift", to: "/", restrictions: 'supervisor' }
       ]
    } catch (error) {
