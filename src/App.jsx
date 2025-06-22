@@ -10,6 +10,7 @@ import { fetchDataPromise } from "./functions/FetchHook";
 //Pages;
 import Homepage from "./pages/homepage/Homepage";
 import SupervisorPage from "./pages/supervisor/SupervisorPage";
+import CandidatePage from "./pages/candidate/CandidatePage";
 
 export const ShiftContext = createContext();
 
@@ -45,6 +46,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
+            <Route path="available shifts" element={<SchedulingNeeds />} />
+          </Route>
+          <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
             <Route path="available shifts" element={<SchedulingNeeds />} />
           </Route>
           <Route path="*" element={<Navigate replace to='/' />} />
