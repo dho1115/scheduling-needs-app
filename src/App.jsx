@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 
 //Components;
+import AddShift from "./components/private/supervisor/add_shift/AddShift";
 import SchedulingNeeds from "./components/scheduling_needs/SchedulingNeeds";
 
 //Functions & dependencies.
@@ -51,6 +52,7 @@ function App() {
             &&
             <>
               <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
+                <Route path="add shift" element={<AddShift />} />
                 <Route path="available shifts" element={<SchedulingNeeds />} />
               </Route>
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
