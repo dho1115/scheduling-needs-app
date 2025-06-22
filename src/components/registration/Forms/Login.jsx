@@ -32,7 +32,7 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
                      if (!(currentUser.id && currentUser.name)) throw new Error(`NO CURRENT USER (at least, not yet): ${JSON.stringify(currentUser)}!!!`)
                      else {
                         toggle();
-                        navigate(`/supervisor/welcome/${currentUser.id}`);
+                        navigate(`/${findMatch.role}/welcome/${currentUser.id}`);
                      }
                   }).catch(error => console.error({ from: 'fetchDataPromise/currentUser', errorCode: error.code, errorMessage: error.message, status: error.status }));
                })
