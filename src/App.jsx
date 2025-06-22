@@ -45,12 +45,18 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
-            <Route path="available shifts" element={<SchedulingNeeds />} />
-          </Route>
-          <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
-            <Route path="available shifts" element={<SchedulingNeeds />} />
-          </Route>
+          {
+            (currentUser.id && currentUser.name)
+            &&
+            <>
+              <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
+                <Route path="available shifts" element={<SchedulingNeeds />} />
+              </Route>
+              <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
+                <Route path="available shifts" element={<SchedulingNeeds />} />
+              </Route>
+            </>
+          }
           <Route path="*" element={<Navigate replace to='/' />} />
         </Routes>
       </BrowserRouter>
