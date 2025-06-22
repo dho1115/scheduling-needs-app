@@ -20,7 +20,8 @@ const Register = ({ isOpen, toggle }) => {
       const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
       const currentUserDetails = { ...currentUser, id: _id };
       PostRequest('http://localhost:3003/employees', currentUserDetails);
-      PostCurrentUser('http://localhost:3003/currentUser', currentUserDetails).then(result => {
+      PostCurrentUser('http://localhost:3003/currentUser', currentUserDetails)
+         .then(result => {
          console.log({ from: 'PostCurrentUser', message: 'success!!!', result });
          return fetchDataPromise('http://localhost:3003/currentUser')
             .then(loggedInUser => {
