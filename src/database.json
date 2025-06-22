@@ -36,10 +36,9 @@
     }
   ],
   "currentUser": {
-    "id": "c-mbwk4v3g",
-    "name": "Acey Gardner",
-    "password": "agardner",
-    "role": "candidate",
-    "base": "3777"
+    "name": "Jamie Smith",
+    "password": "jsmith1",
+    "role": "supervisor",
+    "id": "s-mbwiqyvw"
   }
 }
