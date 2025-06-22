@@ -36,10 +36,10 @@
     }
   ],
   "currentUser": {
-    "id": "",
-    "name": "",
-    "password": "",
-    "role": "",
-    "base": ""
+    "id": "c-mbwk4v3g",
+    "name": "Acey Gardner",
+    "password": "agardner",
+    "role": "candidate",
+    "base": "3777"
   }
 }
