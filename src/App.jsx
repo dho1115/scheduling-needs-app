@@ -45,6 +45,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/available shifts" element={<SchedulingNeeds />} />
           {
             (currentUser.id && currentUser.name)
             &&
