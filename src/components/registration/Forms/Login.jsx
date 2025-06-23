@@ -3,7 +3,7 @@ import { Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, Alert } f
 import { useNavigate } from 'react-router-dom';
 
 import { ShiftContext } from '../../../App';
-import { PostCurrentUser } from '../../../functions/postRequest';
+import { PostRequest } from '../../../functions/postRequest';
 import { fetchDataPromise } from '../../../functions/FetchHook';
 
 import "../Registration.styles.css";
@@ -23,9 +23,9 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
          if (!findMatch) {
             throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees... DAMN YOU!!!`);
          } else {
-            PostCurrentUser('http://localhost:3003/currentUser', { ...findMatch })
+            PostRequest('http://localhost:3003/currentUser', { ...findMatch })
                .then(result => {
-                  console.log({ message: 'From Login.jsx: PostCurrentUser success!!!', result });
+                  console.log({ message: 'From Login.jsx: PostRequest success!!!', result });
                   return fetchDataPromise('http://localhost:3003/currentUser').then(data => {
                      console.log({ from: 'fetchDataPromise/currentUser', message: 'SUCCESS!!!', data });
                      setCurrentUser(prvCurrentUser => ({ ...prvCurrentUser, ...data }));
@@ -37,7 +37,7 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
                   }).catch(error => console.error({ from: 'fetchDataPromise/currentUser', errorCode: error.code, errorMessage: error.message, status: error.status }));
                })
                .catch(error => {
-                  console.error({ message: 'From Login.jsx on PostCurrentUser... ERROR!!!', error, errorMessage: error.message, errorCode: error.code });
+                  console.error({ message: 'From Login.jsx on PostRequest... ERROR!!!', error, errorMessage: error.message, errorCode: error.code });
                   setPostError(`There is no currentUser (at least not yet), as currentUser is currently ${JSON.stringify(currentUser)}.`);
                })
          }

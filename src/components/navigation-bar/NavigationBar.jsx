@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 //Dependencies.
-import { PostCurrentUser } from '../../functions/postRequest';
+import { PostRequest } from '../../functions/postRequest';
 import { ShiftContext } from '../../App';
 import { NavigationLinks } from './NavigationLinks';
 import ErrorBoundary from '../ErrorBoundary';
@@ -14,7 +14,7 @@ const NavigationBar = () => {
   const { id, role } = currentUser;  
   const navigate = useNavigate();
   
-  const handleLogoff = () => PostCurrentUser(
+  const handleLogoff = () => PostRequest(
     'http://localhost:3003/currentUser',
     { id: '', name: '', password: '', role: '', base: '' }
   )
