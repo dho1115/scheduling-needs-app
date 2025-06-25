@@ -1,5 +1,12 @@
 {
-  "availableShifts": [],
+  "availableShifts": [
+    {
+      "id": "shift-mc9tc3cb",
+      "storeNumber": "3110",
+      "date": "2025-06-19",
+      "time": "8a-1p"
+    }
+  ],
   "employees": [
     {
       "name": "Jamie Smith",
@@ -34,13 +41,19 @@
       "password": "scarter",
       "role": "candidate",
       "base": "5007"
+    },
+    {
+      "id": "s-mc9rq8m6",
+      "name": "Kendall Kay",
+      "password": "Kendal1",
+      "role": "supervisor"
     }
   ],
   "currentUser": {
-    "id": "",
-    "name": "",
-    "password": "",
-    "role": "",
-    "base": ""
+    "name": "Arnie Smart",
+    "password": "asmart",
+    "role": "candidate",
+    "base": "3005",
+    "id": "c-mbwisn33"
   }
 }
