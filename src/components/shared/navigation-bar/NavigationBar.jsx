@@ -2,12 +2,13 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 //Dependencies.
-import { PostRequest } from '../../functions/postRequest';
-import { ShiftContext } from '../../App';
+import { PostRequest } from '../../../functions/postRequest';
+import { ShiftContext } from '../../../App';
 import { NavigationLinks } from './NavigationLinks';
-import ErrorBoundary from '../ErrorBoundary';
+import ErrorBoundary from '../../ErrorBoundary';
 
 import './NavigationBar.styles.css';
+
 
 const NavigationBar = () => {
   const { currentUser, setCurrentUser } = useContext(ShiftContext);
