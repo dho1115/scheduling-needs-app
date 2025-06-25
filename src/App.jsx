@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
-import SchedulingNeeds from "./components/scheduling_needs/SchedulingNeeds";
+import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 
 //Functions & dependencies.
 import { fetchDataPromise } from "./functions/FetchHook";
@@ -43,7 +43,7 @@ function App() {
       .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
     
     return () => {
-      
+      setShiftsArray([])
     }
   }, []);
   
