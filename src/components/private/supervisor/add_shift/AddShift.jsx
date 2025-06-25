@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { ShiftContext } from '../../../../App';
+import { PostRequest } from '../../../../functions/postRequest';
 import uniqid from 'uniqid';
 
 import "./AddShift.styles.css";
+
 
 const AddShift = () => {
    const shiftID = uniqid('shift-')
@@ -12,8 +14,25 @@ const AddShift = () => {
 
    const handleSubmit = e => {
       e.preventDefault();
-      setShiftsArray(prv => ([...prv, shiftDetails]));
-      console.log(`Successfully submitted ${JSON.stringify(shiftDetails)}!!!`)
+      const setShiftsPromise = () => new Promise((res, rej) => {
+         const shiftsArrayInitialLength = shiftsArray.length;
+         setShiftsArray(prv => ([...prv, { ...shiftDetails }]));
+         
+         if (shiftsArray.length > shiftsArrayInitialLength) res({ message: `Successfully setShiftsArray: ${JSON.stringify(shiftsArray)}.` });
+         else rej({ message: `ERROR!!! UNABLE TO ADD NEW SHIFT TO SHIFTS ARRAY: ${JSON.stringify(shiftsArray)}.` });
+      });
+
+      Promise.all(
+         [
+            setShiftsPromise(),
+            PostRequest(
+               "http://localhost:3003/availableShifts",
+               { ...shiftDetails }
+            )
+         ]
+      )
+         .then(result => console.log({ result }))
+         .catch(error => console.error({ message: "setShifts Error in Promise.all!!!", error, errorMessage: error.message, errorCode: error.code }));
    };
 
    useEffect(() => {
