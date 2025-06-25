@@ -34,6 +34,14 @@ function App() {
         setCurrentUser(prv => ({ ...prv, ...result }));
       })
       .catch(err => console.error({ from: 'fetchDataPromise/currentUser', err, errMessage: err.message, status: err.status }));
+    
+    fetchDataPromise("http://localhost:3003/availableShifts")
+      .then(result => {
+        console.log({ from: 'fetchDataPromise/availableShifts', message: 'SUCCESS!!!', result });
+        setShiftsArray(prv => ([...prv, ...result]));
+      })
+      .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
+    
     return () => {
       
     }
