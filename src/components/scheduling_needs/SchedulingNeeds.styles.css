@@ -3,7 +3,13 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   background-color: salmon;
+   background-color: lightgrey;
+}
+
+.shift-div {
+   border: 3.5px solid maroon;
+   border-radius: 30px;
+   background-color: wheat;
 }
 
 .availableShifts {
