@@ -1,6 +1,6 @@
 import { Suspense, useContext } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import NavigationBar from '../../components/navigation-bar/NavigationBar';
+import NavigationBar from '../../components/shared/navigation-bar/NavigationBar';
 import { ShiftContext } from '../../App';
 import { Container } from 'reactstrap';
 

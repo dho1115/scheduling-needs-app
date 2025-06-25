@@ -6,7 +6,7 @@ import { Container } from 'reactstrap';
 import { Outlet } from 'react-router-dom';
 
 //Components:
-import NavigationBar from '../../components/navigation-bar/NavigationBar';
+import NavigationBar from '../../components/shared/navigation-bar/NavigationBar';
 
 import "./CandidatePage.styles.css";
 
