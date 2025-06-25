@@ -1,0 +1,10 @@
+.scheduling-needs-container {
+   background-color: rgb(223, 230, 236);
+   border: 5px solid maroon;
+   display: grid;
+   grid-template-columns: auto auto auto;
+}
+
+.shift-div {
+   border: 1.5px solid black;
+}
