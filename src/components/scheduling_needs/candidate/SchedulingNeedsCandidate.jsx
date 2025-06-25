@@ -10,12 +10,12 @@ const SchedulingNeedsCandidate = ({ _shiftID }) => {
   
   return (
     <div>
-      <Form>
+      <Form onSubmit={e => {
+        e.preventDefault();
+        console.log("shift applied for.")
+      }}>
          <FormGroup>
-            <Button color='danger'>SELECT THIS SHIFT!!!</Button>
-         </FormGroup>
-         <FormGroup>
-            <Button color='success'>ONLY DO PARTIAL!!!</Button>
+            <Button type='submit' color='danger'>SELECT THIS SHIFT!!!</Button>
          </FormGroup>
       </Form>
     </div>
