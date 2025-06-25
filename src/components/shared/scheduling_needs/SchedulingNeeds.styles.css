@@ -1,3 +1,9 @@
+.customButtons {
+   display: flex;
+   justify-content: space-around;
+   background-color: antiquewhite;
+}
+
 .scheduling-needs-container {
    background-color: rgb(223, 230, 236);
    border: 5px solid maroon;
