@@ -62,9 +62,10 @@
     }
   ],
   "currentUser": {
-    "id": "s-mc9rq8m6",
-    "name": "Kendall Kay",
-    "password": "Kendal1",
-    "role": "supervisor"
+    "name": "Pharma Con",
+    "password": "pharmacon1",
+    "role": "candidate",
+    "base": "3777",
+    "id": "c-mbwis0cg"
   }
 }
