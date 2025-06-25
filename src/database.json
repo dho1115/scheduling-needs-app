@@ -5,6 +5,18 @@
       "storeNumber": "3110",
       "date": "2025-06-19",
       "time": "8a-1p"
+    },
+    {
+      "id": "shift-mccfflfa",
+      "storeNumber": "2955",
+      "date": "2025-07-19",
+      "time": "9a-6p"
+    },
+    {
+      "id": "shift-mccfh2y8",
+      "storeNumber": "2003",
+      "date": "2025-07-23",
+      "time": "9a-3p"
     }
   ],
   "employees": [
@@ -50,10 +62,9 @@
     }
   ],
   "currentUser": {
-    "name": "Arnie Smart",
-    "password": "asmart",
-    "role": "candidate",
-    "base": "3005",
-    "id": "c-mbwisn33"
+    "id": "s-mc9rq8m6",
+    "name": "Kendall Kay",
+    "password": "Kendal1",
+    "role": "supervisor"
   }
 }
