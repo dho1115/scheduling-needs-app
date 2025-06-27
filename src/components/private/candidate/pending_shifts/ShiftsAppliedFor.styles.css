@@ -1,0 +1,10 @@
+.no-shifts-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.shiftsappliedfordiv, .no-shifts-container {
+   height: 100%;
+   background-color: burlywood;
+}
