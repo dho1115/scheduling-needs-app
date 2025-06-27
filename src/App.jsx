@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
+import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor";
 
 //Functions & dependencies.
 import { fetchDataPromise } from "./functions/FetchHook";
@@ -65,6 +66,7 @@ function App() {
               </Route>
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
                 <Route path="available shifts" element={<SchedulingNeeds />} />
+                <Route path="shifts/applied" element={<ShiftsAppliedFor />} />
               </Route>
             </>
           }
