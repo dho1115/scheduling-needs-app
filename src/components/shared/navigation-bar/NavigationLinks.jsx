@@ -1,9 +1,10 @@
-export const NavigationLinks = (objects = null) => {
+export const NavigationLinks = (objects = null /* {role: ... } */) => {
    try {
       return [
          { name: "Login Page", to: "/", restrictions: null },
          { name: "View Available Shifts", to: `/${objects.role}/welcome/${objects.id}/available shifts`, restrictions: null },
          { name: "Add Shift", to: `/${objects.role}/welcome/${objects.id}/add shift`, restrictions: 'supervisor' },
+         {name: "Shifts Applied For", to: `/candidate/welcome/${objects.id}/shifts/applied`, restrictions: 'candidate'},
          { name: "Cancel Available Shift", to: "/", restrictions: 'supervisor' }
       ]
    } catch (error) {
