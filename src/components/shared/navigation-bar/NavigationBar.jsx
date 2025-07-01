@@ -20,9 +20,9 @@ const NavigationBar = () => {
     { id: '', name: '', password: '', role: '', base: '' }
   )
     .then(() => {
-      setCurrentUser({ id: '', name: '', password: '', role: '' });
+      setCurrentUser({ id: '', name: '', password: '', role: '' }); //setstate: set current user to empty object.
     })
-    .then(() => navigate("/"))
+    .then(() => navigate("/")) //navigate to home page.
     .catch(error => console.error({ message: 'error on handleLogoff function!!!', error, errorCode: error.code, errorStatus: error.status, errorMessage: error.message }));
 
   return (
