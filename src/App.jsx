@@ -24,7 +24,6 @@ function App() {
   useEffect(() => {
     fetchDataPromise("http://localhost:3003/employees")
       .then(result => {
-        console.log({ from: 'fetchDataPromise/employees call', message: 'SUCCESS!!!', result });
         setEmployees(prv => ([...prv, ...result]))
       })
       .catch(err => console.error({ from: 'fetchDataPromise/employees', err, errMessage: err.message, status: err.status }));
@@ -38,13 +37,14 @@ function App() {
     
     fetchDataPromise("http://localhost:3003/availableShifts")
       .then(result => {
-        console.log({ from: 'fetchDataPromise/availableShifts', message: 'SUCCESS!!!', result });
         setShiftsArray(prv => ([...prv, ...result]));
       })
       .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
     
     return () => {
-      setShiftsArray([])
+      //This resets the array to prevent the data from being duplicated and added.
+      setShiftsArray([]);
+      setEmployees([]);
     }
   }, []);
   
