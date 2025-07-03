@@ -22,7 +22,7 @@ const SchedulingNeeds = () => {
                   :
                   updatedCandidateData.shiftsAppliedFor = [shiftID]; //Ternary operator to see if there is a property called shiftsAppliedFor.
 
-               const updatedShiftData = Array.from(args)[1];
+               const updatedShiftData = Array.from(args)[1]; //returns a {...shift} from this argument: shiftsArray.filter(val => val.id == id)[0])
                updatedShiftData.applicants ?
                   updatedShiftData.applicants = [...updatedShiftData.applicants, updatedCandidateData]
                   :
