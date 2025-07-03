@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 //Dependencies.
 import { ShiftContext } from '../../App';
@@ -12,7 +12,13 @@ import "./CandidatePage.styles.css";
 
 const CandidatePage = () => {
   const { currentUser } = useContext(ShiftContext);
-  const { id, name, role } = currentUser;
+  const { name, role } = currentUser;
+
+  // useEffect(() => {
+  //   console.log({currentUser, shiftsArray, employees})
+  //   return () => {
+  //   };
+  // }, [currentUser.id, currentUser.username, shiftsArray.length, employees.length])
 
   return (
     <div className='candidate-page-div'>
