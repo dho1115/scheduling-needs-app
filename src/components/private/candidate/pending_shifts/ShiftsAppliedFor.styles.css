@@ -8,3 +8,13 @@
    height: 100%;
    background-color: burlywood;
 }
+
+.shift-cell-1 {
+   border: 3.5px solid firebrick;
+   background-color: blanchedalmond;
+}
+
+.shift-cell-2 {
+   border: 3.5px solid seagreen;
+   background-color: whitesmoke
+}
