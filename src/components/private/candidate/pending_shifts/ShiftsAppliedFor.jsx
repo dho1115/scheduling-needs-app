@@ -8,7 +8,7 @@ import "./ShiftsAppliedFor.styles.css";
 
 const ShiftsAppliedFor = () => {
   const { currentUser } = useContext(ShiftContext);
-  const shiftsAppliedFor = currentUser.shifts?.applied;
+  const { shiftsAppliedFor } = currentUser; //array of shifts.
 
   if (!shiftsAppliedFor) {
     return (
