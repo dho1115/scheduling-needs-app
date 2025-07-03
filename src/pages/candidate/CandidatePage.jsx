@@ -14,12 +14,6 @@ const CandidatePage = () => {
   const { currentUser } = useContext(ShiftContext);
   const { name, role } = currentUser;
 
-  // useEffect(() => {
-  //   console.log({currentUser, shiftsArray, employees})
-  //   return () => {
-  //   };
-  // }, [currentUser.id, currentUser.username, shiftsArray.length, employees.length])
-
   return (
     <div className='candidate-page-div'>
       <NavigationBar />
