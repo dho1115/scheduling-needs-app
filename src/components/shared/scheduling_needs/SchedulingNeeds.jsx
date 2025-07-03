@@ -1,5 +1,5 @@
 //Dependencies.
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { ShiftContext } from '../../../App';
 import { Button, Container } from 'reactstrap';
 import { putRequest } from '../../../functions/putRequest';
@@ -15,7 +15,7 @@ const SchedulingNeeds = () => {
          {
             name: "APPLY FOR SHIFT!!!",
             function: (shiftID, store, ...args/* [candidate, shift] */) => {
-               const updatedCandidateData = Array.from(args)[0];
+               const updatedCandidateData = Array.from(args)[0]; //currentUser.
                const { id: candidateID } = updatedCandidateData;
                updatedCandidateData.shiftsAppliedFor ?
                   updatedCandidateData.shiftsAppliedFor = [...updatedCandidateData.shiftsAppliedFor, shiftID]
@@ -24,7 +24,7 @@ const SchedulingNeeds = () => {
 
                const updatedShiftData = Array.from(args)[1];
                updatedShiftData.applicants ?
-                  updatedShiftData.applicants = [...updatedCandidateData.applicants, updatedCandidateData]
+                  updatedShiftData.applicants = [...updatedShiftData.applicants, updatedCandidateData]
                   :
                   updatedShiftData.applicants = [updatedCandidateData] //Ternary operator to see if there is an applicants property.
                
@@ -32,8 +32,12 @@ const SchedulingNeeds = () => {
 
                const updatedShifts = [...shiftsArray.filter(val => val.id != shiftID), updatedShiftData]
 
+               setCurrentUser(prv => ({ ...prv, ...updatedCandidateData }));
+               setEmployees(updatedEmployees);
+               setShiftsArray(updatedShifts)
+
                console.log("===== HERE IS YOUR DATA!!! =====");
-               console.log({ shiftID, candidateID, store, updatedCandidateData, updatedShiftData, updatedEmployees, updatedShifts, args });
+               console.log({ updatedCandidateData, updatedShiftData, updatedEmployees, updatedShifts, state: { currentUser, employees, shiftsArray }, args });
                console.log("================================");
             }
          },
