@@ -4,7 +4,9 @@ import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
-import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor";
+import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
+import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied"; //For the supervisor.
+import Awarded from "./components/private/supervisor/shifts_queue/shifts_awarded/Awarded";
 
 //Functions & dependencies.
 import { fetchDataPromise } from "./functions/FetchHook";
@@ -14,18 +16,18 @@ import Homepage from "./pages/homepage/Homepage";
 import SupervisorPage from "./pages/supervisor/SupervisorPage";
 import CandidatePage from "./pages/candidate/CandidatePage";
 
+
 export const ShiftContext = createContext();
 
 function App() {
   const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
+  const [shiftsAwarded, setShiftsAwarded] = useState([])
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     fetchDataPromise("http://localhost:3003/employees")
-      .then(result => {
-        setEmployees(prv => ([...prv, ...result]))
-      })
+      .then(result => setEmployees(prv => ([...prv, ...result])))
       .catch(err => console.error({ from: 'fetchDataPromise/employees', err, errMessage: err.message, status: err.status }));
 
     fetchDataPromise("http://localhost:3003/currentUser")
@@ -41,16 +43,24 @@ function App() {
       })
       .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
     
+    fetchDataPromise("http://localhost:3003/awardedShifts")
+      .then(result => {
+        console.log({ result });
+        setShiftsAwarded(prv => ([...prv, ...result]));
+      })
+      .catch(error => console.error({ message: "Something went wrong with fetching awarded shifts!!!", error, errorCode: error.code, errorMessage: error.message }));
+    
     return () => {
       //This resets the array to prevent the data from being duplicated and added.
       setShiftsArray([]);
       setEmployees([]);
+      setShiftsArray([]);
     }
   }, []);
   
   return (
     <ShiftContext.Provider
-      value={{ shiftsArray, setShiftsArray, currentUser, setCurrentUser, employees, setEmployees }}
+      value={{ shiftsArray, setShiftsArray, shiftsAwarded, setShiftsAwarded, currentUser, setCurrentUser, employees, setEmployees }}
     >
       <BrowserRouter>
         <Routes>
@@ -63,6 +73,8 @@ function App() {
               <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
                 <Route path="add shift" element={<AddShift />} />
                 <Route path="available shifts" element={<SchedulingNeeds />} />
+                <Route path="shifts/applied" element={<Applied />} />
+                <Route path="shifts/awarded" element={<Awarded />} />
               </Route>
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
                 <Route path="available shifts" element={<SchedulingNeeds />} />
