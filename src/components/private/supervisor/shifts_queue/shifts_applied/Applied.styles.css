@@ -1,0 +1,10 @@
+.applied-for-header {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-bottom: 3px solid #333;
+}
+.applied-for-shifts {
+   border: 3.5px solid firebrick;
+   background-color: burlywood;
+}
