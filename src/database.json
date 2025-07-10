@@ -63,9 +63,10 @@
     }
   ],
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "",
+    "name": "",
+    "password": "",
+    "role": "",
+    "base": ""
   }
 }
