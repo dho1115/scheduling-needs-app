@@ -19,9 +19,7 @@
       "time": "9a-3p"
     }
   ],
-  "awardedShifts": [
-
-  ],
+  "awardedShifts": [],
   "employees": [
     {
       "name": "Jamie Smith",
@@ -65,10 +63,9 @@
     }
   ],
   "currentUser": {
-    "name": "Pharma Con",
-    "password": "pharmacon1",
-    "role": "candidate",
-    "base": "3777",
-    "id": "c-mbwis0cg"
+    "name": "Jamie Smith",
+    "password": "jsmith1",
+    "role": "supervisor",
+    "id": "s-mbwiqyvw"
   }
 }
