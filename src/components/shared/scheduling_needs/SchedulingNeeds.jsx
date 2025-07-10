@@ -24,11 +24,11 @@ const SchedulingNeeds = () => {
 
                const updatedShiftData = Array.from(args)[1]; //returns a {...shift} from this argument: shiftsArray.filter(val => val.id == id)[0])
                updatedShiftData.applicants ?
-                  updatedShiftData.applicants = [...updatedShiftData.applicants, updatedCandidateData]
+                  updatedShiftData.applicants = [...updatedShiftData.applicants, updatedCandidateData] //If there are applicants.
                   :
-                  updatedShiftData.applicants = [updatedCandidateData] //Ternary operator to see if there is an applicants property.
+                  updatedShiftData.applicants = [updatedCandidateData] //If there are NO applicants.
                
-               const updatedEmployees = [...employees.filter(val => val.id != candidateID), updatedCandidateData];
+               const updatedEmployees = [...employees.filter(val => val.id != candidateID), updatedCandidateData]; //database of employees with the target employee having the new property (shiftsAppliedFor).
 
                const updatedShifts = [...shiftsArray.filter(val => val.id != shiftID), updatedShiftData]
 
