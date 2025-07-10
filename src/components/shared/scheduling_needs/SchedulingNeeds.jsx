@@ -17,7 +17,7 @@ const SchedulingNeeds = () => {
             function: (shiftID, store, ...args/* [candidate, shift] */) => {
                const updatedCandidateData = Array.from(args)[0]; //currentUser.
                const { id: candidateID } = updatedCandidateData;
-               updatedCandidateData.shiftsAppliedFor ?
+               updatedCandidateData.shiftsAppliedFor ? //Add/update shiftsAppliedFor.
                   updatedCandidateData.shiftsAppliedFor = [...updatedCandidateData.shiftsAppliedFor, shiftID]
                   :
                   updatedCandidateData.shiftsAppliedFor = [shiftID]; //Ternary operator to see if there is a property called shiftsAppliedFor.
@@ -32,9 +32,29 @@ const SchedulingNeeds = () => {
 
                const updatedShifts = [...shiftsArray.filter(val => val.id != shiftID), updatedShiftData]
 
-               setCurrentUser(prv => ({ ...prv, ...updatedCandidateData }));
-               setEmployees(updatedEmployees);
-               setShiftsArray(updatedShifts)
+               putRequest("http://localhost:3003/currentUser", candidateID, updatedCandidateData)
+                  .then(result => {
+                     console.log({ message: "/currentUser PUT request successful!!!", updatedCandidateData, result });
+                     setCurrentUser(prv => ({ ...prv, ...updatedCandidateData }));
+                  })
+                  .then(result => console.log({ message: 'setCurrentUser successful!!!', currentUser, result }))
+                  .catch(error => console.error({ message: 'PUT request error while updating currentUser', error, status: error.status, errMessage: error.message }));
+
+               putRequest(`http://localhost:3003/employees/${candidateID}`, candidateID, updatedCandidateData)
+                  .then(result => {
+                     console.log({ message: "/employees PUT request successful!!!", updatedEmployees, result });
+                     setEmployees(updatedEmployees);
+                  })
+                  .then(result => console.log({ message: 'setEmployees successful!!!', currentUser, result }))
+                  .catch(error => console.error({ message: 'PUT request error while updating employees', error, status: error.status, errMessage: error.message }))
+
+               putRequest(`http://localhost:3003/availableShifts/${shiftID}`, shiftID, updatedShifts)
+                  .then(result => {
+                     console.log({ message: "/employees PUT request successful!!!", updatedEmployees, result });
+                     setShiftsArray(updatedShifts)
+                  })
+                  .then(result => console.log({ message: 'setEmployees successful!!!', currentUser, result }))
+                  .catch(error => console.error({ message: 'PUT request error while updating employees', error, status: error.status, errMessage: error.message }))
 
                console.log("===== HERE IS YOUR DATA!!! =====");
                console.log({ updatedCandidateData, updatedShiftData, updatedEmployees, updatedShifts, state: { currentUser, employees, shiftsArray }, args });
