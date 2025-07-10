@@ -1,10 +1,47 @@
 {
   "availableShifts": [
     {
-      "id": "shift-mc9tc3cb",
-      "storeNumber": "3110",
-      "date": "2025-06-19",
-      "time": "8a-1p"
+      "0": {
+        "id": "shift-mccfflfa",
+        "storeNumber": "2955",
+        "date": "2025-07-19",
+        "time": "9a-6p"
+      },
+      "1": {
+        "id": "shift-mccfh2y8",
+        "storeNumber": "2003",
+        "date": "2025-07-23",
+        "time": "9a-3p"
+      },
+      "2": {
+        "id": "shift-mc9tc3cb",
+        "storeNumber": "3110",
+        "date": "2025-06-19",
+        "time": "8a-1p",
+        "applicants": [
+          {
+            "id": "c-mbwisn33",
+            "name": "Arnie Smart",
+            "password": "asmart",
+            "role": "candidate",
+            "base": "3005",
+            "shiftsAppliedFor": [
+              "shift-mc9tc3cb"
+            ]
+          },
+          {
+            "id": "c-mbwis0cg",
+            "name": "Pharma Con",
+            "password": "pharmacon1",
+            "role": "candidate",
+            "base": "3777",
+            "shiftsAppliedFor": [
+              "shift-mc9tc3cb"
+            ]
+          }
+        ]
+      },
+      "id": "shift-mc9tc3cb"
     },
     {
       "id": "shift-mccfflfa",
@@ -28,18 +65,24 @@
       "id": "s-mbwiqyvw"
     },
     {
+      "id": "c-mbwis0cg",
       "name": "Pharma Con",
       "password": "pharmacon1",
       "role": "candidate",
       "base": "3777",
-      "id": "c-mbwis0cg"
+      "shiftsAppliedFor": [
+        "shift-mc9tc3cb"
+      ]
     },
     {
+      "id": "c-mbwisn33",
       "name": "Arnie Smart",
       "password": "asmart",
       "role": "candidate",
       "base": "3005",
-      "id": "c-mbwisn33"
+      "shiftsAppliedFor": [
+        "shift-mc9tc3cb"
+      ]
     },
     {
       "id": "c-mbwk4v3g",
