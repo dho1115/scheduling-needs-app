@@ -23,6 +23,7 @@ const SchedulingNeeds = () => {
                   updatedCandidateData.shiftsAppliedFor = [shiftID]; //Ternary operator to see if there is a property called shiftsAppliedFor.
 
                const updatedShiftData = Array.from(args)[1]; //returns a {...shift} from this argument: shiftsArray.filter(val => val.id == id)[0])
+
                updatedShiftData.applicants ?
                   updatedShiftData.applicants = [...updatedShiftData.applicants, updatedCandidateData] //If there are applicants.
                   :
@@ -31,6 +32,9 @@ const SchedulingNeeds = () => {
                const updatedEmployees = [...employees.filter(val => val.id != candidateID), updatedCandidateData]; //database of employees with the target employee having the new property (shiftsAppliedFor).
 
                const updatedShifts = [...shiftsArray.filter(val => val.id != shiftID), updatedShiftData]
+
+               console.log({ typeof: typeof (updatedShiftData), shiftID, updatedShiftData, candidateID });
+               debugger;
 
                putRequest("http://localhost:3003/currentUser", candidateID, updatedCandidateData)
                   .then(result => {
@@ -48,7 +52,7 @@ const SchedulingNeeds = () => {
                   .then(result => console.log({ message: 'setEmployees successful!!!', currentUser, result }))
                   .catch(error => console.error({ message: 'PUT request error while updating employees', error, status: error.status, errMessage: error.message }))
 
-               putRequest(`http://localhost:3003/availableShifts/${shiftID}`, shiftID, updatedShifts)
+               putRequest(`http://localhost:3003/availableShifts/${shiftID}`, shiftID, updatedShiftData)
                   .then(result => {
                      console.log({ message: "/employees PUT request successful!!!", updatedEmployees, result });
                      setShiftsArray(updatedShifts)
