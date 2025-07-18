@@ -1,58 +1,39 @@
 {
   "availableShifts": [
     {
-      "0": {
-        "id": "shift-mccfflfa",
-        "storeNumber": "2955",
-        "date": "2025-07-19",
-        "time": "9a-6p"
-      },
-      "1": {
-        "id": "shift-mccfh2y8",
-        "storeNumber": "2003",
-        "date": "2025-07-23",
-        "time": "9a-3p"
-      },
-      "2": {
-        "id": "shift-mc9tc3cb",
-        "storeNumber": "3110",
-        "date": "2025-06-19",
-        "time": "8a-1p",
-        "applicants": [
-          {
-            "id": "c-mbwisn33",
-            "name": "Arnie Smart",
-            "password": "asmart",
-            "role": "candidate",
-            "base": "3005",
-            "shiftsAppliedFor": [
-              "shift-mc9tc3cb"
-            ]
-          },
-          {
-            "id": "c-mbwis0cg",
-            "name": "Pharma Con",
-            "password": "pharmacon1",
-            "role": "candidate",
-            "base": "3777",
-            "shiftsAppliedFor": [
-              "shift-mc9tc3cb"
-            ]
-          }
-        ]
-      },
-      "id": "shift-mc9tc3cb"
-    },
-    {
-      "id": "shift-mccfflfa",
-      "storeNumber": "2955",
-      "date": "2025-07-19",
-      "time": "9a-6p"
-    },
-    {
       "id": "shift-mccfh2y8",
       "storeNumber": "2003",
       "date": "2025-07-23",
+      "time": "9a-3p",
+      "applicants": [
+        {
+          "id": "c-mbwm1j9c",
+          "name": "Shawne Carter",
+          "password": "scarter",
+          "role": "candidate",
+          "base": "5007",
+          "shiftsAppliedFor": [
+            "shift-mccfh2y8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shift-md1my25k",
+      "storeNumber": "3117",
+      "date": "2025-08-21",
+      "time": "8a-12p"
+    },
+    {
+      "id": "shift-md1myria",
+      "storeNumber": "3117",
+      "date": "2025-07-23",
+      "time": "3p-9p"
+    },
+    {
+      "id": "shift-md1mzcs0",
+      "storeNumber": "2533",
+      "date": "2025-07-27",
       "time": "9a-3p"
     }
   ],
@@ -65,24 +46,11 @@
       "id": "s-mbwiqyvw"
     },
     {
-      "id": "c-mbwis0cg",
-      "name": "Pharma Con",
-      "password": "pharmacon1",
-      "role": "candidate",
-      "base": "3777",
-      "shiftsAppliedFor": [
-        "shift-mc9tc3cb"
-      ]
-    },
-    {
       "id": "c-mbwisn33",
       "name": "Arnie Smart",
       "password": "asmart",
       "role": "candidate",
-      "base": "3005",
-      "shiftsAppliedFor": [
-        "shift-mc9tc3cb"
-      ]
+      "base": "3005"
     },
     {
       "id": "c-mbwk4v3g",
@@ -96,7 +64,10 @@
       "name": "Shawne Carter",
       "password": "scarter",
       "role": "candidate",
-      "base": "5007"
+      "base": "5007",
+      "shiftsAppliedFor": [
+        "shift-mccfh2y8"
+      ]
     },
     {
       "id": "s-mc9rq8m6",
@@ -106,10 +77,13 @@
     }
   ],
   "currentUser": {
-    "id": "",
-    "name": "",
-    "password": "",
-    "role": "",
-    "base": ""
+    "id": "c-mbwm1j9c",
+    "name": "Shawne Carter",
+    "password": "scarter",
+    "role": "candidate",
+    "base": "5007",
+    "shiftsAppliedFor": [
+      "shift-mccfh2y8"
+    ]
   }
 }
