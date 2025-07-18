@@ -3,10 +3,11 @@ import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
+import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied"; //For the supervisor.
+import AssignedShifts from "./components/private/candidate/my_assigned_shifts/AssignedShifts";
+import Awarded from "./components/private/supervisor/shifts_queue/shifts_awarded/Awarded";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
-import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied"; //For the supervisor.
-import Awarded from "./components/private/supervisor/shifts_queue/shifts_awarded/Awarded";
 
 //Functions & dependencies.
 import { fetchDataPromise } from "./functions/FetchHook";
@@ -22,7 +23,7 @@ export const ShiftContext = createContext();
 function App() {
   const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
-  const [shiftsAwarded, setShiftsAwarded] = useState([])
+  const [shiftsAwarded, setShiftsAwarded] = useState([]) //all awarded shifts.
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
@@ -79,6 +80,7 @@ function App() {
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
                 <Route path="available shifts" element={<SchedulingNeeds />} />
                 <Route path="shifts/applied" element={<ShiftsAppliedFor />} />
+                <Route path="shifts/awarded" element={<AssignedShifts />} />
               </Route>
             </>
           }
