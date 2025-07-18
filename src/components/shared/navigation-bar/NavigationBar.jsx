@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -24,12 +25,16 @@ const NavigationBar = () => {
     })
     .then(() => navigate("/")) //navigate to home page.
     .catch(error => console.error({ message: 'error on handleLogoff function!!!', error, errorCode: error.code, errorStatus: error.status, errorMessage: error.message }));
+  
+  const [navigationLinks, setNavigationLinks] = useState(NavigationLinks({ id, role }));
+
+  useEffect(() => setNavigationLinks(NavigationLinks({ id, role })), [navigationLinks.length, id, role]);
 
   return (
     <nav className='navigation p-3'>
       <ErrorBoundary fallback={<h1>COMPILE TIME ERROR IN NavigationBar.jsx!!!</h1>}>
         {
-          NavigationLinks({ id, role })
+          navigationLinks
             .filter(({restrictions}) => restrictions == role || !restrictions)
             .map(({ name, to }, idx) => {
               return (
