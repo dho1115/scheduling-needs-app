@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
-
 import { ShiftContext } from '../../../../../App';
+
+//functions.
+import { DeleteFromAvailableShifts } from './functions';
+import { AddToAwardedShifts } from './functions';
 
 import "./Applied.styles.css";
 
@@ -15,6 +18,15 @@ const Applied = () => {
 
       return () => setAppliedForShifts([]);
    }, [])
+
+   const onHandleAwardShift = (deleteURL, awardURL, jsonBody, id = null) => Promise.all(DeleteFromAvailableShifts(deleteURL, id), AddToAwardedShifts(awardURL, jsonBody))
+      .then(res => {
+         if (!res.ok) throw new Error(`Error in response!!! ${res.status}.`);
+         console.log({ message: `Successfully transferred from available to awarded. Shift ${id} has been deleted from ${deleteURL} and added to ${awardURL}!!!`, res, resMessage: res.message });
+      })
+      .catch(error => console.error({ message: 'ERROR AWARDING SHIFT!!!', error, errorCode: error.code, errorMessage: error.message }));
+   
+   const onHandleAwardShift_temp = (name, id, shiftID, storeNumber) => alert(`About to send the following information for pharmacist ${name} (id# ${id}) to *** CONFIRM ***: ${JSON.stringify({shiftID, storeNumber})}.`);
 
    return (
       <div>
@@ -41,7 +53,17 @@ const Applied = () => {
                                     <h5>id: {id}</h5>
                                     <p><strong>name: {name}</strong></p>
                                     <p><strong>base: {base}</strong></p>
-                                    <button className='w-100 btn btn-success' onClick={() => alert(`SHIFT ${shiftID} HAS BEEN ASSIGNED TO: ${JSON.stringify({id, name, base})}`)}>ASSIGN SHIFT TO {name.toUpperCase()}!!!</button>
+                                    <button
+                                       className='w-100 btn btn-success'
+                                       onClick={() => onHandleAwardShift_temp(name, id, shiftID, storeNumber)}
+                                       // onClick={() => onHandleAwardShift(
+                                       // `http://localhost:3003/availableShifts/${shiftID}`,
+                                       // "http://localhost:3003/awardedShifts",
+                                       // { _shiftID: shiftID, _candidateID: id },
+                                       //    shiftID)}
+                                    >
+                                       ASSIGN SHIFT TO {name.toUpperCase()}!!!
+                                    </button>
                                  </div>
                               ))
                            }
