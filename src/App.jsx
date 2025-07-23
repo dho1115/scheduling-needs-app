@@ -20,6 +20,7 @@ import CandidatePage from "./pages/candidate/CandidatePage";
 export const ShiftContext = createContext();
 
 function App() {
+  alert("Work on the logic that happens AFTER scheduler APPROVES a shift!!!")
   const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
   const [shiftsAwarded, setShiftsAwarded] = useState([]) //all awarded shifts.
