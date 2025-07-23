@@ -17,13 +17,13 @@ import Homepage from "./pages/homepage/Homepage";
 import SupervisorPage from "./pages/supervisor/SupervisorPage";
 import CandidatePage from "./pages/candidate/CandidatePage";
 
-
 export const ShiftContext = createContext();
 
 function App() {
   const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
   const [shiftsAwarded, setShiftsAwarded] = useState([]) //all awarded shifts.
+  const [unconfirmedShifts, setUnconfirmedShifts] = useState([]); //Shifts needed RPh to confirm.
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function App() {
   
   return (
     <ShiftContext.Provider
-      value={{ shiftsArray, setShiftsArray, shiftsAwarded, setShiftsAwarded, currentUser, setCurrentUser, employees, setEmployees }}
+      value={{ shiftsArray, setShiftsArray, shiftsAwarded, setShiftsAwarded, unconfirmedShifts, setUnconfirmedShifts, currentUser, setCurrentUser, employees, setEmployees }}
     >
       <BrowserRouter>
         <Routes>
