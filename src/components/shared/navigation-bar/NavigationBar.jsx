@@ -10,7 +10,6 @@ import ErrorBoundary from '../../ErrorBoundary';
 
 import './NavigationBar.styles.css';
 
-
 const NavigationBar = () => {
   const { currentUser, setCurrentUser } = useContext(ShiftContext);
   const { id, role } = currentUser;  
