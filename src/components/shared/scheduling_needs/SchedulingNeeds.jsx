@@ -1,8 +1,8 @@
 //Dependencies.
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { ShiftContext } from '../../../App';
 import { Button, Container } from 'reactstrap';
-import { putRequest } from '../../../functions/putRequest';
+import { PutRequest } from '../../../functions/putRequest';
 
 import "./SchedulingNeeds.styles.css";
 
@@ -25,44 +25,34 @@ const SchedulingNeeds = () => {
                const updatedShiftData = Array.from(args)[1]; //returns a {...shift} from this argument: shiftsArray.filter(val => val.id == id)[0])
 
                updatedShiftData.applicants ?
-                  updatedShiftData.applicants = [...updatedShiftData.applicants, updatedCandidateData] //If there are applicants.
+                  updatedShiftData.applicants = [...updatedShiftData.applicants, candidateID] //If there are applicants.
                   :
-                  updatedShiftData.applicants = [updatedCandidateData] //If there are NO applicants.
+                  updatedShiftData.applicants = [candidateID] //If there are NO applicants.
                
                const updatedEmployees = [...employees.filter(val => val.id != candidateID), updatedCandidateData]; //database of employees with the target employee having the new property (shiftsAppliedFor).
 
                const updatedShifts = [...shiftsArray.filter(val => val.id != shiftID), updatedShiftData]
 
-               console.log({ typeof: typeof (updatedShiftData), shiftID, updatedShiftData, candidateID });
-               debugger;
-
-               putRequest("http://localhost:3003/currentUser", candidateID, updatedCandidateData)
+               PutRequest("http://localhost:3003/currentUser", candidateID, updatedCandidateData)
                   .then(result => {
                      console.log({ message: "/currentUser PUT request successful!!!", updatedCandidateData, result });
                      setCurrentUser(prv => ({ ...prv, ...updatedCandidateData }));
                   })
-                  .then(result => console.log({ message: 'setCurrentUser successful!!!', currentUser, result }))
                   .catch(error => console.error({ message: 'PUT request error while updating currentUser', error, status: error.status, errMessage: error.message }));
 
-               putRequest(`http://localhost:3003/employees/${candidateID}`, candidateID, updatedCandidateData)
+               PutRequest(`http://localhost:3003/employees/${candidateID}`, candidateID, updatedCandidateData)
                   .then(result => {
                      console.log({ message: "/employees PUT request successful!!!", updatedEmployees, result });
                      setEmployees(updatedEmployees);
                   })
-                  .then(result => console.log({ message: 'setEmployees successful!!!', currentUser, result }))
                   .catch(error => console.error({ message: 'PUT request error while updating employees', error, status: error.status, errMessage: error.message }))
 
-               putRequest(`http://localhost:3003/availableShifts/${shiftID}`, shiftID, updatedShiftData)
+               PutRequest(`http://localhost:3003/availableShifts/${shiftID}`, shiftID, updatedShiftData)
                   .then(result => {
                      console.log({ message: "/employees PUT request successful!!!", updatedEmployees, result });
                      setShiftsArray(updatedShifts)
                   })
-                  .then(result => console.log({ message: 'setEmployees successful!!!', currentUser, result }))
                   .catch(error => console.error({ message: 'PUT request error while updating employees', error, status: error.status, errMessage: error.message }))
-
-               console.log("===== HERE IS YOUR DATA!!! =====");
-               console.log({ updatedCandidateData, updatedShiftData, updatedEmployees, updatedShifts, state: { currentUser, employees, shiftsArray }, args });
-               console.log("================================");
             }
          },
          {
@@ -99,7 +89,12 @@ const SchedulingNeeds = () => {
                         {
                            customButtons[role]
                               .map((val, idx) => (
-                                 <Button key={idx} color= {idx%2==1 ? 'danger' : 'success'} size='sm' onClick={() => val.function(id, storeNumber, {...currentUser}, shiftsArray.filter(val => val.id == id)[0])}><strong>{val.name}</strong></Button>
+                                 <Button
+                                    key={idx} color={idx % 2 == 1 ? 'danger' : 'success'} size='sm'
+                                    onClick={() => val.function(id, storeNumber, { ...currentUser }, shiftsArray.filter(val => val.id == id)[0])}
+                                 >
+                                    <strong>{val.name}</strong>
+                                 </Button>
                               ))
                         }
                      </div>
