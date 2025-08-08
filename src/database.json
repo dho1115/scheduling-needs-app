@@ -1,40 +1,29 @@
 {
   "availableShifts": [
     {
-      "id": "shift-mccfh2y8",
-      "storeNumber": "2003",
-      "date": "2025-07-23",
-      "time": "9a-3p",
-      "applicants": [
-        {
-          "id": "c-mbwm1j9c",
-          "name": "Shawne Carter",
-          "password": "scarter",
-          "role": "candidate",
-          "base": "5007",
-          "shiftsAppliedFor": [
-            "shift-mccfh2y8"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "shift-md1my25k",
-      "storeNumber": "3117",
-      "date": "2025-08-21",
-      "time": "8a-12p"
-    },
-    {
-      "id": "shift-md1myria",
-      "storeNumber": "3117",
-      "date": "2025-07-23",
-      "time": "3p-9p"
-    },
-    {
       "id": "shift-md1mzcs0",
       "storeNumber": "2533",
       "date": "2025-07-27",
-      "time": "9a-3p"
+      "time": "9a-3p",
+      "applicants": [
+        "c-mbwm1j9c"
+      ]
+    },
+    {
+      "id": "shift-me30se4t",
+      "storeNumber": "3117",
+      "date": "2025-08-29",
+      "time": "9am - 4pm",
+      "applicants": [
+        "c-mbwm1j9c",
+        "c-mbwk4v3g"
+      ]
+    },
+    {
+      "id": "shift-me32ej90",
+      "storeNumber": "3495",
+      "date": "2025-08-11",
+      "time": "8am - 4pm"
     }
   ],
   "awardedShifts": [],
@@ -57,7 +46,10 @@
       "name": "Acey Gardner",
       "password": "agardner",
       "role": "candidate",
-      "base": "3777"
+      "base": "3777",
+      "shiftsAppliedFor": [
+        "shift-me30se4t"
+      ]
     },
     {
       "id": "c-mbwm1j9c",
@@ -66,7 +58,7 @@
       "role": "candidate",
       "base": "5007",
       "shiftsAppliedFor": [
-        "shift-mccfh2y8"
+        "shift-me30se4t"
       ]
     },
     {
@@ -76,6 +68,7 @@
       "role": "supervisor"
     }
   ],
+  "shiftsPendingEmployeeConfirm": [],
   "currentUser": {
     "name": "Jamie Smith",
     "password": "jsmith1",
