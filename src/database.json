@@ -10,16 +10,6 @@
       ]
     },
     {
-      "id": "shift-me30se4t",
-      "storeNumber": "3117",
-      "date": "2025-08-29",
-      "time": "9am - 4pm",
-      "applicants": [
-        "c-mbwm1j9c",
-        "c-mbwk4v3g"
-      ]
-    },
-    {
       "id": "shift-me32ej90",
       "storeNumber": "3495",
       "date": "2025-08-11",
@@ -46,20 +36,14 @@
       "name": "Acey Gardner",
       "password": "agardner",
       "role": "candidate",
-      "base": "3777",
-      "shiftsAppliedFor": [
-        "shift-me30se4t"
-      ]
+      "base": "3777"
     },
     {
       "id": "c-mbwm1j9c",
       "name": "Shawne Carter",
       "password": "scarter",
       "role": "candidate",
-      "base": "5007",
-      "shiftsAppliedFor": [
-        "shift-me30se4t"
-      ]
+      "base": "5007"
     },
     {
       "id": "s-mc9rq8m6",
