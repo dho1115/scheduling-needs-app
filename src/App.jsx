@@ -8,6 +8,7 @@ import AssignedShifts from "./components/private/candidate/my_assigned_shifts/As
 import Awarded from "./components/private/supervisor/shifts_queue/shifts_awarded/Awarded";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
+import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/UnconfirmedShifts";
 
 //Functions & dependencies.
 import { fetchDataPromise } from "./functions/FetchHook";
@@ -20,7 +21,6 @@ import CandidatePage from "./pages/candidate/CandidatePage";
 export const ShiftContext = createContext();
 
 function App() {
-  alert("Work on the logic that happens AFTER scheduler APPROVES a shift!!!")
   const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
   const [shiftsAwarded, setShiftsAwarded] = useState([]) //all awarded shifts.
@@ -52,6 +52,13 @@ function App() {
       })
       .catch(error => console.error({ message: "Something went wrong with fetching awarded shifts!!!", error, errorCode: error.code, errorMessage: error.message }));
     
+    fetchDataPromise("http://localhost:3003/shiftsPendingEmployeeConfirm")
+      .then(result => {
+        console.log({ result });
+        setUnconfirmedShifts(prv => ([...prv, ...result]))
+      })
+      .catch(error => console.error({ message: "Something went wrong with fetch shiftsPendingEmployeeConfirm!!!", error, errorMessage: error.message, errorCode: error.code }));
+    
     return () => {
       //This resets the array to prevent the data from being duplicated and added.
       setShiftsArray([]);
@@ -77,6 +84,7 @@ function App() {
                 <Route path="available shifts" element={<SchedulingNeeds />} />
                 <Route path="shifts/applied" element={<Applied />} />
                 <Route path="shifts/awarded" element={<Awarded />} />
+                <Route path="shifts/unconfirmed-shifts" element={<UnconfirmedShifts />} />
               </Route>
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
                 <Route path="available shifts" element={<SchedulingNeeds />} />
