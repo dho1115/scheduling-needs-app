@@ -6,14 +6,32 @@
       "date": "2025-07-27",
       "time": "9a-3p",
       "applicants": [
-        "c-mbwm1j9c"
+        "c-mbwisn33"
       ]
     },
     {
       "id": "shift-me32ej90",
       "storeNumber": "3495",
       "date": "2025-08-11",
-      "time": "8am - 4pm"
+      "time": "8am - 4pm",
+      "applicants": [
+        "c-mbwisn33"
+      ]
+    },
+    {
+      "id": "shift-me8q25f2",
+      "storeNumber": "8795",
+      "date": "2025-08-21",
+      "time": "8am - 4pm",
+      "applicants": [
+        "c-mbwisn33"
+      ]
+    },
+    {
+      "id": "shift-me8q2qtm",
+      "storeNumber": "5175",
+      "date": "2025-10-07",
+      "time": "3pm - 8pm"
     }
   ],
   "awardedShifts": [],
@@ -29,7 +47,10 @@
       "name": "Arnie Smart",
       "password": "asmart",
       "role": "candidate",
-      "base": "3005"
+      "base": "3005",
+      "shiftsAppliedFor": [
+        "shift-me8q25f2"
+      ]
     },
     {
       "id": "c-mbwk4v3g",
@@ -52,7 +73,14 @@
       "role": "supervisor"
     }
   ],
-  "shiftsPendingEmployeeConfirm": [],
+  "shiftsPendingEmployeeConfirm": [
+    {
+      "id": "shift-md1mzcs0",
+      "storeNumber": "2533",
+      "_candidateID": "c-mbwisn33",
+      "candidate": "Arnie Smart"
+    }
+  ],
   "currentUser": {
     "name": "Jamie Smith",
     "password": "jsmith1",
