@@ -1,3 +1,4 @@
+//Shifts the supervisor approved but the candidate has YET to confirm.
 import React, { useContext } from 'react'
 
 //Dependencies.
