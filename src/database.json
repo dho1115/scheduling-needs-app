@@ -6,17 +6,14 @@
       "date": "2025-07-27",
       "time": "9a-3p",
       "applicants": [
-        "c-mbwisn33"
+        "c-mbwk4v3g"
       ]
     },
     {
       "id": "shift-me32ej90",
       "storeNumber": "3495",
       "date": "2025-08-11",
-      "time": "8am - 4pm",
-      "applicants": [
-        "c-mbwisn33"
-      ]
+      "time": "8am - 4pm"
     },
     {
       "id": "shift-me8q25f2",
@@ -31,7 +28,11 @@
       "id": "shift-me8q2qtm",
       "storeNumber": "5175",
       "date": "2025-10-07",
-      "time": "3pm - 8pm"
+      "time": "3pm - 8pm",
+      "applicants": [
+        "c-mbwk4v3g",
+        "c-mbwm1j9c"
+      ]
     }
   ],
   "awardedShifts": [],
@@ -47,24 +48,28 @@
       "name": "Arnie Smart",
       "password": "asmart",
       "role": "candidate",
-      "base": "3005",
-      "shiftsAppliedFor": [
-        "shift-me8q25f2"
-      ]
+      "base": "3005"
     },
     {
       "id": "c-mbwk4v3g",
       "name": "Acey Gardner",
       "password": "agardner",
       "role": "candidate",
-      "base": "3777"
+      "base": "3777",
+      "shiftsAppliedFor": [
+        "shift-md1mzcs0",
+        "shift-me8q2qtm"
+      ]
     },
     {
       "id": "c-mbwm1j9c",
       "name": "Shawne Carter",
       "password": "scarter",
       "role": "candidate",
-      "base": "5007"
+      "base": "5007",
+      "shiftsAppliedFor": [
+        "shift-me8q2qtm"
+      ]
     },
     {
       "id": "s-mc9rq8m6",
@@ -73,18 +78,11 @@
       "role": "supervisor"
     }
   ],
-  "shiftsPendingEmployeeConfirm": [
-    {
-      "id": "shift-md1mzcs0",
-      "storeNumber": "2533",
-      "_candidateID": "c-mbwisn33",
-      "candidate": "Arnie Smart"
-    }
-  ],
+  "shiftsPendingEmployeeConfirm": [],
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "s-mc9rq8m6",
+    "name": "Kendall Kay",
+    "password": "Kendal1",
+    "role": "supervisor"
   }
 }
