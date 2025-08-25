@@ -5,4 +5,4 @@ Promise.all([
    PutRequest('http://localhost:3003/employees', updatedEmployees)
 ])
 
-PutRequest did NOT properly update employee: Please consider using PutRequest('http://localhost:3003/employees?id=c-mbwm1j9c' logic to remove the shift goes here.)
+PutRequest did NOT properly update employee: Please consider using PutRequest('http://localhost:3003/employees?id=c-mbwm1j9c' logic to remove the shift goes here. Perhaps a shiftsAppliedFor: [shiftsAppliedFor.filter])
