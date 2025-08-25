@@ -5,4 +5,4 @@ Promise.all([
    PutRequest('http://localhost:3003/employees', updatedEmployees)
 ])
 
-Plese test this. Thanks.
+PutRequest did NOT properly update employee: Please consider using PutRequest('http://localhost:3003/employees?id=c-mbwm1j9c' logic to remove the shift goes here.)
