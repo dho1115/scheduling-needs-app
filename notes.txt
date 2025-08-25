@@ -1,3 +1,8 @@
-WORK ON "onHandleAwardShift" inside Applied.jsx!!!
-The shiftsPendingEmployeeConfirm inside database.json still does NOT show the shiftID!!!
-NOTE: json-server database converts EVERY data you put in (even strings) as OBJECTS. If you enter a string, it will try to parse the string as an object, which it cannot because it's a string. In that case, it will just store {id: 1}.
+Just added another RESTful operation (PUT request):
+
+Promise.all([
+   PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, storeNumber, _candidateID: id, candidate: name }),
+   PutRequest('http://localhost:3003/employees', updatedEmployees)
+])
+
+Plese test this. Thanks.
