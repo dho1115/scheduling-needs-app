@@ -27,7 +27,10 @@ const Applied = () => {
       const updatedEmployees = updateEmployeeState(employees, shiftID) //remove shift from employee.
       const updateAvailableShifts = shiftsArray.filter(({ id }) => id != shiftID); //remove from available shift.
 
-      PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, storeNumber, _candidateID: id, candidate: name })
+      Promise.all([
+         PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, storeNumber, _candidateID: id, candidate: name, approvedBy: currentUser.id }),
+         PutRequest('http://localhost:3003/employees', updatedEmployees)
+      ])
          .then(result => {
             console.log({ message: 'PROMISE.ALL SUCCESS!!!', result });
             setEmployees(updatedEmployees);
