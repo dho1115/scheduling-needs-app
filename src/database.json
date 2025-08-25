@@ -66,10 +66,7 @@
       "name": "Shawne Carter",
       "password": "scarter",
       "role": "candidate",
-      "base": "5007",
-      "shiftsAppliedFor": [
-        "shift-me8q2qtm"
-      ]
+      "base": "5007"
     },
     {
       "id": "s-mc9rq8m6",
@@ -78,7 +75,15 @@
       "role": "supervisor"
     }
   ],
-  "shiftsPendingEmployeeConfirm": [],
+  "shiftsPendingEmployeeConfirm": [
+    {
+      "id": "shift-me8q2qtm",
+      "storeNumber": "5175",
+      "_candidateID": "c-mbwm1j9c",
+      "candidate": "Shawne Carter",
+      "approvedBy": "s-mc9rq8m6"
+    }
+  ],
   "currentUser": {
     "id": "s-mc9rq8m6",
     "name": "Kendall Kay",
