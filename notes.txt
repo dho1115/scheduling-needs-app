@@ -1,8 +1,3 @@
-Just added another RESTful operation (PUT request):
-
-Promise.all([
-   PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, storeNumber, _candidateID: id, candidate: name }),
-   PutRequest('http://localhost:3003/employees', updatedEmployees)
-])
-
-PutRequest did NOT properly update employee: Please consider using PutRequest('http://localhost:3003/employees?id=c-mbwm1j9c' logic to remove the shift goes here. Perhaps a shiftsAppliedFor: [shiftsAppliedFor.filter])
+1. Do more testing if the employee selects more than 1 shift.
+2. Test with multiple employees.
+3. Refactor the Applied, starting with this: appliedForShifts.length. Consider having two conditional statements, each with different returns().
