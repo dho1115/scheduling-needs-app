@@ -11,13 +11,21 @@ export const updateDbAndState = (db_fn, setStatefn) => {
 
 export const updateEmployeeState = (array, removeShiftID) => {
    //Removes the taken shift from each applicant that has a 'shiftAppiedFor' property and returns the updated employee state.
-   const findApplicantsWithShifts = array.filter(val => val['shiftsAppliedFor']); //[];
+   const findApplicantsWithShifts = array.filter(val => val['shiftsAppliedFor']); //[employees with shiftsAppliedFor property];
+
    const getIDsOfApplicantsWithShifts = findApplicantsWithShifts.map(({ id }) => id);//[...id]. This will be used below to find all applicants WITHOUT shifts using .includes().
-   const updateApplicantsWithShifts = findApplicantsWithShifts['map'](val => {
-      val.shiftsAppliedFor = val.shiftsAppliedFor.filter(val => val != removeShiftID)
-      return val;
+
+   const updateApplicantsWithShifts = findApplicantsWithShifts['map'](applicant => {
+      let { shiftsAppliedFor } = applicant;
+      shiftsAppliedFor = shiftsAppliedFor.filter(_shiftID => _shiftID != removeShiftID) //array;
+      if (shiftsAppliedFor.length) applicant.shiftsAppliedFor = shiftsAppliedFor;
+      else delete applicant.shiftsAppliedFor;
+
+      return applicant;
    }); //Remove selected shift from Applicants with shifts.
-   const applicantsWithoutShifts = array.filter(val => !getIDsOfApplicantsWithShifts.includes(val.id)); //Find remaining applicants (those without shifts or shiftsAppliedFor)
+
+   const applicantsWithoutShifts = array.filter(val => !getIDsOfApplicantsWithShifts.includes(val.id)); //employees whose ids are NOT included in getIDsOfApplicantsWithShifts.
+   
    return [...applicantsWithoutShifts, ...updateApplicantsWithShifts]
 }
 
