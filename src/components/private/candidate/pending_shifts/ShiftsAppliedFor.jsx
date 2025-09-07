@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 //dependencies.
 import { ShiftContext } from '../../../../App'
-import { Container } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 
 import "./ShiftsAppliedFor.styles.css";
 
@@ -19,6 +19,11 @@ const ShiftsAppliedFor = () => {
       </div>
     )
   }
+
+  const onCandidateConfirm = (id, storeNumber, date, time) => {
+    alert(`Shift# ${id} has been confirmed:${'\n'}${JSON.stringify({ id, storeNumber, date, time })}.`);
+  }
+
   return (
     <div className='shiftsappliedfordiv p-1'>
       <header>
@@ -34,6 +39,8 @@ const ShiftsAppliedFor = () => {
                 <h5>store number:<span class='text-danger'>{storeNumber}</span></h5>
                 <h5>shift schedule:<span class='text-danger'>{date}</span></h5>
                 <h5>shift time:<span class='text-danger'>{time}</span></h5>
+                <hr />
+                <Button color='danger' className='w-100' onClick={() => onCandidateConfirm(id, storeNumber, date, time)}>CONFIRM THIS SHIFT!!!</Button>
               </div>
             ))
          }
