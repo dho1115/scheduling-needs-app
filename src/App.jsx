@@ -8,6 +8,7 @@ import AssignedShifts from "./components/private/candidate/my_assigned_shifts/As
 import Awarded from "./components/private/supervisor/shifts_queue/shifts_awarded/Awarded";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
+import ShiftsNeedingConfirmation from "./components/private/candidate/shifts_needing_confirmation/ShiftsNeedingConfirmation";
 import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/UnconfirmedShifts";
 
 //Functions & dependencies.
@@ -64,6 +65,7 @@ function App() {
       setShiftsArray([]);
       setEmployees([]);
       setShiftsArray([]);
+      setUnconfirmedShifts([]);
     }
   }, []);
   
@@ -90,6 +92,7 @@ function App() {
                 <Route path="available shifts" element={<SchedulingNeeds />} />
                 <Route path="shifts/applied" element={<ShiftsAppliedFor />} />
                 <Route path="shifts/awarded" element={<AssignedShifts />} />
+                <Route path="shifts/pending confirmation" element={<ShiftsNeedingConfirmation />} />
               </Route>
             </>
           }
