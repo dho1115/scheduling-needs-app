@@ -4,7 +4,10 @@
       "id": "shift-me32ej90",
       "storeNumber": "3495",
       "date": "2025-08-11",
-      "time": "8am - 4pm"
+      "time": "8am - 4pm",
+      "applicants": [
+        "c-mbwisn33"
+      ]
     },
     {
       "id": "shift-me8q25f2",
@@ -34,7 +37,8 @@
       "role": "candidate",
       "base": "3005",
       "shiftsAppliedFor": [
-        "shift-md1mzcs0"
+        "shift-md1mzcs0",
+        "shift-me32ej90"
       ]
     },
     {
@@ -68,9 +72,14 @@
     }
   ],
   "currentUser": {
-    "id": "s-mc9rq8m6",
-    "name": "Kendall Kay",
-    "password": "Kendal1",
-    "role": "supervisor"
+    "id": "c-mbwisn33",
+    "name": "Arnie Smart",
+    "password": "asmart",
+    "role": "candidate",
+    "base": "3005",
+    "shiftsAppliedFor": [
+      "shift-md1mzcs0",
+      "shift-me32ej90"
+    ]
   }
 }
