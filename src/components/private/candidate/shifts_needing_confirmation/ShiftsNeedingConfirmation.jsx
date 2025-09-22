@@ -2,17 +2,50 @@ import React, { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ShiftContext } from '../../../../App'
 import { Button, Container } from 'reactstrap';
+import { DateTime } from 'luxon';
+
+import { DeleteRequest } from '../../../../functions/deleteRequest';
+import { PostRequest } from '../../../../functions/postRequest';
+import { PutRequest } from '../../../../functions/putRequest';
 
 import "./ShiftsNeedingConfirmation.styles.css";
 
 const ShiftsNeedingConfirmation = () => {
    const { id } = useParams();
    const navigate = useNavigate();
-   const { unconfirmedShifts, setUnconfirmedShifts } = useContext(ShiftContext);
+   const { employees, setEmployees, setShiftsAwarded, unconfirmedShifts, setUnconfirmedShifts } = useContext(ShiftContext);
 
-   const handleShiftConfirmation = val => {
-      alert(`Confirmed: ${JSON.stringify(val)}.`);
-      console.log("confirmed:", val);
+   const handleShiftConfirmation = async val => {
+      const dateConfirmed = DateTime.now().toFormat('yyyy-MM-dd');
+
+      try {
+         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shiftsPendingEmployeeConfirm/${val.id}`);
+
+         setUnconfirmedShifts(unconfirmedShifts.filter(ShiftObject => ShiftObject.id != val.id));
+
+         const addToAwardShiftDB = await PostRequest("http://localhost:3003/awardedShifts", { ...val, dateConfirmed });
+
+         setShiftsAwarded(prv => [...prv, { ...val, dateConfirmed }]);
+
+         const updateAllEmployees = employees.map(employee => {
+            if (employee.shiftsAppliedFor) {
+               const shiftsAppliedFor = employee.shiftsAppliedFor.filter(shiftID => shiftID != val.id)
+               return { ...employee, shiftsAppliedFor };
+            }
+            return employee;
+         })
+         
+         const updateAllEmployeesDB = await PutRequest("http://localhost:3003/employees", null, updateAllEmployees);
+
+         setEmployees(updateAllEmployees);
+
+         // const updatedEmployeesDB = await PutRequest(`http://localhost:3003/employees/${val._candidateID}`, null, updateEmployeeStatus);
+
+         navigate(`/candidate/welcome/${id}/shifts/awarded`);
+
+      } catch (err) {
+         console.error({err, errMessage: err.message, code: err.code})
+      }
    }
 
    return (
