@@ -39,8 +39,6 @@ const ShiftsNeedingConfirmation = () => {
 
          setEmployees(updateAllEmployees);
 
-         // const updatedEmployeesDB = await PutRequest(`http://localhost:3003/employees/${val._candidateID}`, null, updateEmployeeStatus);
-
          navigate(`/candidate/welcome/${id}/shifts/awarded`);
 
       } catch (err) {
