@@ -1,6 +1,9 @@
 import React, { useContext } from 'react'
 import { Container } from 'reactstrap';
 import { ShiftContext } from '../../../../App';
+
+import AssignedShiftsList from './AssignedShiftsList';
+
 import "./AssignedShifts.styles.css";
 
 const AssignedShifts = () => {
@@ -14,7 +17,7 @@ const AssignedShifts = () => {
          </header>
          <Container className='assigned-shifts-container p-3 m-1'>
             {
-               !shiftsAwarded.length && <h1 color='danger'>YOU HAVE NO ASSIGNED SHIFTS (YET).</h1>
+               !shiftsAwarded.length ? <h1 color='danger'>YOU HAVE NO ASSIGNED SHIFTS (YET).</h1> : <AssignedShiftsList />
             }
          </Container>
       </div>
