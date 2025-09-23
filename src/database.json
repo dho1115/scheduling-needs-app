@@ -14,14 +14,7 @@
     }
   ],
   "awardedShifts": [
-    {
-      "id": "shift-md1mzcs0",
-      "storeNumber": "2533",
-      "_candidateID": "c-mbwisn33",
-      "candidate": "Arnie Smart",
-      "approvedBy": "s-mbwiqyvw",
-      "dateConfirmed": "2025-09-21"
-    }
+    
   ],
   "employees": [
     {
@@ -35,10 +28,7 @@
       "name": "Arnie Smart",
       "password": "asmart",
       "role": "candidate",
-      "base": "3005",
-      "shiftsAppliedFor": [
-        "shift-me32ej90"
-      ]
+      "base": "3005"
     },
     {
       "id": "c-mbwk4v3g",
@@ -61,20 +51,12 @@
       "role": "supervisor"
     }
   ],
-  "shiftsPendingEmployeeConfirm": [
-    {
-      "id": "shift-me32ej90",
-      "dateApproved": "2025-09-22",
-      "storeNumber": "3495",
-      "_candidateID": "c-mbwisn33",
-      "candidate": "Arnie Smart",
-      "approvedBy": "s-mbwiqyvw"
-    }
-  ],
+  "shiftsPendingEmployeeConfirm": [],
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "c-mbwisn33",
+    "name": "Arnie Smart",
+    "password": "asmart",
+    "role": "candidate",
+    "base": "3005"
   }
 }
