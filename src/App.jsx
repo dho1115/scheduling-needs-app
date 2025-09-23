@@ -24,7 +24,7 @@ export const ShiftContext = createContext();
 function App() {
   const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
-  const [shiftsAwarded, setShiftsAwarded] = useState([]) //all awarded shifts.
+  const [shiftsAwarded, setShiftsAwarded] = useState([]); //all awarded shifts.
   const [unconfirmedShifts, setUnconfirmedShifts] = useState([]); //Shifts needed RPh to confirm.
   const [employees, setEmployees] = useState([]);
 
