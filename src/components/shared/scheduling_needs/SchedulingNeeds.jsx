@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { ShiftContext } from '../../../App';
 import { Button, Container } from 'reactstrap';
 import { PutRequest } from '../../../functions/putRequest';
+import { DateTime } from 'luxon';
 
 import "./SchedulingNeeds.styles.css";
 
@@ -14,7 +15,7 @@ const SchedulingNeeds = () => {
       candidate: [
          {
             name: "APPLY FOR SHIFT!!!",
-            function: (shiftID, store, ...args/* [candidate, shift] */) => {
+            onApply: (shiftID, store, ...args/* [candidate, shift] */) => {
                const updatedCandidateData = Array.from(args)[0]; //currentUser.
                const { id: candidateID } = updatedCandidateData;
                updatedCandidateData.shiftsAppliedFor ? //Add/update shiftsAppliedFor.
@@ -57,7 +58,7 @@ const SchedulingNeeds = () => {
          },
          {
             name: "QUESTION ABOUT SHIFT",
-            function: (id, store) => console.log({type: '*** EMAIL ***', header: `I have a question about shift id ${id}, `, body: `Regading store ${store}... I have a question...`})
+            onApply: (id, store) => console.log({type: '*** EMAIL ***', header: `I have a question about shift id ${id}, `, body: `Regading store ${store}... I have a question...`})
          }
       ],
       supervisor: [
@@ -91,7 +92,7 @@ const SchedulingNeeds = () => {
                               .map((val, idx) => (
                                  <Button
                                     key={idx} color={idx % 2 == 1 ? 'danger' : 'success'} size='sm'
-                                    onClick={() => val.function(id, storeNumber, { ...currentUser }, shiftsArray.filter(val => val.id == id)[0])}
+                                    onClick={() => val.onApply(id, storeNumber, { ...currentUser }, shiftsArray.filter(val => val.id == id)[0])}
                                  >
                                     <strong>{val.name}</strong>
                                  </Button>
