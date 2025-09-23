@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { ShiftContext } from '../../../../../App';
+import { DateTime } from 'luxon';
 
 //functions.
 import { PutRequest } from '../../../../../functions/putRequest';
@@ -26,9 +27,9 @@ const Applied = () => {
    const onHandleAwardShift = (name, id, shiftID, storeNumber) => {
       const updatedEmployees = updateEmployeeState(employees, shiftID) //remove shift from employee.
       const updateAvailableShifts = shiftsArray.filter(({ id }) => id != shiftID); //remove from available shift.
-
+      const dateApproved = DateTime.now().toFormat('yyyy-MM-dd')
       Promise.all([
-         PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, storeNumber, _candidateID: id, candidate: name, approvedBy: currentUser.id }),
+         PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, dateApproved, storeNumber, _candidateID: id, candidate: name, approvedBy: currentUser.id }),
          PutRequest('http://localhost:3003/employees', id, updatedEmployees),
          DeleteShift(`http://localhost:3003/availableShifts/${shiftID}`, shiftID)
       ])
