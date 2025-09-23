@@ -29,7 +29,11 @@ const ShiftsNeedingConfirmation = () => {
 
          const updateAllEmployees = employees.map(employee => {
             if (employee.shiftsAppliedFor) {
+               console.log(employee.shiftsAppliedFor);
+               debugger;
                const shiftsAppliedFor = employee.shiftsAppliedFor.filter(shiftID => shiftID != val.id)
+               console.log("shiftsAppliedFor:",shiftsAppliedFor);
+               debugger;
                return { ...employee, shiftsAppliedFor };
             }
             return employee;
