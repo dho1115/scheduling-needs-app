@@ -4,18 +4,22 @@
       "id": "shift-me8q25f2",
       "storeNumber": "8795",
       "date": "2025-08-21",
-      "time": "8am - 4pm"
+      "time": "8am - 4pm",
+      "applicants": [
+        "c-mbwisn33"
+      ]
     },
     {
       "id": "shift-me8q2qtm",
       "storeNumber": "5175",
       "date": "2025-10-07",
-      "time": "3pm - 8pm"
+      "time": "3pm - 8pm",
+      "applicants": [
+        "c-mbwisn33"
+      ]
     }
   ],
-  "awardedShifts": [
-    
-  ],
+  "awardedShifts": [],
   "employees": [
     {
       "name": "Jamie Smith",
@@ -28,7 +32,11 @@
       "name": "Arnie Smart",
       "password": "asmart",
       "role": "candidate",
-      "base": "3005"
+      "base": "3005",
+      "shiftsAppliedFor": [
+        "shift-me8q25f2",
+        "shift-me8q2qtm"
+      ]
     },
     {
       "id": "c-mbwk4v3g",
@@ -57,6 +65,10 @@
     "name": "Arnie Smart",
     "password": "asmart",
     "role": "candidate",
-    "base": "3005"
+    "base": "3005",
+    "shiftsAppliedFor": [
+      "shift-me8q25f2",
+      "shift-me8q2qtm"
+    ]
   }
 }
