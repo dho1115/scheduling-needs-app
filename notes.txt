@@ -1,3 +1,4 @@
-1. Do more testing if the employee selects more than 1 shift.
-2. Test with multiple employees.
-3. Refactor the Applied, starting with this: appliedForShifts.length. Consider having two conditional statements, each with different returns().
+1. SchedulingNeeds.jsx: Consider refactoring by putting the CRUD functions that are inside customButtons.onApply into a separate file called "functions.jsx":
+Example: const functionName(setState) => POST(...).then(() => setState()).catch(...);
+
+2. TEST BY HAVING A CANDIDATE SELECT A SHIFT!!!!!
