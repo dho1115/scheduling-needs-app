@@ -31,7 +31,7 @@ const ShiftsAppliedFor = () => {
       </header>
       <Container>
          {
-          shiftsArray
+          shiftsArray //open_shifts[{open_shift}]
             .filter(({ id }) => shiftsAppliedFor.includes(id))
             .map(({ id, storeNumber, date, time }, idx) => (
               <div className={`p-1 my-3 ${idx%2==1 ? 'shift-cell-1' : 'shift-cell-2'}`} key={idx}>
