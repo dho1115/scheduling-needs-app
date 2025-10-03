@@ -24,7 +24,7 @@ const Applied = () => {
       return () => setAppliedForShifts([]);
    }, [])
    
-   const onHandleAwardShift = (name, id, shiftID, storeNumber) => {
+   const onHandleAssignShift = (name, id, shiftID, storeNumber) => {
       const updatedEmployees = updateEmployeeState(employees, shiftID) //remove shift from employee.
       const updateAvailableShifts = shiftsArray.filter(({ id }) => id != shiftID); //remove from available shift.
       const dateApproved = DateTime.now().toFormat('yyyy-MM-dd')
@@ -77,7 +77,7 @@ const Applied = () => {
                                        <p><strong>base: {employee.base}</strong></p>
                                        <button
                                           className='w-100 btn btn-success'
-                                          onClick={() => onHandleAwardShift(employee.name, id, shiftID, storeNumber)}
+                                          onClick={() => onHandleAssignShift(employee.name, id, shiftID, storeNumber)}
                                        >
                                           ASSIGN SHIFT TO {employee.name.toUpperCase()}!!!
                                        </button>
