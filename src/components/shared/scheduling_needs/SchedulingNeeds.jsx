@@ -22,7 +22,7 @@ const SchedulingNeeds = () => {
 
                if (shiftsAppliedFor) shiftsAppliedFor = [...shiftsAppliedFor, shiftID];
                
-               else shiftsAppliedFor = [shiftID];
+               else shiftsAppliedFor = [shiftID]; //Creating or adding to shiftsAppliedfor property.
 
                let {applicants} = Array.from(args)[1]; //returns a {...shift} from this argument: shiftsArray.filter(val => val.id == id)[0])
 
@@ -67,11 +67,11 @@ const SchedulingNeeds = () => {
       supervisor: [
          {
             name: "CANCEL THIS SHIFT!!!",
-            function: (id, store) => console.log(`INSERT LOGIC TO CANCEL SHIFT ${id}. store ${store}`)
+            onApply: (id, store) => console.log(`INSERT LOGIC TO CANCEL SHIFT ${id}. store ${store}`)
          },
          {
             name: "VIEW CANDIDATES",
-            function: (id, store) => console.log(`INSERT LOGIC TO VIEW ALL CANDIDATES FOR shift id ${id} - store ${store}.`)
+            onApply: (id, store) => console.log(`INSERT LOGIC TO VIEW ALL CANDIDATES FOR shift id ${id} - store ${store}.`)
          }
       ]
    } //custom buttons that will be used for shitsArray.map.
@@ -96,9 +96,9 @@ const SchedulingNeeds = () => {
                                  <Button
                                     key={idx} color={idx % 2 == 1 ? 'danger' : 'success'} size='sm'
                                     onClick={() => val.onApply(id, storeNumber, { ...currentUser }, shiftsArray.find(val => val.id == id))}
-                                    disabled={applicants.includes(currentUser.id) && (val.name == "APPLY FOR SHIFT!!!")}
+                                    disabled={applicants?.includes(currentUser.id) && (val.name == "APPLY FOR SHIFT!!!")}
                                  >
-                                    <strong>{applicants.includes(currentUser.id) && (val.name == "APPLY FOR SHIFT!!!") ? "APPLIED!!!" : val.name}</strong>
+                                    <strong>{applicants?.includes(currentUser.id) && (val.name == "APPLY FOR SHIFT!!!") ? "APPLIED!!!" : val.name}</strong>
                                  </Button>
                               ))
                         }
