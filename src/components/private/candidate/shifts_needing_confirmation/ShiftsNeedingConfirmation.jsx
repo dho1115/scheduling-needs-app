@@ -23,7 +23,7 @@ const ShiftsNeedingConfirmation = () => {
 
          setUnconfirmedShifts(unconfirmedShifts.filter(ShiftObject => ShiftObject.id != val.id));
 
-         const addToAwardShiftDB = await PostRequest("http://localhost:3003/awardedShifts", { ...val, dateConfirmed });
+         const addToAwardShiftDB = await PostRequest("http://localhost:3003/shiftsConfirmed", { ...val, dateConfirmed });
 
          setShiftsAwarded(prv => [...prv, { ...val, dateConfirmed }]);
 

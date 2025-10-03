@@ -46,7 +46,7 @@ function App() {
       })
       .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
     
-    fetchDataPromise("http://localhost:3003/awardedShifts")
+    fetchDataPromise("http://localhost:3003/shiftsConfirmed")
       .then(result => {
         console.log({ result });
         setShiftsAwarded(prv => ([...prv, ...result]));
