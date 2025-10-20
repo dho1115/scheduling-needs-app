@@ -4,11 +4,15 @@ import { Container } from 'reactstrap';
 import { ShiftContext } from '../../../../../App';
 import { DateTime } from 'luxon';
 
+//Components.
+import Applicant from './Applicant';
+
 //functions.
 import { PutRequest } from '../../../../../functions/putRequest';
 import { DeleteRequest } from '../../../../../functions/deleteRequest';
 import { PostRequest } from '../../../../../functions/postRequest';
-import { AddToAwardedShifts, DeleteShift, setStateBatch, updateDbAndState, updateEmployeeState } from './functions';
+import { AddToAwardedShifts, DeleteShift, setStateBatch, updateDbAndState, updateEmployeeState, updateItemInArray } from './functions';
+import { PatchDBandState, PatchRequest } from '../../../../../functions/patchRequest';
 
 import "./Applied.styles.css";
 
@@ -24,13 +28,22 @@ const Applied = () => {
       return () => setAppliedForShifts([]);
    }, [])
    
-   const onHandleAssignShift = (name, id, shiftID, storeNumber) => {
+   const onHandleAssignShift = (name, employeeID, shiftID, storeNumber) => {
+      console.log({name, employeeID, shiftID, storeNumber})
       const updatedEmployees = updateEmployeeState(employees, shiftID) //remove shift from employee.
       const updateAvailableShifts = shiftsArray.filter(({ id }) => id != shiftID); //remove from available shift.
+
+      let selectedEmployee = employees.find(({ id }) => id == employeeID);
+      const shiftsPendingConfirmation = selectedEmployee.shiftsPendingConfirmation ?
+         [...selectedEmployee.shiftsPendingConfirmation, shiftID]
+         :
+         [shiftID];
+      
       const dateApproved = DateTime.now().toFormat('yyyy-MM-dd')
       Promise.all([
-         PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, dateApproved, storeNumber, _candidateID: id, candidate: name, approvedBy: currentUser.id }),
-         PutRequest('http://localhost:3003/employees', id, updatedEmployees),
+         PatchDBandState(PatchRequest, () => setEmployees(updateItemInArray(employees, employeeID, { shiftsPendingConfirmation })), `http://localhost:3003/employees/${employeeID}`, { shiftsPendingConfirmation }) /*add new property ({shiftsPendingConfirmation})*/,
+         PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, dateApproved, storeNumber, _candidateID: employeeID, candidate: name, approvedBy: currentUser.id }), //Add to shiftsPendingEmployeeConfirm
+         PutRequest('http://localhost:3003/employees', employeeID, updatedEmployees), //removes the assigned shift that the supervisor just assigned from shiftsAppliedFor property.
          DeleteShift(`http://localhost:3003/availableShifts/${shiftID}`, shiftID)
       ])
          .then(result => {
@@ -69,20 +82,8 @@ const Applied = () => {
                            {
                               applicants.map(id => {
                                  const employee = employees.find(val => id == val.id);
-
-                                 return (
-                                    <div key={id} className='applicant-div p-1 m-1'>
-                                       <h5>id: {id}</h5>
-                                       <p><strong>name: {employee.name}</strong></p>
-                                       <p><strong>base: {employee.base}</strong></p>
-                                       <button
-                                          className='w-100 btn btn-success'
-                                          onClick={() => onHandleAssignShift(employee.name, id, shiftID, storeNumber)}
-                                       >
-                                          ASSIGN SHIFT TO {employee.name.toUpperCase()}!!!
-                                       </button>
-                                    </div>
-                                 )
+                                 
+                                 return <Applicant shiftID={shiftID} key={id} {...employee} onHandleAssignShift = {onHandleAssignShift} storeNumber={storeNumber} />
                               })
                            }
                         </div>
