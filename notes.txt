@@ -13,7 +13,7 @@
 
     PLEASE CHANGE THE LOGIC SO THAT IT HAS THE FOLLOWING:
 
-        {
+    {
       "id": "c-mbwisn33",
       "name": "Arnie Smart",
       "password": "asmart",
