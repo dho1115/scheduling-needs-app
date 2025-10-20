@@ -13,21 +13,30 @@ export const updateEmployeeState = (array, removeShiftID) => {
    //Removes the taken shift from each applicant that has a 'shiftAppiedFor' property and returns the updated employee state.
    const findApplicantsWithShifts = array.filter(val => val.shiftsAppliedFor); //[employees with shiftsAppliedFor property];
 
-   const getIDsOfApplicantsWithShifts = findApplicantsWithShifts.map(({ id }) => id);//[...id]. This will be used below to find all applicants WITHOUT shifts using .includes().
+   const getIDsOfApplicantsWithShifts = findApplicantsWithShifts.map(({ id }) => id);//[...id].
 
-   const updateApplicantsWithShifts = findApplicantsWithShifts.map(applicant => {
+   const updateShiftsAppliedFor = findApplicantsWithShifts.map(applicant => {
       let { shiftsAppliedFor } = applicant;
-      shiftsAppliedFor = shiftsAppliedFor.filter(_shiftID => _shiftID != removeShiftID) //array;
-      if (shiftsAppliedFor.length) applicant.shiftsAppliedFor = shiftsAppliedFor;
+      shiftsAppliedFor = shiftsAppliedFor.filter(_shiftID => _shiftID != removeShiftID) //[remaining _shiftIDs];
+      if (shiftsAppliedFor.length) {
+         applicant = { ...applicant, shiftsAppliedFor };
+      }
       else delete applicant.shiftsAppliedFor;
 
       return applicant;
    }); //Remove selected shift from Applicants with shifts.
 
-   const applicantsWithoutShifts = array.filter(val => !getIDsOfApplicantsWithShifts.includes(val.id)); //employees whose ids are NOT included in getIDsOfApplicantsWithShifts.
+   const applicantsWithoutShifts = array.filter(applicant => !getIDsOfApplicantsWithShifts.includes(applicant.id)); //[employees with no shiftsAppliedFor property].
    
-   return [...applicantsWithoutShifts, ...updateApplicantsWithShifts]
+   return [...applicantsWithoutShifts, ...updateShiftsAppliedFor]
 }
+
+export const updateItemInArray = (array, idToFind, newProp) => array.map(value => {
+   if (value.id == idToFind) {
+      return { ...value, ...newProp };
+   }
+   return value;
+})
 
 export const setStateBatch = (...args) => {
    Array.from(args).forEach(arg => arg());
