@@ -11,6 +11,15 @@
       "storeNumber": "5331",
       "date": "2025-11-11",
       "time": "3pm - 10pm"
+    },
+    {
+      "id": "shift-mgwwe9a9",
+      "storeNumber": "3115",
+      "date": "2025-11-25",
+      "time": "10am - 3pm",
+      "applicants": [
+        "c-mbwm1j9c"
+      ]
     }
   ],
   "employees": [
@@ -32,14 +41,20 @@
       "name": "Acey Gardner",
       "password": "agardner",
       "role": "candidate",
-      "base": "3777"
+      "base": "3777",
+      "shiftsAppliedFor": [
+        "shift-mgbbsvdm"
+      ]
     },
     {
       "id": "c-mbwm1j9c",
       "name": "Shawne Carter",
       "password": "scarter",
       "role": "candidate",
-      "base": "5007"
+      "base": "5007",
+      "shiftsAppliedFor": [
+        "shift-mgwwe9a9"
+      ]
     },
     {
       "id": "s-mc9rq8m6",
@@ -49,7 +64,17 @@
     }
   ],
   "shiftsPendingEmployeeConfirm": [],
-  "shiftsConfirmed": [],
+  "shiftsConfirmed": [
+    {
+      "id": "shift-mgbbsvdm",
+      "dateApproved": "2025-10-03",
+      "storeNumber": "5003",
+      "_candidateID": "c-mbwk4v3g",
+      "candidate": "Acey Gardner",
+      "approvedBy": "s-mc9rq8m6",
+      "dateConfirmed": "2025-10-03"
+    }
+  ],
   "currentUser": {
     "id": "s-mc9rq8m6",
     "name": "Kendall Kay",
