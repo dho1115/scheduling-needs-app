@@ -7,10 +7,6 @@ import { Container } from 'reactstrap';
 import "./SupervisorPage.styles.css";
 
 const SupervisorPage = () => {
-  //Scheduling Needs list.
-  //Scheduling Needs applicants.
-  //Scheduling Needs award/rejection.
-
   const { currentUser, setCurrentUser, shiftsArray, setShiftsArray } = useContext(ShiftContext);
   
   return (
