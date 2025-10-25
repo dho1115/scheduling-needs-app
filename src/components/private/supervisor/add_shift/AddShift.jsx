@@ -27,7 +27,7 @@ const AddShift = () => {
          [
             setShiftsPromise(),
             PostRequest(
-               "http://localhost:3003/availableShifts",
+               "http://localhost:3003/shifts/available",
                { ...shiftDetails }
             )
          ]

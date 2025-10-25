@@ -1,45 +1,10 @@
 {
-  "availableShifts": [
-    {
-      "id": "shift-mg9q00lw",
-      "storeNumber": "3195",
-      "date": "2025-10-23",
-      "time": "1pm - 7pm",
-      "applicants": [
-        "c-mbwk4v3g"
-      ]
-    },
-    {
-      "id": "shift-mgzcqkn1",
-      "storeNumber": "3115",
-      "date": "2025-10-23",
-      "time": "3pm - 9pm"
-    },
-    {
-      "id": "shift-mgzcwlgk",
-      "storeNumber": "3000",
-      "date": "2025-10-27",
-      "time": "7am - 1pm"
-    },
-    {
-      "id": "shift-mgzepkls",
-      "storeNumber": "2501",
-      "date": "2025-11-05",
-      "time": "8am - 12pm"
-    },
-    {
-      "id": "shift-mgzeqc8b",
-      "storeNumber": "1935",
-      "date": "2025-11-01",
-      "time": "8am - 3pm"
-    },
-    {
-      "id": "shift-mgzerwxw",
-      "storeNumber": "3030",
-      "date": "2025-10-29",
-      "time": "5pm - 8pm"
-    }
-  ],
+  "currentUser": {
+    "id": "s-mc9rq8m6",
+    "name": "Kendall Kay",
+    "password": "Kendal1",
+    "role": "supervisor"
+  },
   "employees": [
     {
       "name": "Jamie Smith",
@@ -75,12 +40,48 @@
       "role": "supervisor"
     }
   ],
-  "shiftsPendingConfirmation": [],
-  "shiftsConfirmed": [],
-  "currentUser": {
-    "id": "s-mc9rq8m6",
-    "name": "Kendall Kay",
-    "password": "Kendal1",
-    "role": "supervisor"
+  "shifts": {
+    "available": [
+      {
+        "id": "shift-mg9q00lw",
+        "storeNumber": "3195",
+        "date": "2025-10-23",
+        "time": "1pm - 7pm"
+      },
+      {
+        "id": "shift-mgzcqkn1",
+        "storeNumber": "3115",
+        "date": "2025-10-23",
+        "time": "3pm - 9pm"
+      },
+      {
+        "id": "shift-mgzcwlgk",
+        "storeNumber": "3000",
+        "date": "2025-10-27",
+        "time": "7am - 1pm"
+      },
+      {
+        "id": "shift-mgzepkls",
+        "storeNumber": "2501",
+        "date": "2025-11-05",
+        "time": "8am - 12pm"
+      },
+      {
+        "id": "shift-mgzeqc8b",
+        "storeNumber": "1935",
+        "date": "2025-11-01",
+        "time": "8am - 3pm"
+      },
+      {
+        "id": "shift-mgzerwxw",
+        "storeNumber": "3030",
+        "date": "2025-10-29",
+        "time": "5pm - 8pm"
+      }
+    ],
+    "withApplicants": [],
+    "assignedTo": [],
+    "pendingConfirmation": [],
+    "confirmedByEmployee": []
   }
 }

@@ -20,11 +20,11 @@ const ShiftsNeedingConfirmation = () => {
       const dateConfirmed = DateTime.now().toFormat('yyyy-MM-dd');
 
       try {
-         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shiftsPendingConfirmation/${val.id}`);
+         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shifts/pendingConfirmation/${val.id}`);
 
          setUnconfirmedShifts(unconfirmedShifts.filter(ShiftObject => ShiftObject.id != val.id));
 
-         const addToShiftsConfirmed_DB = await PostRequest("http://localhost:3003/shiftsConfirmed", { ...val, dateConfirmed });
+         const addToShiftsConfirmed_DB = await PostRequest("http://localhost:3003/shifts/confirmed", { ...val, dateConfirmed });
 
          setShiftsAwarded(prv => [...prv, { ...val, dateConfirmed }]);
 

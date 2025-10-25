@@ -40,25 +40,25 @@ function App() {
       })
       .catch(err => console.error({ from: 'fetchDataPromise/currentUser', err, errMessage: err.message, status: err.status }));
     
-    fetchDataPromise("http://localhost:3003/availableShifts")
+    fetchDataPromise("http://localhost:3003/shifts/available")
       .then(result => {
         setShiftsArray(prv => ([...prv, ...result]));
       })
       .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
     
-    fetchDataPromise("http://localhost:3003/shiftsConfirmed")
+    fetchDataPromise("http://localhost:3003/shifts/confirmed")
       .then(result => {
         console.log({ result });
         setShiftsAwarded(prv => ([...prv, ...result]));
       })
       .catch(error => console.error({ message: "Something went wrong with fetching awarded shifts!!!", error, errorCode: error.code, errorMessage: error.message }));
     
-    fetchDataPromise("http://localhost:3003/shiftsPendingConfirmation")
+    fetchDataPromise("http://localhost:3003/shifts/pendingConfirmation")
       .then(result => {
         console.log({ result });
         setUnconfirmedShifts(prv => ([...prv, ...result]))
       })
-      .catch(error => console.error({ message: "Something went wrong with fetch shiftsPendingConfirmation!!!", error, errorMessage: error.message, errorCode: error.code }));
+      .catch(error => console.error({ message: "Something went wrong with fetch shifts/pendingConfirmation!!!", error, errorMessage: error.message, errorCode: error.code }));
     
     return () => {
       //This resets the array to prevent the data from being duplicated and added.
