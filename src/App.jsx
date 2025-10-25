@@ -53,12 +53,12 @@ function App() {
       })
       .catch(error => console.error({ message: "Something went wrong with fetching awarded shifts!!!", error, errorCode: error.code, errorMessage: error.message }));
     
-    fetchDataPromise("http://localhost:3003/shiftsPendingEmployeeConfirm")
+    fetchDataPromise("http://localhost:3003/shiftsPendingConfirmation")
       .then(result => {
         console.log({ result });
         setUnconfirmedShifts(prv => ([...prv, ...result]))
       })
-      .catch(error => console.error({ message: "Something went wrong with fetch shiftsPendingEmployeeConfirm!!!", error, errorMessage: error.message, errorCode: error.code }));
+      .catch(error => console.error({ message: "Something went wrong with fetch shiftsPendingConfirmation!!!", error, errorMessage: error.message, errorCode: error.code }));
     
     return () => {
       //This resets the array to prevent the data from being duplicated and added.

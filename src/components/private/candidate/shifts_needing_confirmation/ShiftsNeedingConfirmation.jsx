@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ShiftContext } from '../../../../App'
 import { Button, Container } from 'reactstrap';
 import { DateTime } from 'luxon';
+import LoadingComponent from '../../../LoadingComponent';
 
 import { DeleteRequest } from '../../../../functions/deleteRequest';
 import { PostRequest } from '../../../../functions/postRequest';
@@ -19,7 +20,7 @@ const ShiftsNeedingConfirmation = () => {
       const dateConfirmed = DateTime.now().toFormat('yyyy-MM-dd');
 
       try {
-         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shiftsPendingEmployeeConfirm/${val.id}`);
+         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shiftsPendingConfirmation/${val.id}`);
 
          setUnconfirmedShifts(unconfirmedShifts.filter(ShiftObject => ShiftObject.id != val.id));
 
@@ -29,11 +30,7 @@ const ShiftsNeedingConfirmation = () => {
 
          const updateAllEmployees = employees.map(employee => {
             if (employee.shiftsAppliedFor) {
-               console.log(employee.shiftsAppliedFor);
-               debugger;
                const shiftsAppliedFor = employee.shiftsAppliedFor.filter(shiftID => shiftID != val.id)
-               console.log("shiftsAppliedFor:",shiftsAppliedFor);
-               debugger;
                return { ...employee, shiftsAppliedFor };
             }
             return employee;
@@ -55,9 +52,11 @@ const ShiftsNeedingConfirmation = () => {
          {
             unconfirmedShifts.filter(({ _candidateID }) => _candidateID == id).map((val, idx) => (
                <div key={idx} className='m-1 p-1' style={{ overflowWrap: 'break-word', overflow: 'hidden', border: '5px solid firebrick', backgroundColor: 'burlywood' }}>
-                  <h5>{JSON.stringify(val)}</h5>
-                  <hr />
-                  <Button color='danger' size='xl' className='w-100' onClick={() => handleShiftConfirmation(val)}>PLEASE CONFIRM THIS DAMN SHIFT!!!</Button>
+                  <Suspense fallback={<LoadingComponent />}>
+                     <h5>{JSON.stringify(val)}</h5>
+                     <hr />
+                     <Button color='danger' size='xl' className='w-100' onClick={() => handleShiftConfirmation(val)}>PLEASE CONFIRM THIS DAMN SHIFT!!!</Button>
+                  </Suspense>
                </div>
             ))
          }

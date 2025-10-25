@@ -8,11 +8,7 @@ import { DateTime } from 'luxon';
 import Applicant from './Applicant';
 
 //functions.
-import { PutRequest } from '../../../../../functions/putRequest';
-import { DeleteRequest } from '../../../../../functions/deleteRequest';
-import { PostRequest } from '../../../../../functions/postRequest';
-import { AddToAwardedShifts, DeleteShift, setStateBatch, updateDbAndState, updateEmployeeState, updateItemInArray } from './functions';
-import { PatchDBandState, PatchRequest } from '../../../../../functions/patchRequest';
+import { addShiftToShiftsPendingConfirmation, findSelectedEmployee, removeShiftID } from './functions';
 
 import "./Applied.styles.css";
 
@@ -25,39 +21,31 @@ const Applied = () => {
       const shiftsWithApplicants = shiftsArray.filter(({ applicants }) => applicants && applicants.length);
       shiftsWithApplicants.length && setAppliedForShifts([...shiftsWithApplicants]);
 
+      console.log(employees);
+      debugger;
+
       return () => setAppliedForShifts([]);
    }, [])
    
    const onHandleAssignShift = (name, employeeID, shiftID, storeNumber) => {
-      console.log({name, employeeID, shiftID, storeNumber})
-      const updatedEmployees = updateEmployeeState(employees, shiftID) //remove shift from employee.
-      const updateAvailableShifts = shiftsArray.filter(({ id }) => id != shiftID); //remove from available shift.
+      /*
+         Inside employees array:
+         1. For the target employee: (1a) remove shiftID from .shiftsAppliedFor. (1b) add that shift to .shiftsPendingConfirmation.
+         2. Set the appropriate state.
 
-      let selectedEmployee = employees.find(({ id }) => id == employeeID);
-      const shiftsPendingConfirmation = selectedEmployee.shiftsPendingConfirmation ?
-         [...selectedEmployee.shiftsPendingConfirmation, shiftID]
-         :
-         [shiftID];
-      
-      const dateApproved = DateTime.now().toFormat('yyyy-MM-dd')
-      Promise.all([
-         PatchDBandState(PatchRequest, () => setEmployees(updateItemInArray(employees, employeeID, { shiftsPendingConfirmation })), `http://localhost:3003/employees/${employeeID}`, { shiftsPendingConfirmation }) /*add new property ({shiftsPendingConfirmation})*/,
-         PostRequest('http://localhost:3003/shiftsPendingEmployeeConfirm', { id: shiftID, dateApproved, storeNumber, _candidateID: employeeID, candidate: name, approvedBy: currentUser.id }), //Add to shiftsPendingEmployeeConfirm
-         PutRequest('http://localhost:3003/employees', employeeID, updatedEmployees), //removes the assigned shift that the supervisor just assigned from shiftsAppliedFor property.
-         DeleteShift(`http://localhost:3003/availableShifts/${shiftID}`, shiftID)
-      ])
-         .then(result => {
-            console.log({ message: 'PROMISE.ALL SUCCESS!!!', result });
-            setEmployees(updatedEmployees);
-            setShiftsArray(updateAvailableShifts);
-            setUnconfirmedShifts(prv => [...prv, shiftID]);
-            return { message: "Finished setting state for employees ShiftsArray, UnfonfirmedShifts", result, updatedState: { unconfirmedShifts, employees, shiftsArray } }
-         })
-         .then(message => {
-            console.log(message);
-            navigate(`http://localhost:3001/supervisor/welcome/${currentUser.id}/shifts/unconfirmed-shifts`);
-         })
-         .catch(error => console.error({ message: "PROMISE.ALL ERROR!!!", error, errorCode: error.code, errorMessage: error.message }));
+         Inside shiftsPendingConfirmation array:
+         1. Add that shift OBJECT to [shiftsPendingConfirmation].
+         2. Set the appropriate state.
+       */
+
+      const candidate = findSelectedEmployee(employeeID, employees);
+
+      const remove_shift_id = removeShiftID(shiftID, candidate);
+
+      const add_to_pending = addShiftToShiftsPendingConfirmation({ name, shiftID, employeeID, storeNumber }, candidate);
+
+      console.log({ remove_shift_id, add_to_pending });
+      debugger
    }
 
    return (
