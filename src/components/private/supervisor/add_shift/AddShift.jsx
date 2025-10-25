@@ -1,4 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { ShiftContext } from '../../../../App';
 import { PostRequest } from '../../../../functions/postRequest';
@@ -6,22 +7,22 @@ import uniqid from 'uniqid';
 
 import "./AddShift.styles.css";
 
-
 const AddShift = () => {
-   const shiftID = uniqid('shift-')
+   const navigate = useNavigate();
+   const shiftID = uniqid('shift-');
    const [shiftDetails, setShiftDetails] = useState({id: shiftID, storeNumber: '', date: '', time: ''});
-   const { shiftsArray, setShiftsArray } = useContext(ShiftContext);
+   const { currentUser, shiftsArray, setShiftsArray } = useContext(ShiftContext);
+
+   const setShiftsPromise = () => new Promise((res, rej) => {
+      const shiftsArrayInitialLength = shiftsArray.length;
+      setShiftsArray(prv => ([...prv, { ...shiftDetails }]));
+      
+      res({ message: `Successfully setShiftsArray: ${JSON.stringify(shiftsArray)}.` });
+      rej({ message: `ERROR!!! UNABLE TO ADD NEW SHIFT TO SHIFTS ARRAY: ${JSON.stringify(shiftsArray)}.` });
+   });
 
    const handleSubmit = e => {
       e.preventDefault();
-      const setShiftsPromise = () => new Promise((res, rej) => {
-         const shiftsArrayInitialLength = shiftsArray.length;
-         setShiftsArray(prv => ([...prv, { ...shiftDetails }]));
-         
-         if (shiftsArray.length > shiftsArrayInitialLength) res({ message: `Successfully setShiftsArray: ${JSON.stringify(shiftsArray)}.` });
-         else rej({ message: `ERROR!!! UNABLE TO ADD NEW SHIFT TO SHIFTS ARRAY: ${JSON.stringify(shiftsArray)}.` });
-      });
-
       Promise.all(
          [
             setShiftsPromise(),
@@ -31,7 +32,10 @@ const AddShift = () => {
             )
          ]
       )
-         .then(result => console.log({ result }))
+         .then(result => {
+            console.log(result);
+            navigate(`/supervisor/welcome/${currentUser.id}/available shifts`);
+         })
          .catch(error => console.error({ message: "setShifts Error in Promise.all!!!", error, errorMessage: error.message, errorCode: error.code }));
    };
 
