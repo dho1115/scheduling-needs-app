@@ -14,43 +14,17 @@ import "./ShiftsNeedingConfirmation.styles.css";
 const ShiftsNeedingConfirmation = () => {
    const { id } = useParams();
    const navigate = useNavigate();
-   const { employees, setEmployees, setShiftsAwarded, unconfirmedShifts, setUnconfirmedShifts } = useContext(ShiftContext);
+   const { shiftStatuses: {shiftsPendingConfirmation}, setShiftStatuses  } = useContext(ShiftContext);
 
    const handleShiftConfirmation = async val => {
       const dateConfirmed = DateTime.now().toFormat('yyyy-MM-dd');
 
-      try {
-         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shiftsPendingConfirmation/${val.id}`);
-
-         setUnconfirmedShifts(unconfirmedShifts.filter(ShiftObject => ShiftObject.id != val.id));
-
-         const addToShiftsConfirmed_DB = await PostRequest("http://localhost:3003/shifts/confirmed", { ...val, dateConfirmed });
-
-         setShiftsAwarded(prv => [...prv, { ...val, dateConfirmed }]);
-
-         const updateAllEmployees = employees.map(employee => {
-            if (employee.shiftsAppliedFor) {
-               const shiftsAppliedFor = employee.shiftsAppliedFor.filter(shiftID => shiftID != val.id)
-               return { ...employee, shiftsAppliedFor };
-            }
-            return employee;
-         })
-         
-         const updateAllEmployeesDB = await PutRequest("http://localhost:3003/employees", null, updateAllEmployees);
-
-         setEmployees(updateAllEmployees);
-
-         navigate(`/candidate/welcome/${id}/shifts/awarded`);
-
-      } catch (err) {
-         console.error({err, errMessage: err.message, code: err.code})
-      }
    }
 
    return (
       <Container>
          {
-            unconfirmedShifts.filter(({ _candidateID }) => _candidateID == id).map((val, idx) => (
+            shiftsPendingConfirmation.filter(({ _candidateID }) => _candidateID == id).map((val, idx) => (
                <div key={idx} className='m-1 p-1' style={{ overflowWrap: 'break-word', overflow: 'hidden', border: '5px solid firebrick', backgroundColor: 'burlywood' }}>
                   <Suspense fallback={<LoadingComponent />}>
                      <h5>{JSON.stringify(val)}</h5>
