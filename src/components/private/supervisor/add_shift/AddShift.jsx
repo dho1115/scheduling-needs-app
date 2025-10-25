@@ -1,42 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { ShiftContext } from '../../../../App';
-import { PostRequest } from '../../../../functions/postRequest';
+import { AddNewShiftToDBandState } from '../../../../functions/postRequest';
 import uniqid from 'uniqid';
-
 import "./AddShift.styles.css";
 
 const AddShift = () => {
+   const { pathname } = useLocation();
    const navigate = useNavigate();
    const shiftID = uniqid('shift-');
    const [shiftDetails, setShiftDetails] = useState({id: shiftID, storeNumber: '', date: '', time: ''});
    const { currentUser, shiftsArray, setShiftsArray } = useContext(ShiftContext);
 
-   const setShiftsPromise = () => new Promise((res, rej) => {
-      const shiftsArrayInitialLength = shiftsArray.length;
-      setShiftsArray(prv => ([...prv, { ...shiftDetails }]));
-      
-      res({ message: `Successfully setShiftsArray: ${JSON.stringify(shiftsArray)}.` });
-      rej({ message: `ERROR!!! UNABLE TO ADD NEW SHIFT TO SHIFTS ARRAY: ${JSON.stringify(shiftsArray)}.` });
-   });
-
-   const handleSubmit = e => {
+   const handleSubmit = async e => {
       e.preventDefault();
-      Promise.all(
-         [
-            setShiftsPromise(),
-            PostRequest(
-               "http://localhost:3003/shifts/available",
-               { ...shiftDetails }
-            )
-         ]
-      )
-         .then(result => {
-            console.log(result);
-            navigate(`/supervisor/welcome/${currentUser.id}/available shifts`);
-         })
-         .catch(error => console.error({ message: "setShifts Error in Promise.all!!!", error, errorMessage: error.message, errorCode: error.code }));
+      try {
+         const addToDBandSetState = AddNewShiftToDBandState()
+      } catch (error) {
+         
+      }
+      navigate(`/supervisor/welcome/${currentUser.id}/available shifts`);
    };
 
    useEffect(() => {
