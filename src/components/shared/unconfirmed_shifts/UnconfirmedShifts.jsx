@@ -8,7 +8,7 @@ import './UnconfirmedShifts.styles.css';
 import { Button } from 'reactstrap';
 
 const UnconfirmedShifts = () => {
-  const { currentUser, unconfirmedShifts } = useContext(ShiftContext);
+  const { currentUser, shiftStatuses: {shiftsPendingConfirmation} } = useContext(ShiftContext);
 
   const handleUnconfirmedShifts = () => {
     console.log("LOGIC TO CHANGE unconfirmedShifts STATUS.")
@@ -21,8 +21,8 @@ const UnconfirmedShifts = () => {
         <h1>UNCONFIRMED SHIFTS</h1>
       </header>
       {
-        unconfirmedShifts.length ?
-          unconfirmedShifts.map((val, idx) => {
+        shiftsPendingConfirmation.length ?
+          shiftsPendingConfirmation.map((val, idx) => {
             return (
               <div key={idx} className='unconfirmed-shift-div m-3'>
                 <h5><span>_shiftID:</span><span className='text-danger'>{val.id}</span></h5>
