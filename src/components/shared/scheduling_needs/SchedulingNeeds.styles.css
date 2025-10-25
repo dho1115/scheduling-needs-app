@@ -10,7 +10,3 @@
    display: grid;
    grid-template-columns: auto auto auto;
 }
-
-.shift-div {
-   border: 1.5px solid black;
-}
