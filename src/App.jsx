@@ -22,9 +22,10 @@ import CandidatePage from "./pages/candidate/CandidatePage";
 export const ShiftContext = createContext();
 
 function App() {
-  const [shiftsArray, setShiftsArray] = useState([]);
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
-  const [shiftsAwarded, setShiftsAwarded] = useState([]); //all awarded shifts.
+
+  const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsAssigned: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
+
   const [unconfirmedShifts, setUnconfirmedShifts] = useState([]); //Shifts needed RPh to confirm.
   const [employees, setEmployees] = useState([]);
 
@@ -42,14 +43,13 @@ function App() {
     
     fetchDataPromise("http://localhost:3003/shiftsAvailable")
       .then(result => {
-        setShiftsArray(prv => ([...prv, ...result]));
+        setShiftStatuses(prv => ({...prv, shiftsAvailable: [...result]}))
       })
       .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
     
-    fetchDataPromise("http://localhost:3003/shifts/confirmed")
+    fetchDataPromise("http://localhost:3003/shiftsConfirmed")
       .then(result => {
-        console.log({ result });
-        setShiftsAwarded(prv => ([...prv, ...result]));
+        setShiftStatuses(prv => ({ ...prv, shiftsAssigned: [...prv.shiftsAssigned, ...result] }));
       })
       .catch(error => console.error({ message: "Something went wrong with fetching awarded shifts!!!", error, errorCode: error.code, errorMessage: error.message }));
     
@@ -62,16 +62,13 @@ function App() {
     
     return () => {
       //This resets the array to prevent the data from being duplicated and added.
-      setShiftsArray([]);
-      setEmployees([]);
-      setShiftsArray([]);
-      setUnconfirmedShifts([]);
+      setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsAssigned: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] })
     }
   }, []);
   
   return (
     <ShiftContext.Provider
-      value={{ shiftsArray, setShiftsArray, shiftsAwarded, setShiftsAwarded, unconfirmedShifts, setUnconfirmedShifts, currentUser, setCurrentUser, employees, setEmployees }}
+      value={{ currentUser, setCurrentUser, employees, setEmployees, shiftStatuses, setShiftStatuses }}
     >
       <BrowserRouter>
         <Routes>
