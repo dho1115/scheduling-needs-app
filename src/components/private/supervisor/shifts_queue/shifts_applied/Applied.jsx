@@ -21,9 +21,6 @@ const Applied = () => {
       const shiftsWithApplicants = shiftsArray.filter(({ applicants }) => applicants && applicants.length);
       shiftsWithApplicants.length && setAppliedForShifts([...shiftsWithApplicants]);
 
-      console.log(employees);
-      debugger;
-
       return () => setAppliedForShifts([]);
    }, [])
    
@@ -43,9 +40,6 @@ const Applied = () => {
       const remove_shift_id = removeShiftID(shiftID, candidate);
 
       const add_to_pending = addShiftToShiftsPendingConfirmation({ name, shiftID, employeeID, storeNumber }, candidate);
-
-      console.log({ remove_shift_id, add_to_pending });
-      debugger
    }
 
    return (
