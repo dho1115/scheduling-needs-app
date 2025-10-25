@@ -20,7 +20,7 @@ const ShiftsNeedingConfirmation = () => {
       const dateConfirmed = DateTime.now().toFormat('yyyy-MM-dd');
 
       try {
-         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shifts/pendingConfirmation/${val.id}`);
+         const deleteFromDB = await DeleteRequest(`http://localhost:3003/shiftsPendingConfirmation/${val.id}`);
 
          setUnconfirmedShifts(unconfirmedShifts.filter(ShiftObject => ShiftObject.id != val.id));
 

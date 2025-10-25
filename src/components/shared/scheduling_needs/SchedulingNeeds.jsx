@@ -51,7 +51,7 @@ const SchedulingNeeds = () => {
                   })
                   .catch(error => console.error({ message: 'PUT request error while updating employees', error, status: error.status, errMessage: error.message }))
 
-               PutRequest(`http://localhost:3003/shifts/available/${shiftID}`, shiftID, { ...shiftData, applicants })
+               PutRequest(`http://localhost:3003/shiftsAvailable/${shiftID}`, shiftID, { ...shiftData, applicants })
                   .then(result => {
                      console.log({ message: "/employees PUT request successful!!!", updatedEmployees, result });
                      setShiftsArray(updatedShifts)
