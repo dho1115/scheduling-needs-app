@@ -7,19 +7,19 @@ import "./Awarded.styles.css";
 import { Container } from 'reactstrap';
 
 const Awarded = () => {
-   const { shiftsAwarded } = useContext(ShiftContext);
-   const [awarded, setAwarded] = useState([]);
+   const {shiftStatuses: {shiftsAssigned} } = useContext(ShiftContext);
+   const [assignedShifts, setAssignedShifts] = useState([]);
 
    useEffect(() => {
-      setAwarded([...shiftsAwarded]);
+      setAssignedShifts([...shiftsAssigned]);
 
-      return () => setAwarded([])
+      return () => setAssignedShifts([])
    }, [])
   return (
     <div>
       <header>AWARDED SHIFTS!!!</header>
       <Container>
-         <strong>{JSON.stringify(awarded)}.</strong>
+         <strong>{JSON.stringify(assignedShifts)}.</strong>
       </Container>
     </div>
   )

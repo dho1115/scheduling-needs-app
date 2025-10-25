@@ -7,7 +7,7 @@ import AssignedShiftsList from './AssignedShiftsList';
 import "./AssignedShifts.styles.css";
 
 const AssignedShifts = () => {
-   const { shiftsAwarded, currentUser } = useContext(ShiftContext);
+   const { shiftStatuses:{shiftsAssigned}, currentUser } = useContext(ShiftContext);
    const { name } = currentUser;
 
    return (
@@ -17,7 +17,7 @@ const AssignedShifts = () => {
          </header>
          <Container className='assigned-shifts-container p-3 m-1'>
             {
-               !shiftsAwarded.length ? <h1 color='danger'>YOU HAVE NO ASSIGNED SHIFTS (YET).</h1> : <AssignedShiftsList />
+               !shiftsAssigned.length ? <h1 color='danger'>YOU HAVE NO ASSIGNED SHIFTS (YET).</h1> : <AssignedShiftsList />
             }
          </Container>
       </div>

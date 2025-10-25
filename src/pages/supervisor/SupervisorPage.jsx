@@ -7,7 +7,7 @@ import { Container } from 'reactstrap';
 import "./SupervisorPage.styles.css";
 
 const SupervisorPage = () => {
-  const { currentUser, setCurrentUser, shiftsArray, setShiftsArray } = useContext(ShiftContext);
+  const { currentUser } = useContext(ShiftContext);
   
   return (
     <div>

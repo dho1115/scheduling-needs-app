@@ -1,9 +1,10 @@
 {
   "currentUser": {
-    "id": "s-mc9rq8m6",
-    "name": "Kendall Kay",
-    "password": "Kendal1",
-    "role": "supervisor"
+    "id": "c-mbwisn33",
+    "name": "Arnie Smart",
+    "password": "asmart",
+    "role": "candidate",
+    "base": "3005"
   },
   "employees": [
     {
@@ -76,18 +77,16 @@
       "storeNumber": "3030",
       "date": "2025-10-29",
       "time": "5pm - 8pm"
+    },
+    {
+      "id": "shift-mh6o5akk",
+      "storeNumber": "3117",
+      "date": "2025-12-07",
+      "time": "9am to 1pm"
     }
   ],
-  "shiftsWithApplicants": [
-
-  ],
-  "shiftsAssigned": [
-
-  ],
-  "shiftsPendingConfirmation": [
-
-  ],
-  "shiftsConfirmed": [
-
-  ]
+  "shiftsWithApplicants": [],
+  "shiftsAssigned": [],
+  "shiftsPendingConfirmation": [],
+  "shiftsConfirmed": []
 }
