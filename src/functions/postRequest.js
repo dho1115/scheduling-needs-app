@@ -6,7 +6,9 @@ export const AddNewShiftToDBandState = (url, data, setStateWrapperFunction /*  (
    .then(resultOfPost => {
       console.log({ message: "AddNewShiftToDBandState SUCCESSFULL!!!", resultOfPost });
 
-      return setStateWrapperFunction(data);
+      setStateWrapperFunction(data);
+
+      return data;
    })
    .catch(error => console.error({ location, message: "Error with AddNewShiftToDBandState!!!", error, errorCode: error.code, errorMessage: error.message }));
 
