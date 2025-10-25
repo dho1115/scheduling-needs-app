@@ -4,22 +4,40 @@
       "id": "shift-mg9q00lw",
       "storeNumber": "3195",
       "date": "2025-10-23",
-      "time": "1pm - 7pm"
-    },
-    {
-      "id": "shift-mg9q8ueu",
-      "storeNumber": "5331",
-      "date": "2025-11-11",
-      "time": "3pm - 10pm"
-    },
-    {
-      "id": "shift-mgwwe9a9",
-      "storeNumber": "3115",
-      "date": "2025-11-25",
-      "time": "10am - 3pm",
+      "time": "1pm - 7pm",
       "applicants": [
-        "c-mbwm1j9c"
+        "c-mbwk4v3g"
       ]
+    },
+    {
+      "id": "shift-mgzcqkn1",
+      "storeNumber": "3115",
+      "date": "2025-10-23",
+      "time": "3pm - 9pm"
+    },
+    {
+      "id": "shift-mgzcwlgk",
+      "storeNumber": "3000",
+      "date": "2025-10-27",
+      "time": "7am - 1pm"
+    },
+    {
+      "id": "shift-mgzepkls",
+      "storeNumber": "2501",
+      "date": "2025-11-05",
+      "time": "8am - 12pm"
+    },
+    {
+      "id": "shift-mgzeqc8b",
+      "storeNumber": "1935",
+      "date": "2025-11-01",
+      "time": "8am - 3pm"
+    },
+    {
+      "id": "shift-mgzerwxw",
+      "storeNumber": "3030",
+      "date": "2025-10-29",
+      "time": "5pm - 8pm"
     }
   ],
   "employees": [
@@ -41,20 +59,14 @@
       "name": "Acey Gardner",
       "password": "agardner",
       "role": "candidate",
-      "base": "3777",
-      "shiftsAppliedFor": [
-        "shift-mgbbsvdm"
-      ]
+      "base": "3777"
     },
     {
       "id": "c-mbwm1j9c",
       "name": "Shawne Carter",
       "password": "scarter",
       "role": "candidate",
-      "base": "5007",
-      "shiftsAppliedFor": [
-        "shift-mgwwe9a9"
-      ]
+      "base": "5007"
     },
     {
       "id": "s-mc9rq8m6",
@@ -63,18 +75,8 @@
       "role": "supervisor"
     }
   ],
-  "shiftsPendingEmployeeConfirm": [],
-  "shiftsConfirmed": [
-    {
-      "id": "shift-mgbbsvdm",
-      "dateApproved": "2025-10-03",
-      "storeNumber": "5003",
-      "_candidateID": "c-mbwk4v3g",
-      "candidate": "Acey Gardner",
-      "approvedBy": "s-mc9rq8m6",
-      "dateConfirmed": "2025-10-03"
-    }
-  ],
+  "shiftsPendingConfirmation": [],
+  "shiftsConfirmed": [],
   "currentUser": {
     "id": "s-mc9rq8m6",
     "name": "Kendall Kay",
