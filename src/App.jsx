@@ -26,7 +26,6 @@ function App() {
 
   const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsAssigned: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
 
-  const [unconfirmedShifts, setUnconfirmedShifts] = useState([]); //Shifts needed RPh to confirm.
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
@@ -36,7 +35,6 @@ function App() {
 
     fetchDataPromise("http://localhost:3003/currentUser")
       .then(result => {
-        console.log({ from: 'fetchDataPromise/employees call', message: 'SUCCESS!!!', result });
         setCurrentUser(prv => ({ ...prv, ...result }));
       })
       .catch(err => console.error({ from: 'fetchDataPromise/currentUser', err, errMessage: err.message, status: err.status }));
@@ -55,8 +53,7 @@ function App() {
     
     fetchDataPromise("http://localhost:3003/shiftsPendingConfirmation")
       .then(result => {
-        console.log({ result });
-        setUnconfirmedShifts(prv => ([...prv, ...result]))
+        setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...result] }));
       })
       .catch(error => console.error({ message: "Something went wrong with fetch shiftsPendingConfirmation!!!", error, errorMessage: error.message, errorCode: error.code }));
     
