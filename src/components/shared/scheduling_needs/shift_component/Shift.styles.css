@@ -12,3 +12,12 @@
    align-items: center;
    justify-content: center;
 }
+
+.youveGotCandidates {
+   border: 5.7px solid lightseagreen;
+}
+
+.youveGotCandidates:hover {
+   scale: 1.015;
+   cursor: pointer;
+}

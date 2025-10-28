@@ -8,6 +8,9 @@ import QuestionformModal from './question_form/QuestionformModal';
 //dependencies.
 import { ShiftContext } from '../../../../App';
 
+//functions.
+import { findShiftInArray } from '../functions';
+
 import "./Shift.styles.css";
 
 const SuspenseComponent = () => {
@@ -26,7 +29,7 @@ const Shift = ({ id, idx, date, time, storeNumber, ...rest }) => {
 
    return (
       <Suspense fallback={<SuspenseComponent />}>
-         <div key={idx} className='shift-div p-1 m-3' style={{ backgroundColor: idx % 2 == 1 ? 'lightpink' : 'lightyellow' }}>
+         <div key={idx} className={`shift-div p-1 m-3 ${findShiftInArray(id, shiftsWithApplicants) ? 'youveGotCandidates' : ''}`} style={{ backgroundColor: idx % 2 == 1 ? 'lightpink' : 'lightyellow' }}>
             <QuestionformModal modal={modal} toggle={toggle} {...shiftDetails} />
             <h5>shift id: {id}</h5>
             <h3>date: {date}</h3>
@@ -36,7 +39,7 @@ const Shift = ({ id, idx, date, time, storeNumber, ...rest }) => {
                currentUser.role == 'candidate' ?
                   <CandidateShiftButtons {...shiftDetails} setModal={setModal} toggle={toggle} />
                   :
-                  (shiftsWithApplicants.length ? <SupervisorShiftButtons {...shiftDetails} /> : '')
+                  (findShiftInArray(id, shiftsWithApplicants) ? <SupervisorShiftButtons {...shiftDetails} /> : '')
             }
          </div>
       </Suspense>
