@@ -32,6 +32,8 @@ function App() {
   const functionDeclarations = [
     async () => await FetchDataSetState("http://localhost:3003/currentUser", data => setCurrentUser(prv => ({ ...prv, ...data }))),
 
+    async () => await FetchDataSetState("http://localhost:3003/employees", data => setEmployees(data)),
+
     async () => await FetchDataSetState("http://localhost:3003/shiftsAvailable", data => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: [...data] }))),
 
     async () => await FetchDataSetState("http://localhost:3003/shiftsWithApplicants", data => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...data] }))),
