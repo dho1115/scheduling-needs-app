@@ -1,4 +1,11 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useContext } from 'react'
+
+//component.
+import CandidateShiftButtons from './ShiftButton_Candidate';
+import SupervisorShiftButtons from './ShiftButton_Supervisor';
+
+//dependencies.
+import { ShiftContext } from '../../../../App';
 
 import "./Shift.styles.css";
 
@@ -10,17 +17,24 @@ const SuspenseComponent = () => {
    )
 }
 
-const Shift = ({ id, idx, date, time, storeNumber }) => {
-  return (
-   <Suspense fallback={<SuspenseComponent />}>
-      <div key={idx} className='shift-div p-1 m-3' style={{backgroundColor: idx%2==1 ? 'lightpink' : 'lightyellow'}}>
-         <h5>shift id: {id}</h5>
-         <h3>date: {date}</h3>
-         <h3>time: {time}</h3>
-         <h3>CVS# {storeNumber}</h3>
-        </div>
-   </Suspense>
-  )
+const Shift = ({ id, idx, date, time, storeNumber, ...rest }) => {
+   const { currentUser } = useContext(ShiftContext);
+   const shiftDetails = { id, shiftID: id, date, time, storeNumber, currentUser };
+
+   return (
+      <Suspense fallback={<SuspenseComponent />}>
+         <div key={idx} className='shift-div p-1 m-3' style={{backgroundColor: idx%2==1 ? 'lightpink' : 'lightyellow'}}>
+            <h5>shift id: {id}</h5>
+            <h3>date: {date}</h3>
+            <h3>time: {time}</h3>
+            <h3>CVS# {storeNumber}</h3>
+            {
+               currentUser.role == 'candidate' ?
+                  <CandidateShiftButtons {...shiftDetails} /> : <SupervisorShiftButtons {...shiftDetails} />
+            }
+         </div>
+      </Suspense>
+   )
 }
 
 export default Shift

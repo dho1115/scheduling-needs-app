@@ -1,3 +1,14 @@
 .shift-div {
    border: 1.5px solid black;
 }
+
+.shiftButton_div_candidate {
+   display: grid;
+   grid-template-columns: auto auto;
+}
+
+.shiftButton_supervisor {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
