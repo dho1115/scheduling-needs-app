@@ -10,10 +10,6 @@ import "./SchedulingNeeds.styles.css";
 const SchedulingNeeds = () => {
    const { shiftStatuses, shiftStatuses: { shiftsAvailable } } = useContext(ShiftContext);
 
-   useEffect(() => {
-      console.log({ shiftStatuses });
-   }, [])
-
    return (
       <div>
          <header>
