@@ -8,7 +8,7 @@ import { ShiftContext } from '../../../../App';
 import { Button } from 'reactstrap';
 
 //functions.
-import { findShiftInShiftStatus } from '../functions';
+import { findShiftInArray } from '../functions';
 import { PostRequestSetState } from '../../../../functions/postRequest';
 
 import "./Shift.styles.css";
@@ -38,7 +38,7 @@ const CandidateShiftButtons = (props) => {
 
   return (
     <div className='shiftButton_div_candidate'>
-      <Button size='lg' className='m-1' color={findShiftInShiftStatus(props.shiftID, shiftsWithApplicants) ? 'secondary' : 'danger'} onClick={onSelectShift} disabled={ findShiftInShiftStatus(props.shiftID, shiftsWithApplicants) }>{ findShiftInShiftStatus(props.shiftID, shiftsWithApplicants) ? "SELECTED" : "SELECT"}</Button>
+      <Button size='lg' className='m-1' color={findShiftInArray(props.shiftID, shiftsWithApplicants) ? 'secondary' : 'danger'} onClick={onSelectShift} disabled={ findShiftInArray(props.shiftID, shiftsWithApplicants) }>{ findShiftInArray(props.shiftID, shiftsWithApplicants) ? "SELECTED" : "SELECT"}</Button>
       
       <Button size='sm' className='p-0' color='success' onClick={toggle}>QUESTION ABOUT SHIFT</Button>
     </div>
