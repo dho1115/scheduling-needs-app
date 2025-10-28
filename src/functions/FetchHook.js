@@ -10,3 +10,11 @@ export const fetchDataPromise = async url => {
       return { message: 'Error Fetching data!!!', error, errorCode: error.code, errorMessage: error.message };
    }
 }
+
+export const FetchDataSetState = async () => {
+   try {
+      
+   } catch (error) {
+      console.error({ message: "FetchDateSetState error!!!", error, errorMessage: error.message, errorCode: error.code, errorStack: error.stack });
+   }
+}
