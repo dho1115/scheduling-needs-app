@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
-import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied"; //For the supervisor.
+import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied_LEGACY"; //For the supervisor.
 import AssignedShifts from "./components/private/candidate/my_assigned_shifts/AssignedShifts";
 import Awarded from "./components/private/supervisor/shifts_queue/shifts_awarded/Awarded";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
@@ -64,7 +64,6 @@ function App() {
               <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
                 <Route path="add shift" element={<AddShift />} />
                 <Route path="available shifts" element={<SchedulingNeeds />} />
-                <Route path="shifts/applied" element={<Applied />} />
                 <Route path="shifts/awarded" element={<Awarded />} />
                 <Route path="shifts/unconfirmed-shifts" element={<UnconfirmedShifts />} />
                 <Route path="shifts/shift/:_shiftID/candidates" element={<ShiftCandidatesPage />} />
