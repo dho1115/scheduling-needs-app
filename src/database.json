@@ -1,9 +1,10 @@
 {
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "c-mbwisn33",
+    "name": "Arnie Smart",
+    "password": "asmart",
+    "role": "candidate",
+    "base": "3005"
   },
   "employees": [
     {
@@ -91,6 +92,32 @@
       "date": "2025-10-27",
       "time": "7am - 1pm",
       "storeNumber": "3000",
+      "applicant": {
+        "id": "c-mbwm1j9c",
+        "name": "Shawne Carter",
+        "role": "candidate",
+        "base": "5007"
+      }
+    },
+    {
+      "id": "shift-mgzcqkn1",
+      "shiftID": "shift-mgzcqkn1",
+      "date": "2025-10-23",
+      "time": "3pm - 9pm",
+      "storeNumber": "3115",
+      "applicant": {
+        "id": "c-mbwm1j9c",
+        "name": "Shawne Carter",
+        "role": "candidate",
+        "base": "5007"
+      }
+    },
+    {
+      "id": "shift-mh6o5akk",
+      "shiftID": "shift-mh6o5akk",
+      "date": "2025-12-07",
+      "time": "9am to 1pm",
+      "storeNumber": "3117",
       "applicant": {
         "id": "c-mbwisn33",
         "name": "Arnie Smart",
