@@ -12,4 +12,4 @@ export const TransferShift = async (fromURL, toURL, postData, postStateWrapper, 
    }
 }
 
-export const findCandidateInShiftStatus = (_candidateID, shiftStatus) => shiftStatus.find(({ currentUser: { id } }) => id == _candidateID);
+export const findShiftInShiftStatus = (id_of_shift, shiftStatus) => shiftStatus.find(({ shiftID }) => shiftID == id_of_shift);
