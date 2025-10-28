@@ -13,3 +13,5 @@ export const TransferShift = async (fromURL, toURL, postData, postStateWrapper, 
 }
 
 export const findShiftInArray = (id_of_shift, array) => array.find(({ shiftID }) => shiftID == id_of_shift);
+
+export const didApplicantApplyForShift = (_currentUserID, _shiftID, shiftsWithApplicants) => shiftsWithApplicants.find(({ id, applicant }) => (applicant.id == _currentUserID) && (id == _shiftID));
