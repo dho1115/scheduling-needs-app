@@ -12,7 +12,7 @@ import ShiftsNeedingConfirmation from "./components/private/candidate/shifts_nee
 import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/UnconfirmedShifts";
 
 //Functions & dependencies.
-import { fetchDataPromise } from "./functions/FetchHook";
+import { fetchDataPromise, FetchDataSetState } from "./functions/FetchHook";
 
 //Pages;
 import Homepage from "./pages/homepage/Homepage";
@@ -28,11 +28,24 @@ function App() {
 
   const [employees, setEmployees] = useState([]);
 
+  const functionDeclarations = [
+    async () => await FetchDataSetState("http://localhost:3003/currentUser", data => setCurrentUser(prv => ({ ...prv, ...data }))),
+
+    async () => await FetchDataSetState("http://localhost:3003/shiftsAvailable", data => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: [...data] }))),
+
+    async () => await FetchDataSetState("http://localhost:3003/shiftsWithApplicants", data => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...data] }))),
+
+    async () => await FetchDataSetState("http://localhost:3003/shiftsAssigned", data => setShiftStatuses(prv => ({ ...prv, shiftsAssigned: [...data] }))),
+
+    async () => await FetchDataSetState("http://localhost:3003/shiftsPendingConfirmation", data => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...data] }))),
+
+    async () => await FetchDataSetState("http://localhost:3003/shiftsConfirmed", data => setShiftStatuses(prv => ({...prv, shiftsConfirmed: [...data]})))
+  ]
+
+  const callFunctionDeclarations = functionDeclarations => functionDeclarations.forEach(async f => await f())
+
   useEffect(() => {
-    
-    return () => {
-      setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsAssigned: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] })
-    };
+    callFunctionDeclarations(functionDeclarations)
   }, []);
 
   return (
