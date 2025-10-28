@@ -3,6 +3,7 @@ import { useContext, useEffect } from 'react'
 import { ShiftContext } from '../../../App';
 import Shift from './shift_component/Shift';
 import { Container } from 'reactstrap';
+import ErrorBoundary from '../../ErrorBoundary';
 
 import "./SchedulingNeeds.styles.css";
 
@@ -20,7 +21,11 @@ const SchedulingNeeds = () => {
          </header>
          <Container className='p-3 scheduling-needs-container'>
             {
-               shiftsAvailable.map((val, idx) => <Shift key={idx} {...val} idx={idx}/>)
+               shiftsAvailable.map((val, idx) => (
+                  <ErrorBoundary fallback={<h3 className='text-danger'>ERROR!!!</h3>}>
+                     <Shift key={idx} {...val} idx={idx} />
+                  </ErrorBoundary>)
+               )
             }
          </Container>
       </div>
