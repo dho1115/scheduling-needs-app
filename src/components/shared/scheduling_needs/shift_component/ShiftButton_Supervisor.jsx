@@ -12,7 +12,7 @@ const SupervisorShiftButtons = () => {
 
    return (
       <div className='shiftButton_supervisor'>
-         <Button className='w-100' color='danger'>SEE CANDIDATES!!!</Button>
+         <Button className='w-100' color='danger'>YOU'VE GOT CANDIDATE(S)!!!</Button>
       </div>
    )
 }
