@@ -19,7 +19,8 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
    const onHandleLogin = e => {
       e.preventDefault()
       try {
-         const findMatch = employees.find(({ password, id }) => ((loginData.password == password) && (loginData.id == id)));
+         const findMatch = employees.find(({ password, id }) => (loginData.id == id) && (loginData.password == password));
+
          if (!findMatch) {
             throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees... DAMN YOU!!!`);
          } else {
