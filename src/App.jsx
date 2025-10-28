@@ -18,6 +18,7 @@ import { fetchDataPromise, FetchDataSetState } from "./functions/FetchHook";
 import Homepage from "./pages/homepage/Homepage";
 import SupervisorPage from "./pages/supervisor/SupervisorPage";
 import CandidatePage from "./pages/candidate/CandidatePage";
+import ShiftCandidatesPage from "./pages/supervisor/shift/ShiftCandidatesPage";
 
 export const ShiftContext = createContext();
 
@@ -44,9 +45,7 @@ function App() {
 
   const callFunctionDeclarations = functionDeclarations => functionDeclarations.forEach(async f => await f())
 
-  useEffect(() => {
-    callFunctionDeclarations(functionDeclarations)
-  }, []);
+  useEffect(() => callFunctionDeclarations(functionDeclarations), []);
 
   return (
     <ShiftContext.Provider
@@ -66,6 +65,7 @@ function App() {
                 <Route path="shifts/applied" element={<Applied />} />
                 <Route path="shifts/awarded" element={<Awarded />} />
                 <Route path="shifts/unconfirmed-shifts" element={<UnconfirmedShifts />} />
+                <Route path="shifts/shift/:_shiftID/candidates" element={<ShiftCandidatesPage />} />
               </Route>
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
                 <Route path="available shifts" element={<SchedulingNeeds />} />
