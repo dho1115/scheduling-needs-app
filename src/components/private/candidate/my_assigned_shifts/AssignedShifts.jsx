@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'reactstrap';
 import { ShiftContext } from '../../../../App';
 
@@ -7,8 +7,15 @@ import AssignedShiftsList from './AssignedShiftsList';
 import "./AssignedShifts.styles.css";
 
 const AssignedShifts = () => {
-   const { shiftStatuses:{shiftsAssigned}, currentUser } = useContext(ShiftContext);
+   const { shiftStatuses: { shiftsAssigned }, currentUser } = useContext(ShiftContext);
    const { name } = currentUser;
+   const [myAssignedShifts, setMyAssignedShifts] = useState([]);
+
+   useEffect(() => {
+      return () => {
+
+      };
+   }, [])
 
    return (
       <div>
