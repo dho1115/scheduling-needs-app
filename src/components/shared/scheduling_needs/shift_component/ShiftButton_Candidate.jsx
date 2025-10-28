@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //context providers.
 import { ShiftContext } from '../../../../App';
@@ -7,37 +8,39 @@ import { ShiftContext } from '../../../../App';
 import { Button } from 'reactstrap';
 
 //functions.
-import { findShiftInShiftStatus, TransferShift } from '../functions';
+import { findShiftInShiftStatus } from '../functions';
 import { PostRequestSetState } from '../../../../functions/postRequest';
 
 import "./Shift.styles.css";
 
 const CandidateShiftButtons = (props) => {
+  const { setModal, toggle, currentUser: { password, ...otherUserDetails }, ...otherProps } = props;
+  const navigate = useNavigate();
   const { shiftStatuses, setShiftStatuses } = useContext(ShiftContext);
   const { shiftsWithApplicants, shiftsAvailable } = shiftStatuses;
   
   const { id: _currentUserID, name } = props.currentUser;
 
   const onSelectShift = async () => {
-    const { password, ...otherProps } = props;
+    const shiftAndCandidate = { ...otherProps, applicant: otherUserDetails };
     try {
-      const addToShiftsWithApplicants = await PostRequestSetState("http://localhost:3003/shiftsWithApplicants", { ...otherProps }, () => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...prv.shiftsWithApplicants, { ...otherProps }] })));
+      const addToShiftsWithApplicants = await PostRequestSetState("http://localhost:3003/shiftsWithApplicants", { ...shiftAndCandidate }, () => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...prv.shiftsWithApplicants, { ...shiftAndCandidate }] })));
 
-      return { message: "POST IS SUCCESSFUL!!!", data: { ...otherProps } };
+      console.log({ message: "POST IS SUCCESSFUL!!!", data: { ...otherProps, candidate: otherUserDetails } });
+      
+      navigate(`/candidate/welcome/${_currentUserID}/available shifts`)
+
+      return { message: "POST IS SUCCESSFUL!!!", data: { ...otherProps, candidate: otherUserDetails } };
     } catch (error) {
       console.error({ message: "onSelectShift ERROR!!!", error, errorMessage: error.message, errorStack: error.stack, errorCode: error.code });
     }
-  }
-
-  const onQuestionAboutShift = () => {
-    console.log("FORM TO ASK QUESTION.")
-  }
+  } 
 
   return (
     <div className='shiftButton_div_candidate'>
       <Button size='lg' className='m-1' color={findShiftInShiftStatus(props.shiftID, shiftsWithApplicants) ? 'secondary' : 'danger'} onClick={onSelectShift} disabled={ findShiftInShiftStatus(props.shiftID, shiftsWithApplicants) }>{ findShiftInShiftStatus(props.shiftID, shiftsWithApplicants) ? "SELECTED" : "SELECT"}</Button>
       
-      <Button size='sm' className='p-0' color='success'>QUESTION ABOUT SHIFT</Button>
+      <Button size='sm' className='p-0' color='success' onClick={toggle}>QUESTION ABOUT SHIFT</Button>
     </div>
   )
 }
