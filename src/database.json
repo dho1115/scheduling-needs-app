@@ -85,7 +85,22 @@
       "time": "9am to 1pm"
     }
   ],
-  "shiftsWithApplicants": [],
+  "shiftsWithApplicants": [
+    {
+      "id": "shift-mgzepkls",
+      "shiftID": "shift-mgzepkls",
+      "date": "2025-11-05",
+      "time": "8am - 12pm",
+      "storeNumber": "2501",
+      "currentUser": {
+        "id": "c-mbwisn33",
+        "name": "Arnie Smart",
+        "password": "asmart",
+        "role": "candidate",
+        "base": "3005"
+      }
+    }
+  ],
   "shiftsAssigned": [],
   "shiftsPendingConfirmation": [],
   "shiftsConfirmed": []
