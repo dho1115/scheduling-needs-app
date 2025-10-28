@@ -8,7 +8,7 @@ import ErrorBoundary from '../../ErrorBoundary';
 import "./SchedulingNeeds.styles.css";
 
 const SchedulingNeeds = () => {
-   const { shiftStatuses, shiftStatuses: { shiftsAvailable } } = useContext(ShiftContext);
+   const { shiftStatuses: { shiftsAvailable } } = useContext(ShiftContext);
 
    return (
       <div>
