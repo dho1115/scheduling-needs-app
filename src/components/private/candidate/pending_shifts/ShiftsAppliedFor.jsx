@@ -9,7 +9,7 @@ import "./ShiftsAppliedFor.styles.css";
 const ShiftsAppliedFor = () => {
   const { currentUser, shiftStatuses: {shiftsWithApplicants} } = useContext(ShiftContext);
   
-  const myShifts = shiftsWithApplicants.filter(shift => shift.currentUser.id == currentUser.id)
+  const myShifts = shiftsWithApplicants.filter(({ applicant }) => applicant.id == currentUser.id)
 
   if (!myShifts.length) {
     return (
