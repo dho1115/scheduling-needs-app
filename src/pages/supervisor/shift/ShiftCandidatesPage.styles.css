@@ -1,0 +1,12 @@
+.all-applicants-div {
+   display: grid;
+   grid-template-columns: 31% 31% 31%;
+}
+
+.candidate-detail {
+   border: 3px solid maroon;
+   border-radius: 5px;
+   overflow: hidden;
+   overflow-wrap: anywhere;
+   background-color:rgb(109, 218, 109);
+}
