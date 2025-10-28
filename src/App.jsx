@@ -29,40 +29,12 @@ function App() {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    fetchDataPromise("http://localhost:3003/employees")
-      .then(result => setEmployees(prv => ([...prv, ...result])))
-      .catch(err => console.error({ from: 'fetchDataPromise/employees', err, errMessage: err.message, status: err.status }));
-
-    fetchDataPromise("http://localhost:3003/currentUser")
-      .then(result => {
-        setCurrentUser(prv => ({ ...prv, ...result }));
-      })
-      .catch(err => console.error({ from: 'fetchDataPromise/currentUser', err, errMessage: err.message, status: err.status }));
-    
-    fetchDataPromise("http://localhost:3003/shiftsAvailable")
-      .then(result => {
-        setShiftStatuses(prv => ({...prv, shiftsAvailable: [...result]}))
-      })
-      .catch(error => console.error({ from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, status: error.status }));
-    
-    fetchDataPromise("http://localhost:3003/shiftsConfirmed")
-      .then(result => {
-        setShiftStatuses(prv => ({ ...prv, shiftsAssigned: [...prv.shiftsAssigned, ...result] }));
-      })
-      .catch(error => console.error({ message: "Something went wrong with fetching awarded shifts!!!", error, errorCode: error.code, errorMessage: error.message }));
-    
-    fetchDataPromise("http://localhost:3003/shiftsPendingConfirmation")
-      .then(result => {
-        setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...result] }));
-      })
-      .catch(error => console.error({ message: "Something went wrong with fetch shiftsPendingConfirmation!!!", error, errorMessage: error.message, errorCode: error.code }));
     
     return () => {
-      //This resets the array to prevent the data from being duplicated and added.
       setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsAssigned: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] })
-    }
+    };
   }, []);
-  
+
   return (
     <ShiftContext.Provider
       value={{ currentUser, setCurrentUser, employees, setEmployees, shiftStatuses, setShiftStatuses }}
