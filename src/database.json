@@ -86,7 +86,19 @@
     }
   ],
   "shiftsWithApplicants": [
-    
+    {
+      "id": "shift-mgzcwlgk",
+      "shiftID": "shift-mgzcwlgk",
+      "date": "2025-10-27",
+      "time": "7am - 1pm",
+      "storeNumber": "3000",
+      "applicant": {
+        "id": "c-mbwisn33",
+        "name": "Arnie Smart",
+        "role": "candidate",
+        "base": "3005"
+      }
+    }
   ],
   "shiftsAssigned": [],
   "shiftsPendingConfirmation": [],
