@@ -86,20 +86,7 @@
     }
   ],
   "shiftsWithApplicants": [
-    {
-      "id": "shift-mgzerwxw",
-      "shiftID": "shift-mgzerwxw",
-      "date": "2025-10-29",
-      "time": "5pm - 8pm",
-      "storeNumber": "3030",
-      "currentUser": {
-        "id": "c-mbwisn33",
-        "name": "Arnie Smart",
-        "password": "asmart",
-        "role": "candidate",
-        "base": "3005"
-      }
-    }
+    
   ],
   "shiftsAssigned": [],
   "shiftsPendingConfirmation": [],
