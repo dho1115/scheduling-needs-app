@@ -7,10 +7,11 @@ import { Container } from 'reactstrap';
 import "./ShiftsAppliedFor.styles.css";
 
 const ShiftsAppliedFor = () => {
-  const { currentUser, shiftsArray } = useContext(ShiftContext);
-  const { shiftsAppliedFor } = currentUser; //array of shifts.
+  const { currentUser, shiftStatuses: {shiftsWithApplicants} } = useContext(ShiftContext);
+  
+  const myShifts = shiftsWithApplicants.filter(shift => shift.currentUser.id == currentUser.id)
 
-  if (!shiftsAppliedFor) {
+  if (!myShifts.length) {
     return (
       <div>
         <Container className='p-1'>
@@ -29,18 +30,15 @@ const ShiftsAppliedFor = () => {
       <header>
         <h1>SHIFTS I APPLIED FOR.</h1>
       </header>
-      <Container>
+      <Container style={{border: '3px solid black', backgroundColor: 'blanchedalmond', display: 'grid', gridTemplateColumns: '19% 19% 19% 19% 19%'}}>
          {
-          shiftsArray //open_shifts[{open_shift}]
-            .filter(({ id }) => shiftsAppliedFor.includes(id))
-            .map(({ id, storeNumber, date, time }, idx) => (
-              <div className={`p-1 my-3 ${idx%2==1 ? 'shift-cell-1' : 'shift-cell-2'}`} key={idx}>
-                <h5>shift id:<span class='text-danger'>{id}</span></h5>
-                <h5>store number:<span class='text-danger'>{storeNumber}</span></h5>
-                <h5>shift schedule:<span class='text-danger'>{date}</span></h5>
-                <h5>shift time:<span class='text-danger'>{time}</span></h5>
-              </div>
-            ))
+          myShifts.map(({ shiftID, date, time, storeNumber }) => (
+            <div style={{backgroundColor: 'lightgreen', border: '3.5px solid firebrick', overflowWrap: 'anywhere'}} className='m-3 p-3'>
+              <h5>shiftID: <span className='text-danger'>{shiftID}</span>.</h5>
+              <h5>Date of Shift: <span className='text-danger'>{date}</span> Time: <span className='text-danger'>{time}</span>.</h5>
+              <h5>CVS# {storeNumber}.</h5>
+            </div>
+          ))
          }
       </Container>
     </div>
