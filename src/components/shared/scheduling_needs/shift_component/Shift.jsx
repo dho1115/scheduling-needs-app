@@ -1,8 +1,9 @@
-import React, { Suspense, useContext } from 'react'
+import React, { Suspense, useContext, useState } from 'react'
 
 //component.
 import CandidateShiftButtons from './ShiftButton_Candidate';
 import SupervisorShiftButtons from './ShiftButton_Supervisor';
+import QuestionformModal from './question_form/QuestionformModal';
 
 //dependencies.
 import { ShiftContext } from '../../../../App';
@@ -18,19 +19,24 @@ const SuspenseComponent = () => {
 }
 
 const Shift = ({ id, idx, date, time, storeNumber, ...rest }) => {
-   const { currentUser } = useContext(ShiftContext);
+   const { currentUser, shiftStatuses: {shiftsWithApplicants} } = useContext(ShiftContext);
    const shiftDetails = { id, shiftID: id, date, time, storeNumber, currentUser };
+   const [modal, setModal] = useState(false);
+   const toggle = () => setModal(!modal);
 
    return (
       <Suspense fallback={<SuspenseComponent />}>
-         <div key={idx} className='shift-div p-1 m-3' style={{backgroundColor: idx%2==1 ? 'lightpink' : 'lightyellow'}}>
+         <div key={idx} className='shift-div p-1 m-3' style={{ backgroundColor: idx % 2 == 1 ? 'lightpink' : 'lightyellow' }}>
+            <QuestionformModal modal={modal} toggle={toggle} {...shiftDetails} />
             <h5>shift id: {id}</h5>
             <h3>date: {date}</h3>
             <h3>time: {time}</h3>
             <h3>CVS# {storeNumber}</h3>
             {
                currentUser.role == 'candidate' ?
-                  <CandidateShiftButtons {...shiftDetails} /> : <SupervisorShiftButtons {...shiftDetails} />
+                  <CandidateShiftButtons {...shiftDetails} setModal={setModal} toggle={toggle} />
+                  :
+                  (shiftsWithApplicants.length ? <SupervisorShiftButtons {...shiftDetails} /> : '')
             }
          </div>
       </Suspense>
