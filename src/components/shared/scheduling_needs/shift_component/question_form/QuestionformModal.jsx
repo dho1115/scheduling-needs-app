@@ -7,15 +7,15 @@ const QuestionformModal = ({ shiftID, currentUser, modal, toggle, ...args }) => 
 
    return (
       <Modal isOpen={modal} toggle={toggle}>
-         <ModalHeader toggle={toggle}>
+         <ModalHeader toggle={toggle} style={{textAlign: 'center'}}>
             <strong>Question about Shift# {shiftID}.</strong>
          </ModalHeader>
-         <div>
+         <div style={{textAlign: 'center'}}>
             <h3>User: {name}.</h3>
             <h3>_userID: {_userID}.</h3>
          </div>
          <ModalBody>
-            <QuestionForm />
+            <QuestionForm {...{...currentUser, shiftID}} />
          </ModalBody>
       </Modal>
    )
