@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
-
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
 import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied_LEGACY"; //For the supervisor.
