@@ -1,10 +1,9 @@
 {
   "currentUser": {
-    "id": "c-mbwisn33",
-    "name": "Arnie Smart",
-    "password": "asmart",
-    "role": "candidate",
-    "base": "3005"
+    "name": "Jamie Smith",
+    "password": "jsmith1",
+    "role": "supervisor",
+    "id": "s-mbwiqyvw"
   },
   "employees": [
     {
