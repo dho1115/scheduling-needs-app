@@ -8,5 +8,13 @@
    border-radius: 5px;
    overflow: hidden;
    overflow-wrap: anywhere;
-   background-color:rgb(109, 218, 109);
+   background-color: lightgoldenrodyellow
+}
+
+.candidate-detail-ii {
+   border: 3px solid forestgreen;
+   border-radius: 5px;
+   overflow: hidden;
+   overflow-wrap: anywhere;
+   background-color: floralwhite;
 }
