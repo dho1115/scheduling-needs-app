@@ -86,7 +86,32 @@
     }
   ],
   "shiftsWithApplicants": [
-    
+    {
+      "id": "c-mbwisn33-shift-mgzcwlgk",
+      "shiftID": "shift-mgzcwlgk",
+      "applicant": {
+        "id": "c-mbwisn33",
+        "name": "Arnie Smart",
+        "role": "candidate",
+        "base": "3005"
+      },
+      "date": "2025-10-27",
+      "time": "7am - 1pm",
+      "storeNumber": "3000"
+    },
+    {
+      "id": "c-mbwk4v3g-shift-mgzcwlgk",
+      "shiftID": "shift-mgzcwlgk",
+      "applicant": {
+        "id": "c-mbwk4v3g",
+        "name": "Acey Gardner",
+        "role": "candidate",
+        "base": "3777"
+      },
+      "date": "2025-10-27",
+      "time": "7am - 1pm",
+      "storeNumber": "3000"
+    }
   ],
   "shiftsAssigned": [],
   "shiftsPendingConfirmation": [],
