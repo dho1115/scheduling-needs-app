@@ -10,7 +10,7 @@ import "./Shift.styles.css";
 
 const SupervisorShiftButtons = (props) => {
    const { id } = props;
-   const { currentUser:{id:_currentUserID, name} } = useContext(ShiftContext);
+   const { currentUser: { id: _currentUserID, name } } = useContext(ShiftContext);
    const navigate = useNavigate();
    const onViewCandidatesForThisShift = () => navigate(`/supervisor/welcome/${_currentUserID}/shifts/shift/${id}/candidates`)
 
