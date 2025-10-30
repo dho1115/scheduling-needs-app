@@ -28,7 +28,7 @@ const ShiftsAppliedFor = () => {
   return (
     <div className='shiftsappliedfordiv p-1'>
       <header>
-        <h1>SHIFTS I APPLIED FOR.</h1>
+        <h1>SHIFTS I APPLIED FOR (AND PENDING APPROVAL).</h1>
       </header>
       <Container style={{border: '3px solid black', backgroundColor: 'blanchedalmond', display: 'grid', gridTemplateColumns: '19% 19% 19% 19% 19%'}}>
          {
