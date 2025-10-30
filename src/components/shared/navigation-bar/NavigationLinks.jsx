@@ -1,14 +1,13 @@
-export const NavigationLinks = (objects = null /* {role: ... } */) => {
+export const NavigationLinks = (objects = null /* {role: ... } */, ...args) => {
    try {
       return [
          { name: "Login Page", to: "/", restrictions: null },
-         { name: "View Available Shifts", to: `/${objects.role}/welcome/${objects.id}/available shifts`, restrictions: null },
+         { name: "View Available Shifts", to: `/${objects.role}/welcome/${objects.id}/available shifts`, restrictions: "candidate" },
+         Array.from(args).includes("candidates") ? { name: "YOU'VE GOT CANDIDATES!!!", to: `/${objects.role}/welcome/${objects.id}/available shifts`, restrictions: "supervisor" } : { name: "OPEN SHIFTS", to: `/${objects.role}/welcome/${objects.id}/available shifts`, restrictions: "supervisor" },
          { name: "Add Shift", to: `/${objects.role}/welcome/${objects.id}/add shift`, restrictions: 'supervisor' },
          { name: "Shifts Applied For", to: `/candidate/welcome/${objects.id}/shifts/applied`, restrictions: 'candidate' },
          {name: "Shifts Needing Confirmation", to: `/candidate/welcome/${objects.id}/shifts/pending confirmation`, restrictions: 'candidate'},
-         { name: "Shifts Confirmed", to: `/candidate/welcome/${objects.id}/shifts/awarded`, restrictions: 'candidate' },
          { name: "unconfirmed shifts", to: `/supervisor/welcome/${objects.id}/shifts/unconfirmed-shifts`, restrictions: 'supervisor'},
-         { name: "Assigned Shifts", to: `/supervisor/welcome/${objects.id}/shifts/awarded`, restrictions: 'supervisor' },
          { name: "Cancel Available Shift", to: "/", restrictions: 'supervisor' }
       ]
    } catch (error) {
