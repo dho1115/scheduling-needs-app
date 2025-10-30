@@ -1,0 +1,14 @@
+.modalbody {
+   background-color: maroon;
+}
+
+.modal-wrapper {
+   border: 3.5px solid black;
+   background-color: pink;
+}
+
+.question-form {
+   border-radius: 15px;
+   border: 3px solid black;
+   background-color: white;
+}

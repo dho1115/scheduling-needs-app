@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
 
+import "./QuestionFormModal.styles.css";
+
 const QuestionForm = (props) => {
    const [questionForm, setQuestionForm] = useState({submitted_by: `${props.name} (id# ${props.id})`, shiftID: props.shiftID, store: props.storeNumber, title: '', body: '' });
 
@@ -16,7 +18,7 @@ const QuestionForm = (props) => {
       }
    }
    return (
-      <Form onSubmit={onHandleSubmit}>
+      <Form className='question-form p-3' onSubmit={onHandleSubmit}>
          <FormGroup>
             <Label for='title'>TITLE</Label>
             <Input type='text' id='title' value={questionForm.title} placeholder='TITLE OF YOUR QUESTION.' onChange={e => setQuestionForm(prv => ({...prv, title: e.target.value}))}/>
