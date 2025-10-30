@@ -1,7 +1,7 @@
 import { DeleteRequestSetState } from "../../../functions/deleteRequest"
 import { PostRequestII, PostRequestSetState } from "../../../functions/postRequest"
 
-export const TransferShift = async (fromURL, toURL, postData, postStateWrapper, deleteStateWrapper) => {
+export const TransferShift = async (fromURL, toURL, postData,dataToPostArray, postStateWrapper, dataToDeleteArray, deleteStateWrapper) => {
    try {
       const postDataLogic = await PostRequestSetState(toURL, postData, postStateWrapper);
       const deleteDataLogic = await DeleteRequestSetState(fromURL, deleteStateWrapper);
