@@ -1,9 +1,10 @@
 {
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "c-mbwm1j9c",
+    "name": "Shawne Carter",
+    "password": "scarter",
+    "role": "candidate",
+    "base": "5007"
   },
   "employees": [
     {
