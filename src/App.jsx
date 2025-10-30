@@ -2,7 +2,6 @@ import { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
-import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied_LEGACY"; //For the supervisor.
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
 import ShiftsNeedingConfirmation from "./components/private/candidate/shifts_needing_confirmation/ShiftsNeedingConfirmation";
