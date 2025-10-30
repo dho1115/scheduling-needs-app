@@ -2,7 +2,6 @@ import { DeleteRequest } from "../../../../../functions/deleteRequest";
 import { PostRequest } from "../../../../../functions/postRequest";
 
 export const DeleteShift = (url, id = null) => DeleteRequest(url, id);
-export const AddToAwardedShifts = (url, jsonBody) => PostRequest(url, jsonBody);
 
 export const updateDbAndState = (db_fn, setStatefn) => {
    setStatefn();
