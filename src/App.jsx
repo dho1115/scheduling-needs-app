@@ -3,8 +3,6 @@ import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
 import Applied from "./components/private/supervisor/shifts_queue/shifts_applied/Applied_LEGACY"; //For the supervisor.
-import AssignedShifts from "./components/private/candidate/my_assigned_shifts/AssignedShifts";
-import Awarded from "./components/private/supervisor/shifts_queue/shifts_awarded/Awarded";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
 import ShiftsNeedingConfirmation from "./components/private/candidate/shifts_needing_confirmation/ShiftsNeedingConfirmation";
@@ -24,7 +22,7 @@ export const ShiftContext = createContext();
 function App() {
   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
 
-  const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsAssigned: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
+  const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
 
   const [employees, setEmployees] = useState([]);
 
@@ -36,8 +34,6 @@ function App() {
     async () => await FetchDataSetState("http://localhost:3003/shiftsAvailable", data => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: [...data] }))),
 
     async () => await FetchDataSetState("http://localhost:3003/shiftsWithApplicants", data => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...data] }))),
-
-    async () => await FetchDataSetState("http://localhost:3003/shiftsAssigned", data => setShiftStatuses(prv => ({ ...prv, shiftsAssigned: [...data] }))),
 
     async () => await FetchDataSetState("http://localhost:3003/shiftsPendingConfirmation", data => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...data] }))),
 
@@ -63,14 +59,12 @@ function App() {
               <Route path="/supervisor/welcome/:id/*" element={<SupervisorPage />}>
                 <Route path="add shift" element={<AddShift />} />
                 <Route path="available shifts" element={<SchedulingNeeds />} />
-                <Route path="shifts/awarded" element={<Awarded />} />
                 <Route path="shifts/unconfirmed-shifts" element={<UnconfirmedShifts />} />
                 <Route path="shifts/shift/:_shiftID/candidates" element={<ShiftCandidatesPage />} />
               </Route>
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
                 <Route path="available shifts" element={<SchedulingNeeds />} />
                 <Route path="shifts/applied" element={<ShiftsAppliedFor />} />
-                <Route path="shifts/awarded" element={<AssignedShifts />} />
                 <Route path="shifts/pending confirmation" element={<ShiftsNeedingConfirmation />} />
               </Route>
             </>
