@@ -1,3 +1,5 @@
 SMTP E-MAIL SERVICE:
 https://www.mailgun.com/pricing/?gad_campaignid=750089229&gad_source=1&gbraid=0AAAAAofVnccQyUAl0GR6mcRGXf7x1q1wQ&gclid=EAIaIQobChMIk-KEi8zHjwMVTEh_AB126gUkEAAYAiAAEgI_bvD_BwE&utm_campaign=NA%20%7C%20Send&utm_content=124303056193&utm_id=750089229&utm_medium=cpc&utm_source=google&utm_term=email%20api
 
+mailgun api docs: https://documentation.mailgun.com/docs/mailgun/api-reference/send/mailgun/messages/post-v3--domain-name--messages
+
