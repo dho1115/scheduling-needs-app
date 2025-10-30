@@ -17,8 +17,6 @@ export const PostRequestII = async (url, data, id = null) => {
    try {
       const post = await fetch(url, { method: 'POST', headers: { 'Content-Type': "application/json" }, body: JSON.stringify(data) });
 
-      console.log({ post });
-      debugger;
       return data;
    } catch (error) {
       console.error({ message: "PostRequest Error!!!", error, errorMessage: error.message, errorStack: error.stack });
