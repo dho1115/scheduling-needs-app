@@ -3,3 +3,4 @@ https://www.mailgun.com/pricing/?gad_campaignid=750089229&gad_source=1&gbraid=0A
 
 mailgun api docs: https://documentation.mailgun.com/docs/mailgun/api-reference/send/mailgun/messages/post-v3--domain-name--messages
 
+https://www.emailjs.com/docs/tutorial/overview/
