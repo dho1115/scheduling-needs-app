@@ -28,7 +28,7 @@ const NavigationBar = () => {
   
   const [navigationLinks, setNavigationLinks] = useState(NavigationLinks({ id, role }));
 
-  useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? 'candidates' : '')), [navigationLinks.length, id, role]);
+  useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? `candidates-${role}` : '')), [navigationLinks.length, id, role]);
 
   return (
     <nav className='navigation p-3'>
