@@ -11,7 +11,8 @@ import ErrorBoundary from '../../ErrorBoundary';
 import './NavigationBar.styles.css';
 
 const NavigationBar = () => {
-  const { currentUser, setCurrentUser } = useContext(ShiftContext);
+  const { currentUser, setCurrentUser, shiftStatuses, setShiftStatuses } = useContext(ShiftContext);
+  const { shiftsWithApplicants } = shiftStatuses;
   const { id, role } = currentUser;  
   const navigate = useNavigate();
   
@@ -27,18 +28,23 @@ const NavigationBar = () => {
   
   const [navigationLinks, setNavigationLinks] = useState(NavigationLinks({ id, role }));
 
-  useEffect(() => setNavigationLinks(NavigationLinks({ id, role })), [navigationLinks.length, id, role]);
+  useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? 'candidates' : '')), [navigationLinks.length, id, role]);
 
   return (
     <nav className='navigation p-3'>
       <ErrorBoundary fallback={<h1>COMPILE TIME ERROR IN NavigationBar.jsx!!!</h1>}>
         {
           navigationLinks
-            .filter(({restrictions}) => restrictions == role || !restrictions)
+            .filter(({ restrictions }) => restrictions == role || !restrictions)
             .map(({ name, to }, idx) => {
               return (
                 <Link to={to} key={idx} className='navlink'>
-                  <strong>{name}</strong>
+                  {
+                    name == "YOU'VE GOT CANDIDATES!!!" ?
+                      <h3 className='text-danger' style={{WebkitTextStrokeColor: 'lightgreen', WebkitTextStrokeWidth: '.5px'}}>{name}</h3>
+                      :
+                      <strong>{name}</strong>
+                  }
                 </Link>
               ) //1. Filter out links based on restrictions (see NavigationLinks.jsx for the restrictions). 2. .map() out the results into links.
             })
