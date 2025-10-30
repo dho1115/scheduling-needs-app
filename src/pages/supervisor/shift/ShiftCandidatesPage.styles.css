@@ -4,7 +4,7 @@
 }
 
 .candidate-detail {
-   border: 3px solid maroon;
+   border: 5.75px solid fuchsia;
    border-radius: 5px;
    overflow: hidden;
    overflow-wrap: anywhere;
@@ -12,7 +12,7 @@
 }
 
 .candidate-detail-ii {
-   border: 3px solid forestgreen;
+   border: 5.75px solid forestgreen;
    border-radius: 5px;
    overflow: hidden;
    overflow-wrap: anywhere;
