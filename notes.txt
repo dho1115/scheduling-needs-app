@@ -2,3 +2,5 @@ NOTE: THIS IS ONLY FOR JSON-SERVER!!!
 
 different candidates CANNOT apply for the same shift b/c the "id" for the shift would be the same. "id" is a json-server id. Normally, it is 1, 2, 3, etc.... You are REASSIGNING IT!!!
 
+Work on onApproveRequest function inside ShiftCandidatesPage.
+
