@@ -18,7 +18,6 @@ export const TransferApprovedShift = async (approvedShiftWithApplicant, applican
 }
 
 export const findShiftInArray = (id_of_shift, array) => {
-   console.log(id_of_shift, array);
    return array.filter(({ shiftID }) => shiftID == id_of_shift)
 };
 
@@ -27,7 +26,7 @@ export const DeleteApprovedShift = async (url, shiftsAvailable, approvedShiftWit
       const findShiftInShiftsAvailable = shiftsAvailable.find(shift => (approvedShiftWithApplicant.shiftID == shift.id)); //find shift to be deleted.
 
       const DeleteFromShiftsAvaiable = await DeleteRequestSetState(
-         `http://localhost:3003/shiftsAvailable/${shiftid}`, setStateWrapper(), findShiftInShiftsAvailable, location
+         `http://localhost:3003/shiftsAvailable/${shiftid}`, setStateWrapper, findShiftInShiftsAvailable, location
       ); //delete findThisShiftInShiftsAvailable and set state.
 
    } catch (error) {
