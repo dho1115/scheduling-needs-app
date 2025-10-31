@@ -16,12 +16,12 @@ export const DeleteBatch = (...args_to_delete) => {
    }
 }
 
-export const DeleteRequestSetState = async (url, setStateWrapper, data) => {
+export const DeleteRequestSetState = async (url, setStateWrapper, data, location=null) => {
    try {
       const DeleteDataFromDB = await DeleteRequest(url);
       setStateWrapper();
       return { deleted: data };
    } catch (error) {
-      console.error({ message: "DeleteRequestSetState ERROR!!!", error, errorMessage: error.message, errorStack: error.stack, errorCode: error.code });
+      console.error({ message: "DeleteRequestSetState ERROR!!!", location, error, errorMessage: error.message, errorStack: error.stack, errorCode: error.code });
    }
 }
