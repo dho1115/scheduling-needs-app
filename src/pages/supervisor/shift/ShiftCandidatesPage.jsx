@@ -31,12 +31,13 @@ const ShiftCandidatesPage = () => {
   const thisShiftWithApplicants = findShiftInArray(_shiftID, shiftsWithApplicants);
 
   const onApproveRequest = async (_shiftID, shiftWithApplicantObject) => {
-    const { id, applicant } = shiftWithApplicantObject;
 
     try {
-      if (!id && !_shiftID && !applicant && !applicant.id) throw new Error(`ERROR INSIDE => ${pathname}. ERROR IS: Your shiftObject (2nd argument) MUST have an id, _shiftID and applicant object!!! Your shiftObject has: ${JSON.stringify(shiftWithApplicantObject)}`);
+      if (!shiftWithApplicantObject.id && !_shiftID && !applicant && !applicant.id) throw new Error(`ERROR INSIDE => ${pathname}. ERROR IS: Your shiftObject (2nd argument) MUST have an id, _shiftID and applicant object!!! Your shiftObject has: ${JSON.stringify(shiftWithApplicantObject)}`);
 
-      const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == `${applicant.id}-${_shiftID}`));
+      const { id, applicant } = shiftWithApplicantObject;
+
+      const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == {id}));
 
       const setShiftStatusesState = (approved_shift_updated) => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...prv.shiftsPendingConfirmation, approved_shift_updated] }));
 
