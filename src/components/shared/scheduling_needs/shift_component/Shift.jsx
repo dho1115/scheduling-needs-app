@@ -9,7 +9,7 @@ import QuestionformModal from './question_form/QuestionformModal';
 import { ShiftContext } from '../../../../App';
 
 //functions.
-import { findShiftInArray } from '../functions';
+import { findShiftInArray, youveGotApplicants } from '../functions';
 
 import "./Shift.styles.css";
 
@@ -39,7 +39,7 @@ const Shift = ({ id, idx, date, time, storeNumber, ...rest }) => {
                currentUser.role == 'candidate' ?
                   <CandidateShiftButtons {...shiftDetails} setModal={setModal} toggle={toggle} />
                   :
-                  (findShiftInArray(id, shiftsWithApplicants) ? <SupervisorShiftButtons {...shiftDetails} /> : '')
+                  (youveGotApplicants(id, shiftsWithApplicants).length ? <SupervisorShiftButtons {...shiftDetails} /> : '')
             }
          </div>
       </Suspense>
