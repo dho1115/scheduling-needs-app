@@ -13,7 +13,7 @@ export const TransferApprovedShift = async (approvedShiftWithApplicant, applican
          setStateWrapper(approved_shift_updated)
       );
    } catch (error) {
-      console.error({ message: "TransferShift function error!!!", error, errorStack: error.stack, errorName: error.name, errorMessage: error.message, errorCode: error.code });
+      console.error({ message: "TransferShift function error!!!", locationOfError: location, error, errorStack: error.stack, errorName: error.name, errorMessage: error.message, errorCode: error.code });
    }
 }
 
