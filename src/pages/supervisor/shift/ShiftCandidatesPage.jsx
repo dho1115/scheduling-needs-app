@@ -48,7 +48,7 @@ const ShiftCandidatesPage = () => {
 
       const filter_shiftIDfromShiftsWithApplicants = shiftsWithApplicants.filter(shiftWithApplicant => shiftWithApplicant.shiftID == _shiftID);
 
-      const deleteShiftIDsFromShiftsWithApplicants = Promise.all(filter_shiftIDfromShiftsWithApplicants.map(async ({ id }) => await DeleteRequest(`http://localhost:3003/shiftsWithApplicants/${id}`)));
+      const deleteShiftIDsFromShiftsWithApplicants = await Promise.all(filter_shiftIDfromShiftsWithApplicants.map(async ({ id }) => await DeleteRequest(`http://localhost:3003/shiftsWithApplicants/${id}`)));
 
       const setStateForShiftsWithApplicants = await FetchDataSetState("http://localhost:3003/shiftsWithApplicants", data => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...data] }))) //resets shiftWithApplicants state.
       
