@@ -11,10 +11,8 @@ import { ShiftContext } from '../../../App'
 //functions.
 import { AddNewShiftToDBandState } from '../../../functions/postRequest';
 import { DeleteRequest } from '../../../functions/deleteRequest';
-import { DeleteRequestSetState } from '../../../functions/deleteRequest';
 import { FetchDataSetState } from '../../../functions/FetchHook';
-import { findShiftInArray, TransferApprovedShift } from '../../../components/shared/scheduling_needs/functions';
-
+import { DeleteApprovedShift, findShiftInArray, TransferApprovedShift } from '../../../components/shared/scheduling_needs/functions';
 
 import "./ShiftCandidatesPage.styles.css"
 
@@ -36,21 +34,17 @@ const ShiftCandidatesPage = () => {
     const { id, _shiftID:shiftid, applicant } = shiftWithApplicantObject;
 
     try {
-      if (!id && !shiftid && !applicant && !applicant.id) throw new Error(`Your shiftObject (2nd argument) MUST have an id, _shiftID and applicant object!!! Your shiftObject has: ${JSON.stringify(shiftWithApplicantObject)}`);
+      if (!id && !shiftid && !applicant && !applicant.id) throw new Error(`ERROR INSIDE => ${pathname}. ERROR IS: Your shiftObject (2nd argument) MUST have an id, _shiftID and applicant object!!! Your shiftObject has: ${JSON.stringify(shiftWithApplicantObject)}`);
 
       const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == `${applicant.id}-${shiftid}`));
 
       const setShiftStatusesState = (approved_shift_updated) => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...prv.shiftsPendingConfirmation, approved_shift_updated] }));
+
+      const SetAvailableShifts = () => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: shiftsAvailable.filter(({ id }) => id != shiftid) }))
       
       const transfer_shift_logic = await TransferApprovedShift(approvedShiftWithApplicant, applicant, shiftid, formattedDateApproved, currentUser, setShiftStatusesState, pathname)
 
-      const findShiftInShiftsAvailable = shiftsAvailable.find(shift => (approvedShiftWithApplicant.shiftID == shift.id)); //find shift to be deleted.
-
-      const DeleteFromShiftsAvaiable = await DeleteRequestSetState(
-        `http://localhost:3003/shiftsAvailable/${shiftid}`,
-        () => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: shiftsAvailable.filter(({ id }) => id != shiftid) })),
-        findShiftInShiftsAvailable, pathname
-      ); //delete findThisShiftInShiftsAvailable and set state.
+      const delete_approved_shift = await DeleteApprovedShift(`http://localhost:3003/shiftsAvailable/${shiftid}`, shiftsAvailable, approvedShiftWithApplicant, shiftid, SetAvailableShifts, pathname)
 
       const filter_shiftIDfromShiftsWithApplicants = shiftsWithApplicants.filter(shiftWithApplicant => shiftWithApplicant.shiftID == _shiftID);
 
@@ -58,9 +52,9 @@ const ShiftCandidatesPage = () => {
 
       const setStateForShiftsWithApplicants = await FetchDataSetState("http://localhost:3003/shiftsWithApplicants", data => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...data] }))) //resets shiftWithApplicants state.
       
-      return { approved_shift_updated, transferApprovedShift, findShiftInShiftsAvailable, DeleteFromShiftsAvaiable, deleteShiftIDsFromShiftsWithApplicants, setStateForShiftsWithApplicants };
+      return { transfer_shift_logic, delete_approved_shift, deleteShiftIDsFromShiftsWithApplicants, setStateForShiftsWithApplicants };
     } catch (error) {
-      console.error({ message: "ERROR with onApproveRequest function!!!", error, errorStack: error.stack, errorMessage: error.message, name: error.name });
+      console.error({ message: "ERROR with onApproveRequest function!!!", location: pathname, error, errorStack: error.stack, errorMessage: error.message, name: error.name });
     }
   }
 
