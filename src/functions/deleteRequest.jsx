@@ -19,8 +19,8 @@ export const DeleteBatch = (...args_to_delete) => {
 export const DeleteRequestSetState = async (url, setStateWrapper, data) => {
    try {
       const DeleteDataFromDB = await DeleteRequest(url);
-      setStateWrapper(data);
-      return data;
+      setStateWrapper();
+      return { deleted: data };
    } catch (error) {
       console.error({ message: "DeleteRequestSetState ERROR!!!", error, errorMessage: error.message, errorStack: error.stack, errorCode: error.code });
    }
