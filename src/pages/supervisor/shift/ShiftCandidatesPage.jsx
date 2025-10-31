@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { DateTime } from 'luxon';
 
 //components.
@@ -10,14 +10,16 @@ import { ShiftContext } from '../../../App'
 
 //functions.
 import { AddNewShiftToDBandState } from '../../../functions/postRequest';
-import { DeleteBatch, DeleteRequest } from '../../../functions/deleteRequest';
+import { DeleteRequest } from '../../../functions/deleteRequest';
 import { DeleteRequestSetState } from '../../../functions/deleteRequest';
 import { FetchDataSetState } from '../../../functions/FetchHook';
-import { findShiftInArray } from '../../../components/shared/scheduling_needs/functions';
+import { findShiftInArray, TransferApprovedShift } from '../../../components/shared/scheduling_needs/functions';
+
 
 import "./ShiftCandidatesPage.styles.css"
 
 const ShiftCandidatesPage = () => {
+  const { pathname } = useLocation();
   const { currentUser, setShiftStatuses, shiftStatuses } = useContext(ShiftContext);
   const { _shiftID } = useParams();
 
@@ -38,21 +40,16 @@ const ShiftCandidatesPage = () => {
 
       const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == `${applicant.id}-${shiftid}`));
 
-      if (!approvedShiftWithApplicant) throw new Error(`*** NO APPROVED SHIFT WITH APPLICANT!!!\nThe function, approvedShiftWithApplicant returned:\n ${approvedShiftWithApplicant}.`)
-
-      const approved_shift_updated = { ...approvedShiftWithApplicant, approvedOn: formattedDateApproved, approvedBy: currentUser.name, supervisorId: currentUser.id }; //approved shift bject be tranferred to shiftsPendingConfirmation.
-
-      const transferApprovedShift = await AddNewShiftToDBandState(
-        "http://localhost:3003/shiftsPendingConfirmation", approved_shift_updated,
-        () => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...prv.shiftsPendingConfirmation, approved_shift_updated] }))
-      );
+      const setShiftStatusesState = (approved_shift_updated) => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...prv.shiftsPendingConfirmation, approved_shift_updated] }));
+      
+      const transfer_shift_logic = await TransferApprovedShift(approvedShiftWithApplicant, applicant, shiftid, formattedDateApproved, currentUser, setShiftStatusesState, pathname)
 
       const findShiftInShiftsAvailable = shiftsAvailable.find(shift => (approvedShiftWithApplicant.shiftID == shift.id)); //find shift to be deleted.
 
       const DeleteFromShiftsAvaiable = await DeleteRequestSetState(
         `http://localhost:3003/shiftsAvailable/${shiftid}`,
         () => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: shiftsAvailable.filter(({ id }) => id != shiftid) })),
-        findShiftInShiftsAvailable
+        findShiftInShiftsAvailable, pathname
       ); //delete findThisShiftInShiftsAvailable and set state.
 
       const filter_shiftIDfromShiftsWithApplicants = shiftsWithApplicants.filter(shiftWithApplicant => shiftWithApplicant.shiftID == _shiftID);
