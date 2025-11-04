@@ -30,13 +30,13 @@ const ShiftsNeedingConfirmation = () => {
                   <div key={idx} className='m-1 p-1' style={{ overflowWrap: 'break-word', overflow: 'hidden', border: '5px solid firebrick', backgroundColor: 'bisque' }}>
                      <Suspense fallback={<LoadingComponent />}>
                         <h5>shiftWithApplicant ID: <span className='text-danger'>{id}</span> was approved on <span className='text-danger'>{approvedOn}</span>.</h5>
-                        <h3>ID for this shift: <span className='text-danger'>{shiftID}</span>.</h3>
-                        <h3>Store Number: {storeNumber}.</h3>
-                        <h3>Date for this shift: <span className='text-danger'>{date}</span>.</h3>
-                        <h3>Time(s) for this shift: <span className='text-danger'>{time}</span>.</h3>
+                        <h5>ID for this shift: <span className='text-danger'>{shiftID}</span>.</h5>
+                        <h5>Store Number: {storeNumber}.</h5>
+                        <h5>Date for this shift: <span className='text-danger'>{date}</span>.</h5>
+                        <h5>Time(s) for this shift: <span className='text-danger'>{time}</span>.</h5>
                         <hr />
-                        <h3>APPLICANT ASSIGNED TO WORK SHIFT # {shiftID}:</h3>
-                        <h3>Applicant Name/applicant id: {name} - {applicantID}.</h3>
+                        <h5>APPLICANT ASSIGNED TO WORK SHIFT # {shiftID}:</h5>
+                        <h5>Applicant Name/applicant id: {name} - {applicantID}.</h5>
                         <Button color='danger' size='xl' className='w-100' onClick={() => handleShiftConfirmation({ shiftWithApplicantID: id, shiftID, applicantName: name, applicantID, date_of_shift: date, storeNumber, time })}>PLEASE CONFIRM THIS DAMN SHIFT!!!</Button>
                      </Suspense>
                   </div>
