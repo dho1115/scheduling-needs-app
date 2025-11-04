@@ -29,7 +29,7 @@ const Shift = ({ id, idx, date, time, storeNumber, ...rest }) => {
 
    return (
       <Suspense fallback={<SuspenseComponent />}>
-         <div key={idx} className={`shift-div p-1 m-3 ${findShiftInArray(id, shiftsWithApplicants) && currentUser.role == 'supervisor'? 'youveGotCandidates' : ''}`} style={{ backgroundColor: idx % 2 == 1 ? 'lightpink' : 'lightyellow' }}>
+         <div key={idx} className={`shift-div p-1 m-3 ${findShiftInArray(id, shiftsWithApplicants).length && currentUser.role == 'supervisor'? 'youveGotCandidates' : ''}`} style={{ backgroundColor: idx % 2 == 1 ? 'lightpink' : 'lightyellow' }}>
             <QuestionformModal modal={modal} toggle={toggle} {...shiftDetails} />
             <h5>shift id: {id}</h5>
             <h3>date: {date}</h3>
