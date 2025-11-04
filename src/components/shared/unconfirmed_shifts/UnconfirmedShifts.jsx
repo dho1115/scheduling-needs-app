@@ -7,6 +7,8 @@ import { ShiftContext } from '../../../App';
 import './UnconfirmedShifts.styles.css';
 import { Button } from 'reactstrap';
 
+import "./UnconfirmedShifts.styles.css";
+
 const UnconfirmedShifts = () => {
   const { currentUser, shiftStatuses: {shiftsPendingConfirmation} } = useContext(ShiftContext);
 
@@ -24,10 +26,10 @@ const UnconfirmedShifts = () => {
         shiftsPendingConfirmation.length ?
           shiftsPendingConfirmation.map((val, idx) => {
             return (
-              <div key={idx} className='unconfirmed-shift-div m-3'>
+              <div key={idx} className={idx%2==0 ? "unconfirmed-shift-div m-3 p-1" : "unconfirmed-shift-div_v2 m-3 p-1"}>
                 <h5><span>_shiftID:</span><span className='text-danger'>{val.id}</span></h5>
                 <h5><span>store number:</span><span className='text-danger'>{val.storeNumber}</span></h5>
-                <h5><span>Awaiting confirmation from:</span><span className='text-danger'>{val._candidateID}</span></h5>
+                <h5><span>Awaiting confirmation from:</span><span className='text-danger'>{JSON.stringify(val.applicant)}</span></h5>
                 {
                   currentUser.role == "candidate" && (<Button color='success' size='md' onClick={handleUnconfirmedShifts}>CONFIRM THIS SHIFT!!!</Button>)
                 }
