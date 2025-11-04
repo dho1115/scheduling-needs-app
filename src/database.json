@@ -1,9 +1,9 @@
 {
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "s-mc9rq8m6",
+    "name": "Kendall Kay",
+    "password": "Kendal1",
+    "role": "supervisor"
   },
   "employees": [
     {
@@ -48,18 +48,6 @@
       "time": "1pm - 7pm"
     },
     {
-      "id": "shift-mgzcqkn1",
-      "storeNumber": "3115",
-      "date": "2025-10-23",
-      "time": "3pm - 9pm"
-    },
-    {
-      "id": "shift-mgzepkls",
-      "storeNumber": "2501",
-      "date": "2025-11-05",
-      "time": "8am - 12pm"
-    },
-    {
       "id": "shift-mgzeqc8b",
       "storeNumber": "1935",
       "date": "2025-11-01",
@@ -78,23 +66,41 @@
       "time": "9am to 1pm"
     }
   ],
-  "shiftsWithApplicants": [],
+  "shiftsWithApplicants": [
+    
+  ],
   "shiftsPendingConfirmation": [
     {
-      "id": "c-mbwisn33-shift-mgzcwlgk",
-      "shiftID": "shift-mgzcwlgk",
+      "id": "c-mbwk4v3g-shift-mgzepkls",
+      "shiftID": "shift-mgzepkls",
       "applicant": {
-        "id": "c-mbwisn33",
-        "name": "Arnie Smart",
+        "id": "c-mbwk4v3g",
+        "name": "Acey Gardner",
         "role": "candidate",
-        "base": "3005"
+        "base": "3777"
       },
-      "date": "2025-10-27",
-      "time": "7am - 1pm",
-      "storeNumber": "3000",
-      "approvedOn": "2025-10-31",
-      "approvedBy": "Jamie Smith",
-      "supervisorId": "s-mbwiqyvw"
+      "date": "2025-11-05",
+      "time": "8am - 12pm",
+      "storeNumber": "2501",
+      "approvedOn": "2025-11-03",
+      "approvedBy": "Kendall Kay",
+      "supervisorId": "s-mc9rq8m6"
+    },
+    {
+      "id": "c-mbwk4v3g-shift-mgzcqkn1",
+      "shiftID": "shift-mgzcqkn1",
+      "applicant": {
+        "id": "c-mbwk4v3g",
+        "name": "Acey Gardner",
+        "role": "candidate",
+        "base": "3777"
+      },
+      "date": "2025-10-23",
+      "time": "3pm - 9pm",
+      "storeNumber": "3115",
+      "approvedOn": "2025-11-03",
+      "approvedBy": "Kendall Kay",
+      "supervisorId": "s-mc9rq8m6"
     }
   ],
   "shiftsConfirmed": []
