@@ -1,17 +1,25 @@
+import { DeleteRequest } from "../../../functions/deleteRequest"
 import { DeleteRequestSetState } from "../../../functions/deleteRequest"
 import { AddNewShiftToDBandState, PostRequestII, PostRequestSetState } from "../../../functions/postRequest"
 AddNewShiftToDBandState
 
-export const TransferApprovedShift = async (approvedShiftWithApplicant, applicant, shiftid, formattedDateApproved /* DateTime API */, currentUser, setStateWrapper, location=null) => {
+export const TransferApprovedShift = async (approvedShiftWithApplicant, shiftsWithApplicants, formattedDateApproved /* DateTime API */, currentUser, location=null) => {
    try {
       if (!approvedShiftWithApplicant) throw new Error(`*** NO APPROVED SHIFT WITH APPLICANT!!!\nThe function, approvedShiftWithApplicant returned:\n ${approvedShiftWithApplicant}. LOCATION OF ERROR => ${location}`);
 
       const approved_shift_updated = { ...approvedShiftWithApplicant, approvedOn: formattedDateApproved, approvedBy: currentUser.name, supervisorId: currentUser.id }; //approved shift bject be tranferred to shiftsPendingConfirmation.
-      
-      return await AddNewShiftToDBandState(
-         "http://localhost:3003/shiftsPendingConfirmation", approved_shift_updated,
-         setStateWrapper(approved_shift_updated)
-      );
+
+      const DeleteFromShiftsAvailable = await DeleteRequest(`http://localhost:3003/shiftsAvailable/${approvedShiftWithApplicant.shiftID}`)
+
+      const deleteApplicantsFromSWA = Promise.all(
+         shiftsWithApplicants
+            .filter(({ shiftID }) => shiftID == approvedShiftWithApplicant.id)
+            .map(async ({ id }) => await DeleteRequest(`http://localhost:3003/shiftsWithApplicants/${id}`))
+      )
+
+      const AddToShiftsPendingConfirmation = await PostRequestII('http://localhost:3003/shiftsPendingConfirmation', approved_shift_updated, null);
+
+      return { from: 'TransferApprovedShift function', approvedShift: AddToShiftsPendingConfirmation, DeleteFromShiftsAvailable, applicantsDeletedFromSWA: deleteApplicantsFromSWA };
    } catch (error) {
       console.error({ message: "TransferShift function error!!!", locationOfError: location, error, errorStack: error.stack, errorName: error.name, errorMessage: error.message, errorCode: error.code });
    }
