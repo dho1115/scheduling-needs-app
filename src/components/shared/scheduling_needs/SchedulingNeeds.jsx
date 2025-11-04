@@ -1,5 +1,5 @@
 //Dependencies.
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { ShiftContext } from '../../../App';
 import Shift from './shift_component/Shift';
 import { Container } from 'reactstrap';
