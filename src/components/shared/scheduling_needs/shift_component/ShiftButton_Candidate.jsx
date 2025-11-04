@@ -8,7 +8,7 @@ import { ShiftContext } from '../../../../App';
 import { Button } from 'reactstrap';
 
 //functions.
-import { didApplicantApplyForShift, findShiftInArray } from '../functions';
+import { didApplicantApplyForShift } from '../functions';
 import { PostRequestSetState } from '../../../../functions/postRequest';
 
 import "./Shift.styles.css";
