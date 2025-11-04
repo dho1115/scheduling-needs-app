@@ -5,10 +5,6 @@ import { Button, Container } from 'reactstrap';
 import { DateTime } from 'luxon';
 import LoadingComponent from '../../../LoadingComponent';
 
-import { DeleteRequest } from '../../../../functions/deleteRequest';
-import { PostRequest } from '../../../../functions/postRequest';
-import { PutRequest } from '../../../../functions/putRequest';
-
 import "./ShiftsNeedingConfirmation.styles.css";
 
 const ShiftsNeedingConfirmation = () => {
@@ -18,21 +14,34 @@ const ShiftsNeedingConfirmation = () => {
 
    const handleShiftConfirmation = async val => {
       const dateConfirmed = DateTime.now().toFormat('yyyy-MM-dd');
+      const confirmationDetails = {...val, dateConfirmed };
+      console.log(confirmationDetails);
 
+      alert(`${val.shiftID} (store number ${val.storeNumber}) has just been confirmed by ${val.applicantName} on ${dateConfirmed}!!!`);
    }
 
    return (
-      <Container>
+      <Container style={{display: 'grid', gridTemplateColumns: '33% 33% 33%'}}>
          {
-            shiftsPendingConfirmation.filter(({ _candidateID }) => _candidateID == id).map((val, idx) => (
-               <div key={idx} className='m-1 p-1' style={{ overflowWrap: 'break-word', overflow: 'hidden', border: '5px solid firebrick', backgroundColor: 'burlywood' }}>
-                  <Suspense fallback={<LoadingComponent />}>
-                     <h5>{JSON.stringify(val)}</h5>
-                     <hr />
-                     <Button color='danger' size='xl' className='w-100' onClick={() => handleShiftConfirmation(val)}>PLEASE CONFIRM THIS DAMN SHIFT!!!</Button>
-                  </Suspense>
-               </div>
-            ))
+            shiftsPendingConfirmation.filter(shiftNeedingConfirmation => shiftNeedingConfirmation.applicant.id == id).map((val, idx) => {
+               const { id, shiftID, date, time, storeNumber, approvedOn, applicant: { id: applicantID, name, role } } = val;
+               
+               return (
+                  <div key={idx} className='m-1 p-1' style={{ overflowWrap: 'break-word', overflow: 'hidden', border: '5px solid firebrick', backgroundColor: 'bisque' }}>
+                     <Suspense fallback={<LoadingComponent />}>
+                        <h5>shiftWithApplicant ID: <span className='text-danger'>{id}</span> was approved on <span className='text-danger'>{approvedOn}</span>.</h5>
+                        <h3>ID for this shift: <span className='text-danger'>{shiftID}</span>.</h3>
+                        <h3>Store Number: {storeNumber}.</h3>
+                        <h3>Date for this shift: <span className='text-danger'>{date}</span>.</h3>
+                        <h3>Time(s) for this shift: <span className='text-danger'>{time}</span>.</h3>
+                        <hr />
+                        <h3>APPLICANT ASSIGNED TO WORK SHIFT # {shiftID}:</h3>
+                        <h3>Applicant Name/applicant id: {name} - {applicantID}.</h3>
+                        <Button color='danger' size='xl' className='w-100' onClick={() => handleShiftConfirmation({ shiftWithApplicantID: id, shiftID, applicantName: name, applicantID, date_of_shift: date, storeNumber, time })}>PLEASE CONFIRM THIS DAMN SHIFT!!!</Button>
+                     </Suspense>
+                  </div>
+               )
+            })
          }
       </Container>
    )
