@@ -1,5 +1,13 @@
 .unconfirmed-shift-div {
    width: 30%;
-   border: 1.5px solid black;
-   background-color: white;
+   border: 5px solid firebrick;
+   background-color: bisque;
+   overflow-wrap: anywhere;
+}
+
+.unconfirmed-shift-div_v2 {
+   width: 30%;
+   border: 5px solid forestgreen;
+   background-color: rgb(225, 227, 147);
+   overflow-wrap: anywhere;
 }
