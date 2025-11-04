@@ -1,5 +1,10 @@
 export const DeleteRequest = (url, id = null) => {
-   return fetch(url, { method: 'DELETE' });
+   return fetch(url, { method: 'DELETE' })
+      .then(() => {
+         console.log(`Successfully deleted ${url} with DeleteRequest.`)
+         return `Successfully deleted ${url} with DeleteRequest.`;
+      })
+      .catch(error => console.error({ message: "DeleteRequest error (deleteRequest.jsx).", error, errorMessage: error.message, errorName: error.name }));
 }
 
 export const DeleteBatch = (...args_to_delete) => {
