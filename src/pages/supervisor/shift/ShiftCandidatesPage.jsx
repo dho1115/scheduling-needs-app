@@ -36,33 +36,10 @@ const ShiftCandidatesPage = () => {
       const { id, applicant } = shiftWithApplicantObject;
 
       const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == id));
-
-      // const shiftIDsPendingConfirmation = shiftStatuses.shiftsPendingConfirmation.map(({ id }) => id);
-
-      // const setShiftStatusesState = (approved_shift_updated) => {
-      //   const updatedShiftStatus = {...shiftStatuses, shiftsWithApplicants: shiftStatuses.shiftsWithApplicants.filter(shiftWithApplicant => !shiftIDsPendingConfirmation.includes(shiftWithApplicant.id)), shiftsPendingConfirmation: [...shiftStatuses.shiftsPendingConfirmation, approved_shift_updated]}
-
-      //   console.log({ approved_shift_updated });
-
-      //   return setShiftStatuses(prv => ({
-      //     ...prv,
-      //     shiftsWithApplicants: prv.shiftsWithApplicants.filter(({ id }) => id != _shiftID), shiftsPendingConfirmation: [...prv.shiftsPendingConfirmation, approved_shift_updated]
-      //   }));
-      // }
       
       const transfer_shift_logic = await TransferApprovedShift(approvedShiftWithApplicant, shiftsWithApplicants, formattedDateApproved, currentUser, pathname)
 
       console.log({ transfer_shift_logic });
-
-      // const delete_approved_shift = await DeleteApprovedShift(`http://localhost:3003/shiftsAvailable/${_shiftID}`, shiftsAvailable, approvedShiftWithApplicant, _shiftID, SetAvailableShifts, pathname)
-
-      // const filter_shiftIDfromShiftsWithApplicants = shiftsWithApplicants.filter(shiftWithApplicant => shiftWithApplicant.shiftID == _shiftID);
-
-      // const deleteShiftIDsFromShiftsWithApplicants = await Promise.all(filter_shiftIDfromShiftsWithApplicants.map(async ({ id }) => await DeleteRequest(`http://localhost:3003/shiftsWithApplicants/${id}`)));
-
-      // const setStateForShiftsWithApplicants = await FetchDataSetState("http://localhost:3003/shiftsWithApplicants", data => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...data] }))) //resets shiftWithApplicants state.
-      
-      // console.log({ transfer_shift_logic, delete_approved_shift, deleteShiftIDsFromShiftsWithApplicants, setStateForShiftsWithApplicants });
 
       return transfer_shift_logic;
     } catch (error) {
