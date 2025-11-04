@@ -12,7 +12,7 @@ import './NavigationBar.styles.css';
 
 const NavigationBar = () => {
   const { currentUser, setCurrentUser, shiftStatuses, setShiftStatuses } = useContext(ShiftContext);
-  const { shiftsWithApplicants } = shiftStatuses;
+  const { shiftsWithApplicants, shiftsAvailable } = shiftStatuses;
   const { id, role } = currentUser;  
   const navigate = useNavigate();
   
@@ -28,7 +28,9 @@ const NavigationBar = () => {
   
   const [navigationLinks, setNavigationLinks] = useState(NavigationLinks({ id, role }));
 
-  useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? `candidates` : '')), [navigationLinks.length, id, role]);
+  console.log({ shiftsAvailable, shiftsWithApplicants });
+  
+  useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? `candidates` : '')), [navigationLinks.length, id, role, shiftsAvailable.length, shiftsWithApplicants.length]);
 
   return (
     <nav className='navigation p-3'>
