@@ -1,4 +1,5 @@
 import React, { Suspense, useContext, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 
 //component.
 import CandidateShiftButtons from './ShiftButton_Candidate';
@@ -7,11 +8,13 @@ import QuestionformModal from './question_form/QuestionformModal';
 
 //dependencies.
 import { ShiftContext } from '../../../../App';
+import ErrorBoundary from '../../../ErrorBoundary';
 
 //functions.
 import { findShiftInArray, youveGotApplicants } from '../functions';
 
 import "./Shift.styles.css";
+
 
 const SuspenseComponent = () => {
    return (
@@ -22,27 +25,30 @@ const SuspenseComponent = () => {
 }
 
 const Shift = ({ id, idx, date, time, storeNumber, ...rest }) => {
+   const { pathname } = useLocation();
    const { currentUser, shiftStatuses: {shiftsWithApplicants} } = useContext(ShiftContext);
    const shiftDetails = { id, shiftID: id, date, time, storeNumber, currentUser };
    const [modal, setModal] = useState(false);
    const toggle = () => setModal(!modal);
 
    return (
-      <Suspense fallback={<SuspenseComponent />}>
-         <div key={idx} className={`shift-div p-1 m-3 ${findShiftInArray(id, shiftsWithApplicants).length && currentUser.role == 'supervisor'? 'youveGotCandidates' : ''}`} style={{ backgroundColor: idx % 2 == 1 ? 'lightpink' : 'lightyellow' }}>
-            <QuestionformModal modal={modal} toggle={toggle} {...shiftDetails} />
-            <h5>shift id: {id}</h5>
-            <h3>date: {date}</h3>
-            <h3>time: {time}</h3>
-            <h3>CVS# {storeNumber}</h3>
-            {
-               currentUser.role == 'candidate' ?
-                  <CandidateShiftButtons {...shiftDetails} setModal={setModal} toggle={toggle} />
-                  :
-                  (youveGotApplicants(id, shiftsWithApplicants).length ? <SupervisorShiftButtons {...shiftDetails} /> : '')
-            }
-         </div>
-      </Suspense>
+      <ErrorBoundary fallback={<h3>Something went wrong inside {pathname}.</h3>}>
+         <Suspense fallback={<SuspenseComponent />}>
+            <div key={idx} className={`shift-div p-1 m-3 ${findShiftInArray(id, shiftsWithApplicants).length && currentUser.role == 'supervisor'? 'youveGotCandidates' : ''}`} style={{ backgroundColor: idx % 2 == 1 ? 'lightpink' : 'lightyellow' }}>
+               <QuestionformModal modal={modal} toggle={toggle} {...shiftDetails} />
+               <h5>shift id: {id}</h5>
+               <h3>date: {date}</h3>
+               <h3>time: {time}</h3>
+               <h3>CVS# {storeNumber}</h3>
+               {
+                  currentUser.role == 'candidate' ?
+                     <CandidateShiftButtons {...shiftDetails} setModal={setModal} toggle={toggle} />
+                     :
+                     (youveGotApplicants(id, shiftsWithApplicants).length ? <SupervisorShiftButtons {...shiftDetails} /> : '')
+               }
+            </div>
+         </Suspense>
+      </ErrorBoundary>
    )
 }
 
