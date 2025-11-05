@@ -3,4 +3,160 @@ https://www.mailgun.com/pricing/?gad_campaignid=750089229&gad_source=1&gbraid=0A
 
 mailgun api docs: https://documentation.mailgun.com/docs/mailgun/api-reference/send/mailgun/messages/post-v3--domain-name--messages
 
+DOMAIN NAME: https://api.mailgun.net/
+
 https://www.emailjs.com/docs/tutorial/overview/
+
+EMAILJS TEMPLATE:
+import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
+useEffect(() => {
+  emailjs.init({ publicKey: "YOUR_PUBLIC_KEY" }); //publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY. Do NOT USE process.env.REACT_APP!!! This is VITE!!!
+})
+
+const SendEmailWithoutForm = () => {
+  // 1. Manually manage the state for your email data
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState('');
+
+  const SERVICE_ID = 'YOUR_SERVICE_ID';  // Replace with your Service ID (click on your gmail in emailjs or outlook.)
+  const TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your Template ID (click on email templates > templates > settings)
+  const PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your Public Key (inside your account).
+
+  const sendEmail = async () => {
+    if (!name || !email || !message) {
+      setStatus('Please fill out all fields.');
+      return;
+    }
+
+    // 2. Create the template parameters object
+    const templateParams = {
+      user_name: name, //sender (our name).
+      user_email: email, //sender (our email).
+      user_message: message,
+      // Add any other template variables defined in your EmailJS template
+    };
+
+    setStatus('Sending...');
+
+    try {
+      // 3. Call emailjs.send() with the IDs and the parameters
+      const response = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      
+      console.log('Email successfully sent!', response.status, response.text);
+      setStatus('Email sent successfully!');
+      
+      // Clear inputs on success
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch (error) {
+      console.error('Email failed to send:', error);
+      setStatus('Failed to send email. Check console for error.');
+    }
+  };
+
+  return (
+    <div>
+      <h3>Send Email Without a Form Element</h3>
+      
+      {/* Input Fields (No surrounding <form> tag) */}
+      <input
+        type="text"
+        placeholder="Your Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <br />
+      <input
+        type="email"
+        placeholder="Your Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br />
+      <textarea
+        placeholder="Your Message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <br />
+      
+      {/* Button to trigger the send function */}
+      <button onClick={sendEmail}>Send Message</button>
+
+      {/* Status message */}
+      <p>{status}</p>
+    </div>
+  );
+};
+
+export default SendEmailWithoutForm;
+
+STEP BY STEP: HOW TO SEND EMAIL TO CLIENT USING emailjs:
+
+Step 1: Sign Up and Configure EmailJS
+Sign Up: Create a free account on the EmailJS website.
+
+Connect Email Service:
+
+Navigate to the Email Services section in your dashboard.
+
+Click "Add New Service" and select your preferred provider (e.g., Gmail, Outlook, SendGrid).
+
+Follow the prompts to authorize or configure the connection (this is where you'll input your account credentials for that provider).
+
+Note Down the Service ID (it will look something like service_xxxxxxx).
+
+Create Email Template:
+
+Navigate to the Email Templates section.
+
+Create a new template or use the default one.
+
+In the template body, use variables enclosed in double curly braces, like {{name}} and {{message}}. These correspond to the data you'll send from your form.
+
+Note Down the Template ID (it will look something like template_xxxxxxx).
+
+Get Public Key:
+
+Navigate to the Account section.
+
+Note Down your Public Key. This key is safe to expose in your client-side code.
+
+Step 2: Install the SDK in Your Project
+In your project's terminal, run the installation command:
+
+Bash
+
+npm install --save @emailjs/browser
+Step 3: Initialize EmailJS in Your Root Component
+This needs to run once when your app starts. Use App.jsx (or your main routing component) for this, utilizing the useEffect hook.
+
+JavaScript
+
+// src/App.jsx (or equivalent root file)
+
+import React, { useEffect } from 'react';
+import emailjs from '@emailjs/browser'; 
+
+function App() {
+  
+  useEffect(() => {
+    // 🔑 Initialize with the Public Key noted in Step 1.4
+    emailjs.init({
+      publicKey: "YOUR_PUBLIC_KEY",
+    });
+  }, []); 
+
+  // ... rest of your application structure (Router, layout, etc.)
+  return (
+    <div>
+      {/* Your application content */}
+    </div>
+  );
+}
+
+export default App;
