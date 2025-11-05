@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
@@ -9,6 +9,7 @@ import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/Unconfirme
 
 //Functions & dependencies.
 import { fetchDataPromise, FetchDataSetState } from "./functions/FetchHook";
+import emailjs from '@emailjs/browser';
 
 //Pages;
 import Homepage from "./pages/homepage/Homepage";
@@ -41,11 +42,20 @@ function App() {
 
   const callFunctionDeclarations = functionDeclarations => functionDeclarations.forEach(async f => await f())
 
-  useEffect(() => callFunctionDeclarations(functionDeclarations), []);
+  useEffect(() => {
+    emailjs.init({publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY })
+    callFunctionDeclarations(functionDeclarations)
+  }, []);
+
+  //emailjs configuration keys.
+  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const PUBLIC_KEY_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const GENERAL_KEY_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const CONFIRM_SHIFT_KEY_ID = import.meta.env.VITE_EMAILJS_CONFIRM_SHIFT_ID;
 
   return (
     <ShiftContext.Provider
-      value={{ currentUser, setCurrentUser, employees, setEmployees, shiftStatuses, setShiftStatuses }}
+      value={{ currentUser, setCurrentUser, employees, setEmployees, shiftStatuses, setShiftStatuses, emailjs_keys: { SERVICE_ID, PUBLIC_KEY_ID, GENERAL_KEY_ID, CONFIRM_SHIFT_KEY_ID } }}
     >
       <BrowserRouter>
         <Routes>
