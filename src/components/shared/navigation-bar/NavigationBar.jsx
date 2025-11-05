@@ -27,8 +27,6 @@ const NavigationBar = () => {
     .catch(error => console.error({ message: 'error on handleLogoff function!!!', error, errorCode: error.code, errorStatus: error.status, errorMessage: error.message }));
   
   const [navigationLinks, setNavigationLinks] = useState(NavigationLinks({ id, role }));
-
-  console.log({ shiftsAvailable, shiftsWithApplicants });
   
   useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? `candidates` : '')), [navigationLinks.length, id, role, shiftsAvailable.length, shiftsWithApplicants.length]);
 
