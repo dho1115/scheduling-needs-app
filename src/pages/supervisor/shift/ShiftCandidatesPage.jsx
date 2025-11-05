@@ -9,9 +9,8 @@ import { Button, Container } from 'reactstrap';
 import { ShiftContext } from '../../../App'
 
 //functions.
-import { DeleteRequest } from '../../../functions/deleteRequest';
-import { FetchDataSetState } from '../../../functions/FetchHook';
-import { DeleteApprovedShift, findShiftInArray, TransferApprovedShift } from '../../../components/shared/scheduling_needs/functions';
+import { FetchShiftStatuses } from '../../../functions/FetchHook';
+import { TransferApprovedShift } from '../../../components/shared/scheduling_needs/functions';
 
 import "./ShiftCandidatesPage.styles.css"
 
@@ -27,17 +26,22 @@ const ShiftCandidatesPage = () => {
   const formattedDateApproved = dateApproved.toFormat("yyyy-MM-dd");
  
   const applicantsForThisShift = shiftsWithApplicants.filter(({ shiftID }) => shiftID == _shiftID)
-  const thisShiftWithApplicants = findShiftInArray(_shiftID, shiftsWithApplicants);
 
   const onApproveRequest = async (_shiftID, shiftWithApplicantObject) => {
     try {
-      if (!shiftWithApplicantObject.id && !_shiftID && !applicant && !applicant.id) throw new Error(`ERROR INSIDE => ${pathname}. ERROR IS: Your shiftObject (2nd argument) MUST have an id, _shiftID and applicant object!!! Your shiftObject has: ${JSON.stringify(shiftWithApplicantObject)}`);
+      if (!shiftWithApplicantObject.id && !_shiftID && !applicant && !applicant.id) {
+        throw new Error(`ERROR INSIDE => ${pathname}. Your shiftObject (2nd argument) MUST have an id, _shiftID and applicant object!!! Your shiftObject has: ${JSON.stringify(shiftWithApplicantObject)}`);
+      }
 
       const { id, applicant } = shiftWithApplicantObject;
 
       const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == id));
       
       const transfer_shift_logic = await TransferApprovedShift(approvedShiftWithApplicant, shiftsWithApplicants, formattedDateApproved, currentUser, pathname)
+
+      FetchShiftStatuses()
+        .then(result => setShiftStatuses(result))
+        .catch(error => ({ message: "FetchShiftStatuses function call ERROR!!!", location: location.pathname, error, errorName: error.name, errorMessage: error.message, errorStack: error.stack }));
 
       console.log({ transfer_shift_logic });
 
