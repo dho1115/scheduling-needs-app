@@ -11,15 +11,22 @@ export const TransferApprovedShift = async (approvedShiftWithApplicant, shiftsWi
 
       const DeleteFromShiftsAvailable = await DeleteRequest(`http://localhost:3003/shiftsAvailable/${approvedShiftWithApplicant.shiftID}`)
 
-      const deleteApplicantsFromSWA = Promise.all(
+      const deleteApplicantsFromSWA = await Promise.all(
          shiftsWithApplicants
-            .filter(({ shiftID }) => shiftID == approvedShiftWithApplicant.id)
+            .filter(({ shiftID }) => shiftID == approvedShiftWithApplicant.shiftID)
             .map(async ({ id }) => await DeleteRequest(`http://localhost:3003/shiftsWithApplicants/${id}`))
       )
+         .then(successMessage => {
+            console.log({ from: "deleteApplicantsFromSWA", successMessage })
+            return successMessage;
+         })
+         .catch(error => console.error({ message: "deleteApplicantsFromSWA error!!! *** UNABLE TO DELETE!!! ***", error, errorMessage: error.message, shiftsWithApplicants, approvedShiftWithApplicant }));
 
       const AddToShiftsPendingConfirmation = await PostRequestII('http://localhost:3003/shiftsPendingConfirmation', approved_shift_updated, null);
 
-      return { from: 'TransferApprovedShift function', approvedShift: AddToShiftsPendingConfirmation, DeleteFromShiftsAvailable, applicantsDeletedFromSWA: deleteApplicantsFromSWA };
+      console.log({ from: 'TransferApprovedShift function', shiftPendingConfirmation: AddToShiftsPendingConfirmation, DeleteFromShiftsAvailable, applicantsDeletedFromSWA: deleteApplicantsFromSWA })
+
+      return { from: 'TransferApprovedShift function', shiftPendingConfirmation: AddToShiftsPendingConfirmation, DeleteFromShiftsAvailable, applicantsDeletedFromSWA: deleteApplicantsFromSWA };
    } catch (error) {
       console.error({ message: "TransferShift function error!!!", locationOfError: location, error, errorStack: error.stack, errorName: error.name, errorMessage: error.message, errorCode: error.code });
    }
