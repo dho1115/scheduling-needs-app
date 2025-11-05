@@ -19,3 +19,16 @@ export const FetchDataSetState = async (url, setStateWrapper) => {
       console.error({ message: "FetchDateSetState error!!!", error, errorMessage: error.message, errorCode: error.code, errorStack: error.stack });
    }
 }
+
+export const FetchShiftStatuses = async () => {
+   try {
+      const shiftsAvailable = await fetch("http://localhost:3003/shiftsAvailable");
+      const shiftsWithApplicants = await fetch("http://localhost:3003/shiftsWithApplicants");
+      const shiftsPendingConfirmation = await fetch("http://localhost:3003/shiftsPendingConfirmation");
+      const shiftsConfirmed = await fetch("http://localhost:3003/shiftsConfirmed");
+
+      return { shiftsAvailable: shiftsAvailable.json(), shiftsWithApplicants: shiftsWithApplicants.json(), shiftsPendingConfirmation: shiftsPendingConfirmation.json(), shiftsConfirmed: shiftsConfirmed.json() };
+   } catch (error) {
+      console.error({ message: "fetchShiftStatuses function call error!!!", error, errorMessage: error.message, errorName: error.name, errorStack: error.stack });
+   }
+}
