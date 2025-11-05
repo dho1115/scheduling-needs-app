@@ -4,3 +4,7 @@ different candidates CANNOT apply for the same shift b/c the "id" for the shift 
 
 Work on onApproveRequest function inside ShiftCandidatesPage.
 
+FOR .env.local VARIABLES IN VITE!!!
+
+VITE_EMAILJS_API_KEY. Replace REACT_APP_API_KEY with VITE_EMAILJS_API_KEY
+
