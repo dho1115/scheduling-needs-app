@@ -61,6 +61,7 @@ function App() {
                 <Route path="shifts/unconfirmed-shifts" element={<UnconfirmedShifts />} />
                 <Route path="shifts/shift/:_shiftID/candidates" element={<ShiftCandidatesPage />} />
               </Route>
+              
               <Route path="/candidate/welcome/:id/*" element={<CandidatePage />}>
                 <Route path="available shifts" element={<SchedulingNeeds />} />
                 <Route path="shifts/applied" element={<ShiftsAppliedFor />} />
