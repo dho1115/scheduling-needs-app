@@ -11,6 +11,7 @@
     "json": "json-server --watch ./src/database.json -p 3003 -d 100"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "bootstrap": "^5.3.6",
     "json-server": "^0.17.3",
     "luxon": "^3.7.2",
