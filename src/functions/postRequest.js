@@ -16,6 +16,9 @@ export const PostRequestII = async (url, data, id = null) => {
    console.log(`About to POST ${JSON.stringify(data)} to ${url}...`)
    try {
       const post = await fetch(url, { method: 'POST', headers: { 'Content-Type': "application/json" }, body: JSON.stringify(data) });
+      
+      console.log({from: "PostRequestII", url, data})
+      debugger;
 
       return data;
    } catch (error) {
