@@ -11,6 +11,7 @@ import { ShiftContext } from '../../../App'
 //functions.
 import { FetchShiftStatuses } from '../../../functions/FetchHook';
 import { TransferApprovedShift } from '../../../components/shared/scheduling_needs/functions';
+import { ConfirmApprovedShiftLogic } from '../../../functions/emailFunctions';
 
 import "./ShiftCandidatesPage.styles.css"
 
