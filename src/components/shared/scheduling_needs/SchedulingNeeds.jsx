@@ -9,7 +9,7 @@ import "./SchedulingNeeds.styles.css";
 
 const SchedulingNeeds = () => {
    const { shiftStatuses: { shiftsAvailable } } = useContext(ShiftContext);
-
+   
    return (
       <div>
          <header>
