@@ -27,7 +27,7 @@ export const FetchShiftStatuses = async () => {
       const shiftsPendingConfirmation = await fetch("http://localhost:3003/shiftsPendingConfirmation");
       const shiftsConfirmed = await fetch("http://localhost:3003/shiftsConfirmed");
 
-      return { shiftsAvailable: shiftsAvailable.json(), shiftsWithApplicants: shiftsWithApplicants.json(), shiftsPendingConfirmation: shiftsPendingConfirmation.json(), shiftsConfirmed: shiftsConfirmed.json() };
+      return [shiftsAvailable, shiftsWithApplicants, shiftsPendingConfirmation, shiftsConfirmed];
    } catch (error) {
       console.error({ message: "fetchShiftStatuses function call error!!!", error, errorMessage: error.message, errorName: error.name, errorStack: error.stack });
    }
