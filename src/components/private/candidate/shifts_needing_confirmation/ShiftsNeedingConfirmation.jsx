@@ -46,7 +46,9 @@ const ShiftsNeedingConfirmation = () => {
                         <hr />
                         <h5>APPLICANT ASSIGNED TO WORK SHIFT # {shiftID}:</h5>
                         <h5>Applicant Name/applicant id: {name} - {applicantID}.</h5>
-                        <Button color='danger' size='xl' className='w-100' onClick={() => handleShiftConfirmation({id, shiftWithApplicantID: id, shiftID, applicantName: name, applicantID, date_of_shift: date, storeNumber, time })}>PLEASE CONFIRM THIS DAMN SHIFT!!!</Button>
+                        <Button color='danger' size='xl' className='w-100' onClick={() => handleShiftConfirmation({ id, shiftWithApplicantID: id, shiftID, applicantName: name, applicantID, date_of_shift: date, storeNumber, time })
+                           .then(() => navigate(`/candidate/welcome/${id}/available shifts`))
+                           .catch(error => console.error({ error, errorMessage: error.message }))}>PLEASE CONFIRM THIS DAMN SHIFT!!!</Button>
                      </Suspense>
                   </div>
                )
