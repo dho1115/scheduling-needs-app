@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
+
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
 import ShiftsNeedingConfirmation from "./components/private/candidate/shifts_needing_confirmation/ShiftsNeedingConfirmation";
 import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/UnconfirmedShifts";
+import UpcomingShifts from "./components/private/candidate/shifts_i_confirmed/UpcomingShifts";
 
 //Functions & dependencies.
 import { fetchDataPromise, FetchDataSetState } from "./functions/FetchHook";
@@ -76,6 +78,7 @@ function App() {
                 <Route path="available shifts" element={<SchedulingNeeds />} />
                 <Route path="shifts/applied" element={<ShiftsAppliedFor />} />
                 <Route path="shifts/pending confirmation" element={<ShiftsNeedingConfirmation />} />
+                <Route path="shifts/assigned to work" element={<UpcomingShifts />} />
               </Route>
             </>
           }
