@@ -43,14 +43,18 @@ const ShiftCandidatesPage = () => {
       
       const transfer_shift_logic = await TransferApprovedShift(approvedShiftWithApplicant, shiftsWithApplicants, formattedDateApproved, currentUser, pathname)
 
-      const arrayofShiftStatuses = await FetchShiftStatuses();
+      const fetchShiftStatuses = await FetchShiftStatuses();
 
-      // const updatedShiftStatuses = arrayofShiftStatuses.filter(object => Object.values(object)[0].response.ok).reduce((accumulator, object) => {
-      //   accumulator = { ...accumulator, ...object };
-      //   return accumulator;
-      // }, {})
+      const updateShiftStatuses = fetchShiftStatuses.reduce((accumulator, object) => {
+        accumulator = { ...accumulator, ...object };
+        return accumulator;
+      }, {})
 
-      return { transfer_shift_logic, sendEmailToCandidate };
+      print({ transfer_shift_logic, sendEmailToCandidate, fetchShiftStatuses, updateShiftStatuses });
+
+      setShiftStatuses(updateShiftStatuses);
+
+      return { transfer_shift_logic, sendEmailToCandidate, fetchShiftStatuses, updateShiftStatuses };
     } catch (error) {
       console.error({ message: "ERROR with onApproveRequest function!!!", location: pathname, error, errorStack: error.stack, errorMessage: error.message, name: error.name });
     }
@@ -59,6 +63,7 @@ const ShiftCandidatesPage = () => {
   useEffect(() => {
     console.log(shiftStatuses);
   }, [shiftsWithApplicants.length, shiftsAvailable.length])
+
   return (
     <div>
       <header className='my-5'>
