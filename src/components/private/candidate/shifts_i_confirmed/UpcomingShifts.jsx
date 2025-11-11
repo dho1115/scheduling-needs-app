@@ -9,7 +9,6 @@ import { DateTime } from 'luxon';
 
 import "./UpcomingShifts.styles.css"
 
-
 const UpcomingShifts = () => {
    const { currentUser, shiftStatuses: { shiftsConfirmed } } = useContext(ShiftContext);
 
@@ -30,8 +29,9 @@ const UpcomingShifts = () => {
       <Container className='upcoming-shifts-container p-5'>
         {
           MyUpcomingShifts.map((shift, idx) => (
-            <div className={idx % 2 == 1 ? 'my-shifts-cell-1 p-1 m-1' : 'my-shifts-cell-2 m-1'} key={idx}>
-              <h5 className='py-3 px-1'>Scheduled To Work: <strong className='text-success p-0' style={{backgroundColor: 'white'}}>{shift.date_of_shift}</strong>.</h5>
+            <div className={idx == 0 ? 'my-shifts-cell-primary m-1 p-1' : idx % 2 == 1 ? 'my-shifts-cell-1 p-3 m-1' : 'my-shifts-cell-2 m-1'} key={idx}>
+              {idx == 0 && <h3 style={{textAlign: 'center', WebkitTextStrokeWidth: '1.1px', WebkitTextStrokeColor: 'black'}} className='text-danger'>YOUR NEXT SHIFT!!!</h3>}
+              <h5 className='py-3 px-1'>Scheduled To Work: <strong className='text-success p-0' style={{ backgroundColor: 'white' }}>{shift.date_of_shift}</strong>.</h5>
               <strong className='mx-3'>{JSON.stringify(shift)}</strong>
             </div>
           ))
