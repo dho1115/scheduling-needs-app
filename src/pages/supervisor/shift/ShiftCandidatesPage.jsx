@@ -38,42 +38,19 @@ const ShiftCandidatesPage = () => {
       const { id, applicant, date, storeNumber } = shiftWithApplicantObject;
 
       const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == id));
+
+      const sendEmailToCandidate = await ConfirmApprovedShiftLogic(_shiftID, date, "http://localhost:3001/", applicant.name, storeNumber, emailjs, emailjs_keys.SERVICE_ID, emailjs_keys.CONFIRM_SHIFT_KEY_ID, emailjs_keys.PUBLIC_KEY_ID)
       
       const transfer_shift_logic = await TransferApprovedShift(approvedShiftWithApplicant, shiftsWithApplicants, formattedDateApproved, currentUser, pathname)
 
-      FetchShiftStatuses()
-        .then(arrayOfResponses => {
-          const allResponsesOK = arrayOfResponses.filter(response => !response.ok);
+      const arrayofShiftStatuses = await FetchShiftStatuses();
 
-          if (!allResponsesOK.length) {
-            const jsonifyResponses = arrayOfResponses.reduce((accumulator, res) => {
-              accumulator = { ...accumulator, [res]: { ...res.json() } };
-              return accumulator;
-            }, {});
+      // const updatedShiftStatuses = arrayofShiftStatuses.filter(object => Object.values(object)[0].response.ok).reduce((accumulator, object) => {
+      //   accumulator = { ...accumulator, ...object };
+      //   return accumulator;
+      // }, {})
 
-            return jsonifyResponses
-          }
-          else {
-            throw new Error(`Please wait while we resolve all responses. At least one returned !res.ok: Currently, the followning responses are NOT ok: ${JSON.stringify(allResponsesOK)}.`)
-          }
-        })
-        .then(async shiftStatuses => {
-          console.log("returning shiftStatuses...", shiftStatuses);
-          setShiftStatuses(shiftStatuses);
-
-          return await ConfirmApprovedShiftLogic(_shiftID, date, "http://localhost:3001/", applicant.name, storeNumber, emailjs, emailjs_keys.SERVICE_ID, emailjs_keys.CONFIRM_SHIFT_KEY_ID, emailjs_keys.PUBLIC_KEY_ID)
-        })
-        .then(response => {
-          if (response.status == 200 || response.text) {
-            console.log("Message send successfully!!!")
-            console.log(response.templateParams);
-          }
-        })
-        .catch(error => ({ message: "FetchShiftStatuses function call ERROR!!!", location: location.pathname, error, errorName: error.name, errorMessage: error.message, errorStack: error.stack }));
-
-      console.log({ transfer_shift_logic });
-
-      return transfer_shift_logic;
+      return { transfer_shift_logic, sendEmailToCandidate };
     } catch (error) {
       console.error({ message: "ERROR with onApproveRequest function!!!", location: pathname, error, errorStack: error.stack, errorMessage: error.message, name: error.name });
     }
