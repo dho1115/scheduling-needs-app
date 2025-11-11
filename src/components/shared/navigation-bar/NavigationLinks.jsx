@@ -7,7 +7,8 @@ export const NavigationLinks = (objects = null /* {role: ... } */, ...args) => {
          { name: "Add Shift", to: `/${objects.role}/welcome/${objects.id}/add shift`, restrictions: 'supervisor' },
          { name: "Shifts Pending Approval/Denial", to: `/candidate/welcome/${objects.id}/shifts/applied`, restrictions: 'candidate' },
          {name: "Approved Shifts Needing My Confirmation", to: `/candidate/welcome/${objects.id}/shifts/pending confirmation`, restrictions: 'candidate'},
-         { name: "unconfirmed shifts", to: `/supervisor/welcome/${objects.id}/shifts/unconfirmed-shifts`, restrictions: 'supervisor'},
+         { name: "unconfirmed shifts", to: `/supervisor/welcome/${objects.id}/shifts/unconfirmed-shifts`, restrictions: 'supervisor' },
+         { name: "My Assigned Shifts", to: `/candidate/welcome/${objects.id}/shifts/assigned to work`, restrictions: 'candidate'},
          { name: "Cancel Available Shift", to: "/", restrictions: 'supervisor' }
       ]
    } catch (error) {
