@@ -1,10 +1,9 @@
 {
   "currentUser": {
-    "id": "c-mbwisn33",
-    "name": "Arnie Smart",
-    "password": "asmart",
-    "role": "candidate",
-    "base": "3005"
+    "name": "Jamie Smith",
+    "password": "jsmith1",
+    "role": "supervisor",
+    "id": "s-mbwiqyvw"
   },
   "employees": [
     {
@@ -43,65 +42,19 @@
   ],
   "shiftsAvailable": [
     {
-      "id": "shift-mhn1ytdn",
-      "storeNumber": "12345",
-      "date": "2025-12-03",
-      "time": "8am-11am"
+      "id": "shift-mhtyrbyw",
+      "storeNumber": "3001",
+      "date": "2025-11-27",
+      "time": "2pm-5pm"
     },
     {
-      "id": "shift-mhn1zfcy",
-      "storeNumber": "3353",
-      "date": "2025-11-11",
-      "time": "5pm-9pm"
-    },
-    {
-      "id": "shift-mhn2doxq",
-      "storeNumber": "3355",
-      "date": "2025-11-17",
-      "time": "9am-3pm"
+      "id": "shift-mhtzmu47",
+      "storeNumber": "3007",
+      "date": "2026-01-03",
+      "time": "1pm-5pm"
     }
   ],
-  "shiftsWithApplicants": [
-    {
-      "id": "c-mbwisn33-shift-mhn1zfcy",
-      "shiftID": "shift-mhn1zfcy",
-      "applicant": {
-        "id": "c-mbwisn33",
-        "name": "Arnie Smart",
-        "role": "candidate",
-        "base": "3005"
-      },
-      "date": "2025-11-11",
-      "time": "5pm-9pm",
-      "storeNumber": "3353"
-    },
-    {
-      "id": "c-mbwisn33-shift-mhn2doxq",
-      "shiftID": "shift-mhn2doxq",
-      "applicant": {
-        "id": "c-mbwisn33",
-        "name": "Arnie Smart",
-        "role": "candidate",
-        "base": "3005"
-      },
-      "date": "2025-11-17",
-      "time": "9am-3pm",
-      "storeNumber": "3355"
-    },
-    {
-      "id": "c-mbwisn33-shift-mhn1ytdn",
-      "shiftID": "shift-mhn1ytdn",
-      "applicant": {
-        "id": "c-mbwisn33",
-        "name": "Arnie Smart",
-        "role": "candidate",
-        "base": "3005"
-      },
-      "date": "2025-12-03",
-      "time": "8am-11am",
-      "storeNumber": "12345"
-    }
-  ],
+  "shiftsWithApplicants": [],
   "shiftsPendingConfirmation": [
     {
       "id": "c-mbwk4v3g-shift-mhmnnxou",
@@ -136,20 +89,52 @@
       "supervisorId": "s-mbwiqyvw"
     },
     {
-      "id": "c-mbwm1j9c-shift-mhn1qas6",
-      "shiftID": "shift-mhn1qas6",
+      "id": "c-mbwm1j9c-shift-mhtyqjl7",
+      "shiftID": "shift-mhtyqjl7",
       "applicant": {
         "id": "c-mbwm1j9c",
         "name": "Shawne Carter",
         "role": "candidate",
         "base": "5007"
       },
-      "date": "2025-11-17",
-      "time": "1PM-5PM",
-      "storeNumber": "3557",
-      "approvedOn": "2025-11-06",
-      "approvedBy": "Kendall Kay",
-      "supervisorId": "s-mc9rq8m6"
+      "date": "2025-11-27",
+      "time": "3pm-8pm",
+      "storeNumber": "3005",
+      "approvedOn": "2025-11-10",
+      "approvedBy": "Jamie Smith",
+      "supervisorId": "s-mbwiqyvw"
+    },
+    {
+      "id": "c-mbwk4v3g-shift-mhtyqw8q",
+      "shiftID": "shift-mhtyqw8q",
+      "applicant": {
+        "id": "c-mbwk4v3g",
+        "name": "Acey Gardner",
+        "role": "candidate",
+        "base": "3777"
+      },
+      "date": "2025-12-19",
+      "time": "7am-1pm",
+      "storeNumber": "1595",
+      "approvedOn": "2025-11-10",
+      "approvedBy": "Jamie Smith",
+      "supervisorId": "s-mbwiqyvw"
+    },
+    {
+      "id": "c-mbwm1j9c-shift-mhu32gve",
+      "shiftID": "shift-mhu32gve",
+      "applicant": {
+        "id": "c-mbwm1j9c",
+        "name": "Shawne Carter",
+        "role": "candidate",
+        "base": "5007"
+      },
+      "date": "2025-11-19",
+      "time": "8am-4pm",
+      "storeNumber": "3007",
+      "approvedOn": "2025-11-10",
+      "approvedBy": "Jamie Smith",
+      "supervisorId": "s-mbwiqyvw"
     }
   ],
   "shiftsConfirmed": [
@@ -284,6 +269,50 @@
       "storeNumber": "9335",
       "time": "8am-5pm",
       "dateConfirmed": "2025-11-06"
+    },
+    {
+      "id": "c-mbwisn33-shift-mhn2doxq",
+      "shiftWithApplicantID": "c-mbwisn33-shift-mhn2doxq",
+      "shiftID": "shift-mhn2doxq",
+      "applicantName": "Arnie Smart",
+      "applicantID": "c-mbwisn33",
+      "date_of_shift": "2025-11-17",
+      "storeNumber": "3355",
+      "time": "9am-3pm",
+      "dateConfirmed": "2025-11-10"
+    },
+    {
+      "id": "c-mbwisn33-shift-mhn1zfcy",
+      "shiftWithApplicantID": "c-mbwisn33-shift-mhn1zfcy",
+      "shiftID": "shift-mhn1zfcy",
+      "applicantName": "Arnie Smart",
+      "applicantID": "c-mbwisn33",
+      "date_of_shift": "2025-11-11",
+      "storeNumber": "3353",
+      "time": "5pm-9pm",
+      "dateConfirmed": "2025-11-10"
+    },
+    {
+      "id": "c-mbwisn33-shift-mhn1ytdn",
+      "shiftWithApplicantID": "c-mbwisn33-shift-mhn1ytdn",
+      "shiftID": "shift-mhn1ytdn",
+      "applicantName": "Arnie Smart",
+      "applicantID": "c-mbwisn33",
+      "date_of_shift": "2025-12-03",
+      "storeNumber": "12345",
+      "time": "8am-11am",
+      "dateConfirmed": "2025-11-10"
+    },
+    {
+      "id": "c-mbwm1j9c-shift-mhn1qas6",
+      "shiftWithApplicantID": "c-mbwm1j9c-shift-mhn1qas6",
+      "shiftID": "shift-mhn1qas6",
+      "applicantName": "Shawne Carter",
+      "applicantID": "c-mbwm1j9c",
+      "date_of_shift": "2025-11-17",
+      "storeNumber": "3557",
+      "time": "1PM-5PM",
+      "dateConfirmed": "2025-11-10"
     }
   ]
 }
