@@ -12,7 +12,7 @@ import './NavigationBar.styles.css';
 
 const NavigationBar = () => {
   const { currentUser, setCurrentUser, shiftStatuses, setShiftStatuses } = useContext(ShiftContext);
-  const { shiftsWithApplicants, shiftsAvailable } = shiftStatuses;
+  const { shiftsWithApplicants, shiftsAvailable, shiftsPendingConfirmation } = shiftStatuses;
   const { id, role } = currentUser;  
   const navigate = useNavigate();
   
@@ -26,17 +26,29 @@ const NavigationBar = () => {
     .then(() => navigate("/")) //navigate to home page.
     .catch(error => console.error({ message: 'error on handleLogoff function!!!', error, errorCode: error.code, errorStatus: error.status, errorMessage: error.message }));
   
-  const [navigationLinks, setNavigationLinks] = useState([...NavigationLinks({ id, role })]);
+  const [navigationLinks, setNavigationLinks] = useState([]);
+  const [candidatesPendingShifts, setCandidatesPendingShifts] = useState([])
   
-  useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? `candidates` : '')), [navigationLinks.length, id, role, shiftsAvailable.length, shiftsWithApplicants.length]);
+  useEffect(() => setNavigationLinks(NavigationLinks({ id, role }, shiftsWithApplicants.length ? `candidates` : '')), []);
+
+  useEffect(() => {
+    const pendingshifts = shiftsPendingConfirmation.filter(({ applicant: { id } }) => id == currentUser.id);
+
+    pendingshifts.length && setCandidatesPendingShifts(pendingshifts);
+    return () => {
+      setCandidatesPendingShifts([])
+    };
+  }, [candidatesPendingShifts.length, currentUser.id])
 
   return (
     <nav className='navigation p-3'>
       <ErrorBoundary fallback={<h1>COMPILE TIME ERROR IN NavigationBar.jsx!!!</h1>}>
         {
-          navigationLinks
+          navigationLinks.length ?
+            navigationLinks
             .filter(({ restrictions }) => restrictions == role || !restrictions)
             .map(({ name, to }, idx) => {
+              
               return (
                 <Link to={to} key={idx} className='navlink'>
                   {
@@ -48,6 +60,8 @@ const NavigationBar = () => {
                 </Link>
               ) //1. Filter out links based on restrictions (see NavigationLinks.jsx for the restrictions). 2. .map() out the results into links.
             })
+            : 
+            ["No...", "NavigationLinks", "Yet!!!"]
         }
         <strong className='logoff' onClick={handleLogoff}>LOG OUT!!!</strong>
       </ErrorBoundary>
