@@ -34,6 +34,7 @@ export const BatchDelete = async (DateTime) => {
       console.error({ message: "ERROR with BatchDelete Function!!!", error, errorMessage: error.message, errorName: error.name });
    }
 }
+
 export const DeleteRequestSetState = async (url, setStateWrapper, data, location=null) => {
    try {
       const DeleteDataFromDB = await DeleteRequest(url);
