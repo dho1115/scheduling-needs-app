@@ -1,4 +1,5 @@
-import { fetchDataPromise } from "./FetchHook";
+import { DateTime } from "luxon";
+import { fetchDataPromise, FetchDataSetState } from "./FetchHook";
 
 export const DeleteRequest = async (url, id = null) => {
    return await fetch(url, { method: 'DELETE' })
@@ -9,38 +10,30 @@ export const DeleteRequest = async (url, id = null) => {
       .catch(error => console.error({ message: "DeleteRequest error (deleteRequest.jsx).", error, errorMessage: error.message, errorName: error.name }));
 }
 
-export const BatchCleanup = async (DateTime) => {
+export const BatchDelete = async (DateTime) => {
    const BASE = 'http://localhost:3003/'
-   const ENDPOINTS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation'];
+   const ENDPOINTS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation', 'shiftsConfirmed'];
+   try {
+      ENDPOINTS.forEach(async endpoint => {
+         const FetchShiftStatus = await fetchDataPromise(`${BASE}${endpoint}`) //[shift]
 
-   const BATCH_DELETE_FUNCTION = () => ENDPOINTS
-      .map(async endpoint => {
-         const CURRENT_DATE = DateTime.local();
-         const FETCH_DATA = await fetchDataPromise(BASE + endpoint); //[{data}]
-         const EXPIRED_IDS = FETCH_DATA
-            .filter(({ date }) => DateTime.fromISO(date) > CURRENT_DATE).map(({ id }) => id); //[id]
-         
-         return EXPIRED_IDS.map(id => DeleteRequest(`${BASE}${endpoint}/${id}`));
+         FetchShiftStatus.forEach(shift => {
+            if (shift.date_of_shift) {
+               const currentDate = DateTime.local();
+               const shiftDate = DateTime.fromISO(shift.date_of_shift);
+               (currentDate > shiftDate) && DeleteRequest(`${BASE}${endpoint}/${shift.id}`)
+            } else {
+               const currentDate = DateTime.local();
+               const shiftDate = DateTime.fromISO(shift.date);
+               (currentDate > shiftDate) && DeleteRequest(`${BASE}${endpoint}/${shift.id}`)
+            }
+         }) // iterate through each shift in [shift] and deletes expired shift using DeleteRequest.
       })
-   
-   const BATCH_DELETE_SHIFTS_CONFIRMED = () => ["shiftsConfirmed"].map(async endpoint => {
-      const CURRENT_DATE = DateTime.local();
-      const FETCH_DATA = await fetchDataPromise(BASE + endpoint) //[{data}].
-      
-      return FETCH_DATA
-         .filter(({ date_of_shift }) => DateTime.fromISO(date_of_shift) > CURRENT_DATE)
-         .map(({ id }) => id)
-         .map(id => DeleteRequest(`${BASE}${endpoint}/${id}`));
-   })
-   
-   return await Promise.all([
-      ...BATCH_DELETE_FUNCTION(),
-      ...BATCH_DELETE_SHIFTS_CONFIRMED()
-   ])
-      .then(response => console.log({ message: "Promse.all BATCH DELETE SUCCESS!!!", response }))
-      .catch(error => console.error({ message: "Promise.all BATCH_DELETE_FUNCTION Error!!!", error, errorMessage: error.message }));
+      return { message: "Batch Delete Successful!!!", BASE, ENDPOINTS, FetchDataSetState };
+   } catch (error) {
+      console.error({ message: "ERROR with BatchDelete Function!!!", error, errorMessage: error.message, errorName: error.name });
+   }
 }
-
 export const DeleteRequestSetState = async (url, setStateWrapper, data, location=null) => {
    try {
       const DeleteDataFromDB = await DeleteRequest(url);
