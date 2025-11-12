@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { ShiftContext } from '../../../../App';
 import { AddNewShiftToDBandState } from '../../../../functions/postRequest';
+import { DateTime } from 'luxon';
 import uniqid from 'uniqid';
 import "./AddShift.styles.css";
 
@@ -11,7 +12,9 @@ const AddShift = () => {
    const navigate = useNavigate();
    const shiftID = uniqid('shift-');
    const [shiftDetails, setShiftDetails] = useState({id: shiftID, storeNumber: '', date: '', time: ''});
-   const { currentUser, shiftStatuses: {shiftsAvailable}, setShiftStatuses } = useContext(ShiftContext);
+   const { currentUser, shiftStatuses: { shiftsAvailable }, setShiftStatuses } = useContext(ShiftContext);
+   
+   const minDate = DateTime.now().toFormat('yyyy-MM-dd');
 
    const handleSubmit = async e => {
       e.preventDefault();
@@ -37,7 +40,7 @@ const AddShift = () => {
       </FormGroup>
       <FormGroup>
          <Label for='location'>DATE</Label>
-         <Input type='date' id='location' value={shiftDetails.location} placeholder='location' required onChange={e => setShiftDetails(prv => ({...prv, date: e.target.value}))} />
+         <Input type='date' id='location' value={shiftDetails.location} min={minDate} placeholder='location' required onChange={e => setShiftDetails(prv => ({...prv, date: e.target.value}))} />
       </FormGroup>
       <FormGroup>
          <Label for='time'>TIME</Label>
