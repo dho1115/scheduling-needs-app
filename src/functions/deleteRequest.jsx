@@ -1,7 +1,7 @@
 import { fetchDataPromise } from "./FetchHook";
 
-export const DeleteRequest = (url, id = null) => {
-   return fetch(url, { method: 'DELETE' })
+export const DeleteRequest = async (url, id = null) => {
+   return await fetch(url, { method: 'DELETE' })
       .then(() => {
          console.log(`Successfully deleted ${url} with DeleteRequest.`)
          return `Successfully deleted ${url} with DeleteRequest.`;
@@ -9,9 +9,9 @@ export const DeleteRequest = (url, id = null) => {
       .catch(error => console.error({ message: "DeleteRequest error (deleteRequest.jsx).", error, errorMessage: error.message, errorName: error.name }));
 }
 
-export const BatchCleanup = (DateTime) => {
+export const BatchCleanup = async (DateTime) => {
    const BASE = 'http://localhost:3003/'
-   const ENDPOINTS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation', 'shiftsConfirmed'];
+   const ENDPOINTS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation'];
 
    const BATCH_DELETE_FUNCTION = () => ENDPOINTS
       .map(async endpoint => {
@@ -33,7 +33,7 @@ export const BatchCleanup = (DateTime) => {
          .map(id => DeleteRequest(`${BASE}${endpoint}/${id}`));
    })
    
-   return Promise.all([
+   return await Promise.all([
       ...BATCH_DELETE_FUNCTION(),
       ...BATCH_DELETE_SHIFTS_CONFIRMED()
    ])
