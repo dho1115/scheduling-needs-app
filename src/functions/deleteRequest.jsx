@@ -18,18 +18,17 @@ export const BatchCleanup = (DateTime) => {
          const CURRENT_DATE = DateTime.local();
          const FETCH_DATA = await fetchDataPromise(BASE + endpoint); //[{data}]
          const EXPIRED_IDS = FETCH_DATA
-            .filter(({ date }) => DateTime.fromISO(date) < CURRENT_DATE).map(({ id }) => id); //[id]
+            .filter(({ date }) => DateTime.fromISO(date) > CURRENT_DATE).map(({ id }) => id); //[id]
          
          return EXPIRED_IDS.map(id => DeleteRequest(`${BASE}${endpoint}/${id}`));
       })
    
-   const BATCH_DELETE_SHIFTS_CONFIRMED = () => ["shiftsConfirmed"].map(
-      async endpoint => {
+   const BATCH_DELETE_SHIFTS_CONFIRMED = () => ["shiftsConfirmed"].map(async endpoint => {
       const CURRENT_DATE = DateTime.local();
       const FETCH_DATA = await fetchDataPromise(BASE + endpoint) //[{data}].
       
       return FETCH_DATA
-         .filter(({ date_of_shift }) => DateTime.fromISO(date_of_shift) < CURRENT_DATE)
+         .filter(({ date_of_shift }) => DateTime.fromISO(date_of_shift) > CURRENT_DATE)
          .map(({ id }) => id)
          .map(id => DeleteRequest(`${BASE}${endpoint}/${id}`));
    })
