@@ -10,7 +10,8 @@ import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/Unconfirme
 import UpcomingShifts from "./components/private/candidate/shifts_i_confirmed/UpcomingShifts";
 
 //Functions & dependencies.
-import { fetchDataPromise, FetchDataSetState } from "./functions/FetchHook";
+import { BatchCleanup } from "./functions/deleteRequest";
+import { FetchDataSetState } from "./functions/FetchHook";
 import emailjs from '@emailjs/browser';
 
 //Pages;
