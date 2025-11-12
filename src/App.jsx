@@ -10,7 +10,8 @@ import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/Unconfirme
 import UpcomingShifts from "./components/private/candidate/shifts_i_confirmed/UpcomingShifts";
 
 //Functions & dependencies.
-import { BatchCleanup } from "./functions/deleteRequest";
+import { BatchDelete } from "./functions/deleteRequest";
+import { DateTime } from "luxon";
 import { FetchDataSetState } from "./functions/FetchHook";
 import emailjs from '@emailjs/browser';
 
@@ -45,9 +46,11 @@ function App() {
 
   const callFunctionDeclarations = functionDeclarations => functionDeclarations.forEach(async f => await f())
 
-  useEffect(() => {
-    emailjs.init({publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY })
-    callFunctionDeclarations(functionDeclarations)
+  useEffect(() => {    
+    emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY })
+    BatchDelete(DateTime)
+      .then(res => callFunctionDeclarations(functionDeclarations))
+      .catch(error => ({ message: "BatchDelete ERROR on function call!!!", error, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
   }, []);
 
   //emailjs configuration keys.
