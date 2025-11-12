@@ -20,6 +20,15 @@ export const FetchDataSetState = async (url, setStateWrapper) => {
    }
 }
 
+export const FETCH_SHIFT_STATUS_PROPS = () => {
+   const BASE = 'http://localhost:3003/'
+   const ENDPOINTS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation', 'shiftsConfirmed'];
+
+   const ArrayOfPromises = ENDPOINTS.map(async endpoint =>await fetchDataPromise(`${BASE}${endpoint}`));
+   
+   return Promise.all(ArrayOfPromises).then(result => console.log({ msg: "SUCCESS!!!", result })).catch(error => console.error({ message: "ERROR in ArrayOfPromises", error, errorMessage: error.message }));
+}
+
 export const FetchShiftStatuses = async () => {
    try {
       const shiftsAvailable = await fetch("http://localhost:3003/shiftsAvailable");
