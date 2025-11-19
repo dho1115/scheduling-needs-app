@@ -11,7 +11,9 @@ import UpcomingShifts from "./components/private/candidate/shifts_i_confirmed/Up
 
 //Functions & dependencies.
 import { BatchDelete } from "./functions/deleteRequest";
+import { ConfirmApprovedShiftLogic } from "./functions/emailFunctions";
 import { DateTime } from "luxon";
+import { PatchRequest } from "./functions/patchRequest";
 import { FetchDataSetState } from "./functions/FetchHook";
 import emailjs from '@emailjs/browser';
 
@@ -48,6 +50,7 @@ function App() {
 
   useEffect(() => {    
     emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY })
+
     BatchDelete(DateTime)
       .then(res => callFunctionDeclarations(functionDeclarations))
       .catch(error => ({ message: "BatchDelete ERROR on function call!!!", error, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
@@ -58,6 +61,34 @@ function App() {
   const PUBLIC_KEY_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const GENERAL_KEY_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const CONFIRM_SHIFT_KEY_ID = import.meta.env.VITE_EMAILJS_CONFIRM_SHIFT_ID;
+
+  useEffect(() => {
+    if (shiftStatuses.shiftsConfirmed.length) {
+      shiftStatuses.shiftsConfirmed.forEach(shift => {
+        const { id, date_of_shift, applicantName, storeNumber } = shift;
+
+        const todaysDate = DateTime.now();
+        const dateOfShift = DateTime.fromISO(date_of_shift);
+        const difference = dateOfShift.diff(todaysDate, "days");
+
+        if (((Number(difference.days.toFixed(3)) * 1) < 2) && (!shift.sentReminder)) {
+          const daysRemainingTillShift = Number(difference.days.toFixed(3)) * 1
+          
+          ConfirmApprovedShiftLogic(id, date_of_shift, "http://localhost:3001/", applicantName, storeNumber, emailjs, SERVICE_ID, CONFIRM_SHIFT_KEY_ID, PUBLIC_KEY_ID, `*** REMINDER: YOUR SHIFT IS ${daysRemainingTillShift} DAY AWAY!!! ***`)
+            .then(async response => {
+              console.log({ message: "SUCCESS!!!", response, status: response.status, responseText: response.text });
+
+              const reminderEmailSent = await PatchRequest(`http://localhost:3003/shiftsConfirmed/${id}`, { sentReminder: true });
+
+              return reminderEmailSent;
+            })
+            .catch(error => console.error({ message: "ERROR sending the reminder email!!!", error, errorMessage: error.message, errorName: error.name, errorStack: error.stack })); //logic to send email reminder.
+          
+            async () => await FetchDataSetState("http://localhost:3003/shiftsConfirmed", data => setShiftStatuses(data)) //logic to reset shiftsConfirmed state.
+        }
+      })
+    }
+  }, [shiftStatuses.shiftsConfirmed.length])
 
   return (
     <ShiftContext.Provider
