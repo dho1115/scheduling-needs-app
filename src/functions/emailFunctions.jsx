@@ -1,8 +1,8 @@
-export const ConfirmApprovedShiftLogic = async (_shiftID, shiftDate, url, username, storeNumber, emailjs, SERVICE_ID=null, CONFIRM_SHIFT_KEY_ID=null, PUBLIC_KEY=null) => {
+export const ConfirmApprovedShiftLogic = async (_shiftID, shiftDate, url, username, storeNumber, emailjs, SERVICE_ID=null, CONFIRM_SHIFT_KEY_ID=null, PUBLIC_KEY=null, comments="") => {
    try {
       if (!(SERVICE_ID && CONFIRM_SHIFT_KEY_ID && PUBLIC_KEY)) throw new Error(`ERROR in ConfirmApprovedShiftLogic function. Missing SERVICE_ID (you have ${SERVICE_ID}) AND/OR TEMPLATE ID (you have ${CONFIRM_SHIFT_KEY_ID}).`);
 
-      const templateParams = { email: import.meta.env.VITE_EMAILJS_DEFAULT_EMAIL, _shiftID, storeNumber, shiftDate, url, username /* candidate name. */ };
+      const templateParams = { email: import.meta.env.VITE_EMAILJS_DEFAULT_EMAIL, comments, _shiftID, storeNumber, shiftDate, url, username /* candidate name. */ };
 
       const sendEmail = await emailjs.send(SERVICE_ID, CONFIRM_SHIFT_KEY_ID, templateParams);
 
