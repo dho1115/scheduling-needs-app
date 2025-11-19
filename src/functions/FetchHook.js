@@ -15,6 +15,7 @@ export const FetchDataSetState = async (url, setStateWrapper) => {
    try {
       const fetchData = await fetchDataPromise(url);
       setStateWrapper(fetchData);
+      return fetchData;
    } catch (error) {
       console.error({ message: "FetchDateSetState error!!!", error, errorMessage: error.message, errorCode: error.code, errorStack: error.stack });
    }
