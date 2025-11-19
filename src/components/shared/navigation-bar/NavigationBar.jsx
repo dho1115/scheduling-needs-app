@@ -48,6 +48,9 @@ const NavigationBar = () => {
             navigationLinks
             .filter(({ restrictions }) => restrictions == role || !restrictions)
             .map(({ name, to }, idx) => {
+              if (name == 'unconfirmed shifts') {
+                if (shiftsPendingConfirmation.length > 0) name = "FOLLOW UP ON UNCONFIRMED SHIFTS!!!"
+              }
               
               return (
                 <Link to={to} key={idx} className='navlink'>
