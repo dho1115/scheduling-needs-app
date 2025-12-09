@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { ShiftContext } from '../../../../App';
+import { SupervisorPageContext } from '../../../../pages/supervisor/SupervisorPage';
 import { AddNewShiftToDBandState } from '../../../../functions/postRequest';
 import { DateTime } from 'luxon';
 import uniqid from 'uniqid';
@@ -13,6 +14,7 @@ const AddShift = () => {
    const shiftID = uniqid('shift-');
    const [shiftDetails, setShiftDetails] = useState({id: shiftID, storeNumber: '', date: '', time: ''});
    const { currentUser, shiftStatuses: { shiftsAvailable }, setShiftStatuses } = useContext(ShiftContext);
+   const {newShiftAdded, setNewShiftAdded} = useContext(SupervisorPageContext)
    
    const minDate = DateTime.now().toFormat('yyyy-MM-dd');
 
@@ -20,6 +22,7 @@ const AddShift = () => {
       e.preventDefault();
       try {
          const addToDBandSetState = await AddNewShiftToDBandState('http://localhost:3003/shiftsAvailable', shiftDetails, shiftDetails => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: [...shiftsAvailable, shiftDetails] })), pathname)
+            .then(() => setNewShiftAdded(true))
             .then(() => navigate(`/supervisor/welcome/${currentUser.id}/available shifts`));
 
       } catch (error) {
