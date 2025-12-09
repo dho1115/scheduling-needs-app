@@ -1,21 +1,22 @@
 //Dependencies.
-import emailjs from '@emailjs/browser';
 import { Suspense, useContext, useEffect } from 'react'
 import { ShiftContext } from '../../../App';
+import { SupervisorPageContext } from '../../../pages/supervisor/SupervisorPage';
 import Shift from './shift_component/Shift';
 import { Button, Container } from 'reactstrap';
 import ErrorBoundary from '../../ErrorBoundary';
+import emailjs from '@emailjs/browser';
 
 //Functions.
 import { DateTime } from 'luxon';
 import { fetchDataPromise } from '../../../functions/FetchHook';
-import { PostRequest } from '../../../functions/postRequest';
 import { PatchRequest } from '../../../functions/patchRequest';
 
 import "./SchedulingNeeds.styles.css";
 
 const SchedulingNeeds = () => {
-   const { currentUser, emailjs_keys, shiftStatuses, shiftStatuses: { shiftsAvailable } } = useContext(ShiftContext);
+   const { currentUser, emailjs_keys, shiftStatuses: { shiftsAvailable } } = useContext(ShiftContext);
+   const { newShiftAdded, setNewShiftAdded } = useContext(SupervisorPageContext);
 
    const { SERVICE_ID, PUBLIC_KEY_ID, GENERAL_KEY_ID, CONFIRM_SHIFT_KEY_ID } = emailjs_keys;
 
@@ -54,7 +55,7 @@ const SchedulingNeeds = () => {
          </header>
          
          {
-            currentUser.role == 'supervisor'
+            (currentUser.role == 'supervisor' && newShiftAdded)
             &&
             <div className='m-3 p-1' style={{float: "right"}}>
                <Button size='lg' color='danger' onClick={handleSendSchedulingNeedsNotification}>SEND SCHEDULING NEEDS NOTIFICATION!!!</Button>
