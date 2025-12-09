@@ -24,7 +24,6 @@ const AddShift = () => {
          const addToDBandSetState = await AddNewShiftToDBandState('http://localhost:3003/shiftsAvailable', shiftDetails, shiftDetails => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: [...shiftsAvailable, shiftDetails] })), pathname)
             .then(() => setNewShiftAdded(true))
             .then(() => navigate(`/supervisor/welcome/${currentUser.id}/available shifts`));
-
       } catch (error) {
          console.error({ message: "handleSubmit ERRROR!!!", location: pathname, error, errorCode: error.code, errorMessage: error.message });
       }
