@@ -1,9 +1,10 @@
 {
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "",
+    "name": "",
+    "password": "",
+    "role": "",
+    "base": ""
   },
   "employees": [
     {
@@ -41,7 +42,7 @@
     }
   ],
   "shiftsNotificationSent": {
-    "date": "2025-11-29T18:28:33.535-06:00"
+    "date": "2025-12-09T16:53:32.444-06:00"
   },
   "shiftsAvailable": [
     {
@@ -55,6 +56,12 @@
       "storeNumber": "3999",
       "date": "2025-12-11",
       "time": "8am-5pm"
+    },
+    {
+      "id": "shift-miz65pt2",
+      "storeNumber": "3119",
+      "date": "2025-12-19",
+      "time": "7am - 1pm"
     }
   ],
   "shiftsWithApplicants": [
