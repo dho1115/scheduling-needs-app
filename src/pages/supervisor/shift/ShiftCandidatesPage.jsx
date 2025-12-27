@@ -39,7 +39,7 @@ const ShiftCandidatesPage = () => {
 
       const approvedShiftWithApplicant = shiftsWithApplicants.find(shiftWithApplicant => (shiftWithApplicant.id == id));
 
-      const sendEmailToCandidate = await ConfirmApprovedShiftLogic(_shiftID, date, "http://localhost:3001/", applicant.name, storeNumber, emailjs, emailjs_keys.SERVICE_ID, emailjs_keys.CONFIRM_SHIFT_KEY_ID, emailjs_keys.PUBLIC_KEY_ID)
+      const sendEmailToCandidate = await ConfirmApprovedShiftLogic(_shiftID, date, "http://localhost:3001/", applicant.name, storeNumber, emailjs, emailjs_keys.SERVICE_ID, emailjs_keys.CONFIRM_SHIFT_KEY_ID, emailjs_keys.PUBLIC_KEY_ID, `${_shiftID} has been approved!!!`, `Request to work shift ${_shiftID} is approved. Please CONFIRM this email.`)
       
       const transfer_shift_logic = await TransferApprovedShift(approvedShiftWithApplicant, shiftsWithApplicants, formattedDateApproved, currentUser, pathname)
 
@@ -50,7 +50,7 @@ const ShiftCandidatesPage = () => {
         return accumulator;
       }, {})
 
-      print({ transfer_shift_logic, sendEmailToCandidate, fetchShiftStatuses, updateShiftStatuses });
+      console.log({ transfer_shift_logic, sendEmailToCandidate, fetchShiftStatuses, updateShiftStatuses });
 
       setShiftStatuses(updateShiftStatuses);
 
