@@ -37,12 +37,13 @@ const SchedulingNeeds = () => {
             const initializeDateTime = await PatchRequest("http://localhost:3003/shiftsNotificationSent", { date: currentDateTimeISO });
          }
 
-         const templateParams = { email: import.meta.env.VITE_EMAILJS_DEFAULT_EMAIL, comments: "SCHEULING NEEDS UPDATED!!! (SHIFTS HAVE BEEN ADDED/REMOVED)!!!", _shiftID:"N/A", storeNumber:"", shiftDate: currentDateTime, url:"ttp://localhost:3001/", username:"ALL CANDIDATES!!!" /* candidate name. */ };
+         const templateParams = { email: import.meta.env.VITE_EMAILJS_DEFAULT_EMAIL, comments: "SCHEULING NEEDS UPDATED!!! (SHIFTS HAVE BEEN ADDED/REMOVED)!!!", _shiftID:"N/A", storeNumber:"", shiftDate: currentDateTime, url:"ttp://localhost:3001/", username:"ALL CANDIDATES!!!", title: `SCHEDULING NEEDS UPDATED FOR ${JSON.stringify(DateTime.now().toFormat('MM-dd-yyyy'))}.` /* candidate name. */ };
 
          const sendEmail = await emailjs.send(SERVICE_ID, CONFIRM_SHIFT_KEY_ID, templateParams);
 
-         const PatchNotificationSentDate = await PatchRequest("http://localhost:3003/shiftsNotificationSent", { date: currentDateTimeISO });
+         const PatchNotificationSentDate = await PatchRequest("http://localhost:3003/shiftsNotificationSent", { date: currentDateTimeISO })
 
+         setNewShiftAdded(false);
       } catch (error) {
          console.error({ message: "handleSendSchedulingNeedsNotification ERROR!!!", error, errorMessage: error.message, errorName: error.name });
       }
