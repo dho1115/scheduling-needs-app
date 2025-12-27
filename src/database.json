@@ -1,10 +1,9 @@
 {
   "currentUser": {
-    "id": "",
-    "name": "",
-    "password": "",
-    "role": "",
-    "base": ""
+    "name": "Jamie Smith",
+    "password": "jsmith1",
+    "role": "supervisor",
+    "id": "s-mbwiqyvw"
   },
   "employees": [
     {
@@ -42,15 +41,9 @@
     }
   ],
   "shiftsNotificationSent": {
-    "date": "2025-12-09T16:53:32.444-06:00"
+    "date": "2025-12-10T00:37:06.822-06:00"
   },
   "shiftsAvailable": [
-    {
-      "id": "shift-mhv3h6nd",
-      "storeNumber": "5678",
-      "date": "2026-01-21",
-      "time": "1pm-5pm"
-    },
     {
       "id": "shift-mhwch4vw",
       "storeNumber": "3999",
@@ -62,23 +55,21 @@
       "storeNumber": "3119",
       "date": "2025-12-19",
       "time": "7am - 1pm"
-    }
-  ],
-  "shiftsWithApplicants": [
+    },
     {
-      "id": "c-mbwm1j9c-shift-mhv3h6nd",
-      "shiftID": "shift-mhv3h6nd",
-      "applicant": {
-        "id": "c-mbwm1j9c",
-        "name": "Shawne Carter",
-        "role": "candidate",
-        "base": "5007"
-      },
-      "date": "2026-01-21",
-      "time": "1pm-5pm",
-      "storeNumber": "5678"
+      "id": "shift-mizmuzto",
+      "storeNumber": "5577",
+      "date": "2026-01-15",
+      "time": "3pm - 7pm"
+    },
+    {
+      "id": "shift-mizmzawu",
+      "storeNumber": "39917",
+      "date": "2025-12-17",
+      "time": "9am - 5pm"
     }
   ],
+  "shiftsWithApplicants": [],
   "shiftsPendingConfirmation": [
     {
       "id": "c-mbwk4v3g-shift-mhtyqw8q",
@@ -93,6 +84,22 @@
       "time": "7am-1pm",
       "storeNumber": "1595",
       "approvedOn": "2025-11-10",
+      "approvedBy": "Jamie Smith",
+      "supervisorId": "s-mbwiqyvw"
+    },
+    {
+      "id": "c-mbwm1j9c-shift-mhv3h6nd",
+      "shiftID": "shift-mhv3h6nd",
+      "applicant": {
+        "id": "c-mbwm1j9c",
+        "name": "Shawne Carter",
+        "role": "candidate",
+        "base": "5007"
+      },
+      "date": "2026-01-21",
+      "time": "1pm-5pm",
+      "storeNumber": "5678",
+      "approvedOn": "2025-12-10",
       "approvedBy": "Jamie Smith",
       "supervisorId": "s-mbwiqyvw"
     }
