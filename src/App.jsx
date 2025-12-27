@@ -74,7 +74,7 @@ function App() {
         if (((Number(difference.days.toFixed(3)) * 1) < 2) && (!shift.sentReminder)) {
           const daysRemainingTillShift = Number(difference.days.toFixed(3)) * 1
           
-          ConfirmApprovedShiftLogic(id, date_of_shift, "http://localhost:3001/", applicantName, storeNumber, emailjs, SERVICE_ID, CONFIRM_SHIFT_KEY_ID, PUBLIC_KEY_ID, `*** REMINDER: YOUR SHIFT IS ${daysRemainingTillShift} DAY AWAY!!! ***`)
+          ConfirmApprovedShiftLogic(id, date_of_shift, "http://localhost:3001/", applicantName, storeNumber, emailjs, SERVICE_ID, CONFIRM_SHIFT_KEY_ID, PUBLIC_KEY_ID, `*** REMINDER: YOUR SHIFT IS ${daysRemainingTillShift} DAY AWAY!!! ***`, "REMINDER: UPCOMING SHIFT!!!!!")
             .then(async response => {
               console.log({ message: "SUCCESS!!!", response, status: response.status, responseText: response.text });
 
