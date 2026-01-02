@@ -1,9 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
-import { app } from "./firebase";
 import SchedulingNeeds from "./components/shared/scheduling_needs/SchedulingNeeds";
 import ShiftsAppliedFor from "./components/private/candidate/pending_shifts/ShiftsAppliedFor"; //For the candidate.
 import ShiftsNeedingConfirmation from "./components/private/candidate/shifts_needing_confirmation/ShiftsNeedingConfirmation";
@@ -11,12 +10,18 @@ import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/Unconfirme
 import UpcomingShifts from "./components/private/candidate/shifts_i_confirmed/UpcomingShifts";
 
 //Functions & dependencies.
+import { auth, db } from "./firebase"; //firebase, firestore.
 import { BatchDelete } from "./functions/deleteRequest";
 import { ConfirmApprovedShiftLogic } from "./functions/emailFunctions";
 import { DateTime } from "luxon";
+import { fetchAndAddtoFB } from "./functions/FetchHook"; //tx. array of data.
+import { fetchOneAndAddToFB } from "./functions/FetchHook"; //tx. one object.
 import { PatchRequest } from "./functions/patchRequest";
 import { FetchDataSetState } from "./functions/FetchHook";
 import emailjs from '@emailjs/browser';
+
+//CustomHooks
+import { useSignUp } from "./functions/custom_hooks";
 
 //Pages;
 import Homepage from "./pages/homepage/Homepage";
@@ -49,12 +54,18 @@ function App() {
 
   const callFunctionDeclarations = functionDeclarations => functionDeclarations.forEach(async f => await f())
 
-  useEffect(() => {    
-    emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY })
+  useEffect(() => {
+    emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY });
 
-    BatchDelete(DateTime)
-      .then(res => callFunctionDeclarations(functionDeclarations))
-      .catch(error => ({ message: "BatchDelete ERROR on function call!!!", error, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
+    // fetchOneAndAddToFB("http://localhost:3003/currentUser", "Current User", "App.js")
+    //   .then(result => console.log(result))
+    //   .catch(error => console.error(error));
+
+    // fetchAndAddtoFB("http://localhost:3003/employees", "Employees", "App.js").then(result => console.log(result)).catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
+    
+    // BatchDelete(DateTime)
+    //   .then(res => callFunctionDeclarations(functionDeclarations))
+    //   .catch(error => ({ message: "BatchDelete ERROR on function call!!!", error, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
   }, []);
 
   //emailjs configuration keys.
@@ -93,7 +104,7 @@ function App() {
 
   return (
     <ShiftContext.Provider
-      value={{ currentUser, setCurrentUser, employees, setEmployees, shiftStatuses, setShiftStatuses, emailjs_keys: { SERVICE_ID, PUBLIC_KEY_ID, GENERAL_KEY_ID, CONFIRM_SHIFT_KEY_ID } }}
+      value={{ customHooks: { useSignUp }, currentUser, setCurrentUser, employees, setEmployees, shiftStatuses, setShiftStatuses, emailjs_keys: { SERVICE_ID, PUBLIC_KEY_ID, GENERAL_KEY_ID, CONFIRM_SHIFT_KEY_ID } }}
     >
       <BrowserRouter>
         <Routes>
