@@ -4,36 +4,37 @@ import uniqid from 'uniqid';
 import { Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { ShiftContext } from '../../../App';
 import { PostRequest } from '../../../functions/postRequest';
-import { fetchDataPromise } from '../../../functions/FetchHook';
+// import { fetchDataPromise } from '../../../functions/FetchHook';
 
 import "../Registration.styles.css";
 
 const Register = ({ isOpen, toggle }) => {
    const formRef = useRef();
    const navigate = useNavigate();
-   const shiftcontext = useContext(ShiftContext);
-   const { currentUser, setCurrentUser } = shiftcontext;
+   const { currentUser, setCurrentUser, customHooks } = useContext(ShiftContext);
    const { name, password } = currentUser;
+   const { useSignUp } = customHooks;
+   const [currentuser, loading] = useSignUp()
 
    function handleRegistration(e) {
       e.preventDefault()
       const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
       const currentUserDetails = { ...currentUser, id: _id };
-      PostRequest('http://localhost:3003/employees', currentUserDetails);
-      PostRequest('http://localhost:3003/currentUser', currentUserDetails)
-         .then(result => {
-         console.log({ from: 'PostRequest', message: 'success!!!', result });
-         return fetchDataPromise('http://localhost:3003/currentUser')
-            .then(loggedInUser => {
-               setCurrentUser(prv => ({ ...prv, ...loggedInUser }));
-               if (!(currentUser.id && currentUser.name)) throw new Error(`ERROR INSIDE FETCHDATAPROMISE!!! NO CURRENT USER (at least, not yet): ${currentUser}.`)
-               else {
-                  toggle();
-                  navigate(`/supervisor/welcome/${currentUser.id}`);
-               }
-            })
-            .catch(error => console.error({from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, errorCode: error.code, status: error.status }));
-      })
+      // PostRequest('http://localhost:3003/employees', currentUserDetails); //replace with useSignUp() custom hook.
+      // PostRequest('http://localhost:3003/currentUser', currentUserDetails)
+      //    .then(result => {
+      //    console.log({ from: 'PostRequest', message: 'success!!!', result });
+      //    return fetchDataPromise('http://localhost:3003/currentUser')
+      //       .then(loggedInUser => {
+      //          setCurrentUser(prv => ({ ...prv, ...loggedInUser }));
+      //          if (!(currentUser.id && currentUser.name)) throw new Error(`ERROR INSIDE FETCHDATAPROMISE!!! NO CURRENT USER (at least, not yet): ${currentUser}.`)
+      //          else {
+      //             toggle();
+      //             navigate(`/supervisor/welcome/${currentUser.id}`);
+      //          }
+      //       })
+      //       .catch(error => console.error({from: 'fetchDataPromise/currentUser', error, errorMessage: error.message, errorCode: error.code, status: error.status }));
+      // }) //will replace with custom hook.
    }
 
    return (
