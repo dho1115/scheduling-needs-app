@@ -1,9 +1,10 @@
 {
   "currentUser": {
-    "name": "Jamie Smith",
-    "password": "jsmith1",
-    "role": "supervisor",
-    "id": "s-mbwiqyvw"
+    "id": "",
+    "name": "",
+    "password": "",
+    "role": "",
+    "base": ""
   },
   "employees": [
     {
@@ -45,48 +46,14 @@
   },
   "shiftsAvailable": [
     {
-      "id": "shift-mhwch4vw",
-      "storeNumber": "3999",
-      "date": "2025-12-11",
-      "time": "8am-5pm"
-    },
-    {
-      "id": "shift-miz65pt2",
-      "storeNumber": "3119",
-      "date": "2025-12-19",
-      "time": "7am - 1pm"
-    },
-    {
       "id": "shift-mizmuzto",
       "storeNumber": "5577",
       "date": "2026-01-15",
       "time": "3pm - 7pm"
-    },
-    {
-      "id": "shift-mizmzawu",
-      "storeNumber": "39917",
-      "date": "2025-12-17",
-      "time": "9am - 5pm"
     }
   ],
   "shiftsWithApplicants": [],
   "shiftsPendingConfirmation": [
-    {
-      "id": "c-mbwk4v3g-shift-mhtyqw8q",
-      "shiftID": "shift-mhtyqw8q",
-      "applicant": {
-        "id": "c-mbwk4v3g",
-        "name": "Acey Gardner",
-        "role": "candidate",
-        "base": "3777"
-      },
-      "date": "2025-12-19",
-      "time": "7am-1pm",
-      "storeNumber": "1595",
-      "approvedOn": "2025-11-10",
-      "approvedBy": "Jamie Smith",
-      "supervisorId": "s-mbwiqyvw"
-    },
     {
       "id": "c-mbwm1j9c-shift-mhv3h6nd",
       "shiftID": "shift-mhv3h6nd",
@@ -114,18 +81,8 @@
       "date_of_shift": "2026-01-03",
       "storeNumber": "3007",
       "time": "1pm-5pm",
-      "dateConfirmed": "2025-11-17"
-    },
-    {
-      "id": "c-mbwisn33-shift-mhv389ej",
-      "shiftWithApplicantID": "c-mbwisn33-shift-mhv389ej",
-      "shiftID": "shift-mhv389ej",
-      "applicantName": "Arnie Smart",
-      "applicantID": "c-mbwisn33",
-      "date_of_shift": "2025-12-23",
-      "storeNumber": "5007",
-      "time": "7am-1pm",
-      "dateConfirmed": "2025-11-17"
+      "dateConfirmed": "2025-11-17",
+      "sentReminder": true
     }
   ]
 }
