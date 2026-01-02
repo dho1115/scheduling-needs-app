@@ -1,3 +1,5 @@
+import { fb_addOneDocument } from "./firebase/crud_basic";
+
 export const fetchDataPromise = async url => {
    try {
       const rawData = await fetch(url);
@@ -40,5 +42,33 @@ export const FetchShiftStatuses = async () => {
       return [{ shiftsAvailable }, { shiftsWithApplicants }, { shiftsPendingConfirmation }, { shiftsConfirmed }];
    } catch (error) {
       console.error({ message: "fetchShiftStatuses function call error!!!", error, errorMessage: error.message, errorName: error.name, errorStack: error.stack });
+   }
+}
+
+//Fetch One.
+export const fetchOneAndAddToFB = async (url, collection_name, _id, location=null) => {
+   try {
+      const json_data = await fetchDataPromise(url);
+
+      if (typeof (json_data) == "object") return await fb_addOneDocument(collection_name, json_data, _id, location);
+      else throw new Error(`ERROR!!! json_data is ${JSON.stringify(json_data)} of the type ${typeof(json_data)}.`)
+   } catch (error) {
+      console.error({ message: "Error inside fetchOneAndAddToFB", location, error, errorMessage: error.message, errorName: error.name });
+   }
+}
+
+//FetchArray.
+export const fetchAndAddtoFB = async (url, collection_name, location=null) => {
+   try {
+      const json_data = await fetchDataPromise(url);
+
+      if (json_data.length && Array.isArray(json_data)) {
+         return Promise.all(json_data.map(json_obj => fb_addOneDocument(collection_name, json_obj, json_obj.id, location)))
+            .then(result => console.log(result))
+            .catch(error => console.error(error))
+      }
+      else throw new Error(`ERROR!!! json_data returned ${json_data}. It is of a type ${typeof (json_data)}.`);
+   } catch (error) {
+      console.error({ message: "ERROR inside FB_fetchAndAdd", location, error, errorMessage: error.message, errorName: error.name });
    }
 }
