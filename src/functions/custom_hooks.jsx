@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { fb_addOneDocument, fb_fetchOneDoc } from "./firebase/crud_basic";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import { signUpNewUser } from "./firebase/authorization";
 
 export const useSignUp = (collection_name, signUp_details, location=null) => {
    const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
@@ -9,7 +10,9 @@ export const useSignUp = (collection_name, signUp_details, location=null) => {
 
    const addAndFetchSignUp = async () => {
       try {
-         const newSignUp = await fb_addOneDocument(collection_name, signUp_details, "current_user", location); //Adds the sign up.
+         const authenticateNewUser = await signUpNewUser(`${signUp_details.name.split(" ").join("") + signUp_details.id}.email.com`, signUp_details.password, location); //firebase authentication.
+
+         const addUserToFirestore = await fb_addOneDocument(collection_name, signUp_details, "current_user", location); //Adds the sign up.
 
          const collectionRef = collection(db, collection_name);
 
