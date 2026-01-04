@@ -24,23 +24,23 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
          if (!findMatch) {
             throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees... DAMN YOU!!!`);
          } else {
-            PostRequest('http://localhost:3003/currentUser', { ...findMatch })
-               .then(result => {
-                  console.log({ message: 'From Login.jsx: PostRequest success!!!', result });
-                  return fetchDataPromise('http://localhost:3003/currentUser').then(data => {
-                     console.log({ from: 'fetchDataPromise/currentUser', message: 'SUCCESS!!!', data });
-                     setCurrentUser(prvCurrentUser => ({ ...prvCurrentUser, ...data }));
-                     if (!(currentUser.id && currentUser.name)) throw new Error(`NO CURRENT USER (at least, not yet): ${JSON.stringify(currentUser)}!!!`)
-                     else {
-                        toggle();
-                        navigate(`/${findMatch.role}/welcome/${currentUser.id}`);
-                     }
-                  }).catch(error => console.error({ from: 'fetchDataPromise/currentUser', errorCode: error.code, errorMessage: error.message, status: error.status }));
-               })
-               .catch(error => {
-                  console.error({ message: 'From Login.jsx on PostRequest... ERROR!!!', error, errorMessage: error.message, errorCode: error.code });
-                  setPostError(`There is no currentUser (at least not yet), as currentUser is currently ${JSON.stringify(currentUser)}.`);
-               })
+            // PostRequest('http://localhost:3003/currentUser', { ...findMatch })
+            //    .then(result => {
+            //       console.log({ message: 'From Login.jsx: PostRequest success!!!', result });
+            //       return fetchDataPromise('http://localhost:3003/currentUser').then(data => {
+            //          console.log({ from: 'fetchDataPromise/currentUser', message: 'SUCCESS!!!', data });
+            //          setCurrentUser(prvCurrentUser => ({ ...prvCurrentUser, ...data }));
+            //          if (!(currentUser.id && currentUser.name)) throw new Error(`NO CURRENT USER (at least, not yet): ${JSON.stringify(currentUser)}!!!`)
+            //          else {
+            //             toggle();
+            //             navigate(`/${findMatch.role}/welcome/${currentUser.id}`);
+            //          }
+            //       }).catch(error => console.error({ from: 'fetchDataPromise/currentUser', errorCode: error.code, errorMessage: error.message, status: error.status }));
+            //    })
+            //    .catch(error => {
+            //       console.error({ message: 'From Login.jsx on PostRequest... ERROR!!!', error, errorMessage: error.message, errorCode: error.code });
+            //       setPostError(`There is no currentUser (at least not yet), as currentUser is currently ${JSON.stringify(currentUser)}.`);
+            //    }) //Replace this with Firebase Auth logic.
          }
       } catch (error) {
          setValidationAlert(prv => ({...prv, userNotFound: true }));
