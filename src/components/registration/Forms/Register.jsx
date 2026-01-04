@@ -1,23 +1,40 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import uniqid from 'uniqid';
 import { Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { ShiftContext } from '../../../App';
+import { signUpNewUser } from '../../../functions/firebase/authorization';
+import { fb_addOneDocument } from '../../../functions/firebase/crud_basic';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../../firebase';
 
 import "../Registration.styles.css";
 
 const Register = ({ isOpen, toggle }) => {
+   const location = useLocation();
    const formRef = useRef();
    const navigate = useNavigate();
-   const { currentUser, setCurrentUser, customHooks } = useContext(ShiftContext);
+   const { currentUser, setCurrentUser } = useContext(ShiftContext);
    const { name, password } = currentUser;
-   const { useSignUp } = customHooks;
-   const [currentuser, loading] = useSignUp()
 
-   function handleRegistration(e) {
+   async function handleRegistration(e) {
       e.preventDefault()
-      const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
-      const currentUserDetails = { ...currentUser, id: _id };
+      try {
+         const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
+         const UserEmail = `${currentUserDetails.name.split(' ').join('') + currentUserDetails.id}@email.com`
+         const currentUserDetails = { ...currentUser, id: _id };
+         const newUserAuth = await signUpNewUser(UserEmail, currentUserDetails.password, location.pathname)
+         const addUserToFB = await fb_addOneDocument("Employees", currentUserDetails, currentUserDetails.id, location.pathname)
+         setCurrentUser(currentUserDetails);
+
+         const docReference = doc(db, "Employees", currentUserDetails.id);
+         const documentSnapshot = await getDoc(docReference);
+
+         if (documentSnapshot.exists()) navigate("/");
+         else console.error(`documentSnapshot.exists() for ${_id} returned ${documentSnapshot.exists()}.`)
+      } catch (error) {
+         console.error({ message: "Error in handleRegistration function!!!", location: location.pathname, error, errorMessage: error.message, errorName: error.name });
+      }
    }
 
    return (
