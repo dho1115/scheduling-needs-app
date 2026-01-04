@@ -5,7 +5,6 @@ export const signUpNewUser = async (email, password, location=null) => {
    try {
       const currentUser_credential = await createUserWithEmailAndPassword(auth, email, password);
       const userCredential = currentUser_credential.user;
-      console.log(`Successfully signed up ${JSON.stringify(userCredential)}!!!`);
       return userCredential;
    } catch (error) {
       console.error({ message: "createNewUser error (authorization.jsx)", location, error, errorMessage: error.message, errorName: error.name });
