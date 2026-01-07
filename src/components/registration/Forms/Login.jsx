@@ -3,10 +3,14 @@ import { Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, Alert } f
 import { useNavigate } from 'react-router-dom';
 
 import { ShiftContext } from '../../../App';
-import { PostRequest } from '../../../functions/postRequest';
-import { fetchDataPromise } from '../../../functions/FetchHook';
+import { auth } from '../../../firebase';
+
+import { fb_userLogin } from '../../../functions/firebase/authorization';
+fb_userLogin
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 
 import "../Registration.styles.css";
+
 
 const Login = ({ isOpen, toggle, loginIsOpen }) => {
    const navigate = useNavigate();
@@ -16,7 +20,7 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
    const shiftcontext = useContext(ShiftContext);
    const { employees, currentUser, setCurrentUser } = shiftcontext;
 
-   const onHandleLogin = e => {
+   const onHandleLogin = async e => {
       e.preventDefault()
       try {
          const findMatch = employees.find(({ password, id }) => (loginData.id == id) && (loginData.password == password));
@@ -24,7 +28,9 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
          if (!findMatch) {
             throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees... DAMN YOU!!!`);
          } else {
-            
+            const userCredential = await signInWithEmailAndPassword(auth, `${loginData.id}@email.com`, loginData.password);
+            const user = userCredential.user;
+            setCurrentUser(findMatch);
          }
       } catch (error) {
          setValidationAlert(prv => ({...prv, userNotFound: true }));
@@ -45,7 +51,17 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
       };
    }, [loginIsOpen]) //cleanup. resets the state to original & removes <Alert />.
 
-   console.log(currentUser)
+   useEffect(() => {
+      onAuthStateChanged(auth, user => {
+         console.log("Inside onAuthStateChanged:")
+         console.log({ ...currentUser });
+         if (user && (currentUser.id && currentUser.role)) {
+            if (currentUser.role == "supervisor") navigate(`/supervisor/welcome/${currentUser.id}/`)
+         } else {
+         navigate(`/candidate/welcome/${currentUser.id}/`)}
+      });
+   }, [auth.currentUser, currentUser.id, currentUser.role]);
+
    return (
       <Modal
          isOpen={isOpen}
