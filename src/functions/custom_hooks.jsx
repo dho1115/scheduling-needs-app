@@ -1,8 +1,36 @@
 import { useEffect, useState } from "react"
-import { fb_addOneDocument, fb_fetchOneDoc } from "./firebase/crud_basic";
+import { fb_addOneDocument, fb_fetchAllDocs, fb_fetchOneDoc } from "./firebase/crud_basic";
+fb_fetchAllDocs
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
-import { signUpNewUser } from "./firebase/authorization";
+import { fb_signUpNewUser } from "./firebase/authorization";
+
+export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
+   if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
+
+   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
+
+   const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
+
+   const [employees, setEmployees] = useState([]);
+
+   const MapDatabaseToState = {
+      "Current User": setCurrentUser,
+      "Employees": setEmployees
+   }
+
+   useEffect(() => {
+      allFirestoreCollections.forEach(async collection_name => {
+         const documents = await fb_fetchAllDocs(collection_name, location)
+         MapDatabaseToState[collection_name](documents);
+      })
+      return () => {
+         
+      };
+   }, [])
+
+   return {currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees}
+}
 
 export const useSignUp = (collection_name, signUp_details, location=null) => {
    const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
@@ -10,7 +38,7 @@ export const useSignUp = (collection_name, signUp_details, location=null) => {
 
    const addAndFetchSignUp = async () => {
       try {
-         const authenticateNewUser = await signUpNewUser(`${signUp_details.name.split(" ").join("") + signUp_details.id}.email.com`, signUp_details.password, location); //firebase authentication.
+         const authenticateNewUser = await fb_signUpNewUser(`${signUp_details.name.split(" ").join("") + signUp_details.id}.email.com`, signUp_details.password, location); //firebase authentication.
 
          const addUserToFirestore = await fb_addOneDocument(collection_name, signUp_details, "current_user", location); //Adds the sign up.
 
