@@ -7,8 +7,9 @@ import Login from '../../components/registration/Forms/Login';
 import Register from '../../components/registration/Forms/Register';
 
 //Dependencies.
-import { Container } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import { ShiftContext } from '../../App';
+import { fb_signOut } from '../../functions/firebase/authorization';
 
 import './Homepage.styles.css';
 
@@ -27,7 +28,8 @@ const Homepage = () => {
   return (
     <div className='homepage-div'>
       <Suspense fallback={<h3 style={{color: 'red', backgroundColor: 'lightseagreen'}}>LOADING... PLEASE WAIT.</h3>}>
-        <Container className='homepage-container'>        
+        <Container className='homepage-container'>
+          <Button size='lg' color='bg bg-light' onClick={() => fb_signOut()}>SIGN OUT (TEST)!!!</Button>
           <Registration
             text="LOGIN"
             toggle={loginToggle}
