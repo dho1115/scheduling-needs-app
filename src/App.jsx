@@ -21,7 +21,7 @@ import { FetchDataSetState } from "./functions/FetchHook";
 import emailjs from '@emailjs/browser';
 
 //CustomHooks
-import { useSignUp } from "./functions/custom_hooks";
+import { useFetchFirestoreAndSetState, useSignUp } from "./functions/custom_hooks";
 
 //Pages;
 import Homepage from "./pages/homepage/Homepage";
@@ -53,6 +53,8 @@ function App() {
   ]
 
   const callFunctionDeclarations = functionDeclarations => functionDeclarations.forEach(async f => await f())
+
+  useFetchFirestoreAndSetState(["Current User", "Employees"], "App.jsx")
 
   useEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY });
