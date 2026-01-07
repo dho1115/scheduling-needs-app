@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import uniqid from 'uniqid';
 import { Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { ShiftContext } from '../../../App';
-import { signUpNewUser } from '../../../functions/firebase/authorization';
+import { fb_signUpNewUser } from '../../../functions/firebase/authorization';
 import { fb_addOneDocument } from '../../../functions/firebase/crud_basic';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
@@ -23,7 +23,7 @@ const Register = ({ isOpen, toggle }) => {
          const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
          const UserEmail = `${currentUserDetails.name.split(' ').join('') + currentUserDetails.id}@email.com`
          const currentUserDetails = { ...currentUser, id: _id };
-         const newUserAuth = await signUpNewUser(UserEmail, currentUserDetails.password, location.pathname)
+         const newUserAuth = await fb_signUpNewUser(UserEmail, currentUserDetails.password, location.pathname)
          const addUserToFB = await fb_addOneDocument("Employees", currentUserDetails, currentUserDetails.id, location.pathname)
          setCurrentUser(currentUserDetails);
 
