@@ -38,22 +38,6 @@ function App() {
 
   const [employees, setEmployees] = useState([]);
 
-  // const functionDeclarations = [
-  //   async () => await FetchDataSetState("http://localhost:3003/currentUser", data => setCurrentUser(prv => ({ ...prv, ...data }))),
-
-  //   async () => await FetchDataSetState("http://localhost:3003/employees", data => setEmployees(data)),
-
-  //   async () => await FetchDataSetState("http://localhost:3003/shiftsAvailable", data => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: [...data] }))),
-
-  //   async () => await FetchDataSetState("http://localhost:3003/shiftsWithApplicants", data => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...data] }))),
-
-  //   async () => await FetchDataSetState("http://localhost:3003/shiftsPendingConfirmation", data => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: [...data] }))),
-
-  //   async () => await FetchDataSetState("http://localhost:3003/shiftsConfirmed", data => setShiftStatuses(prv => ({...prv, shiftsConfirmed: [...data]})))
-  // ]
-
-  // const callFunctionDeclarations = functionDeclarations => functionDeclarations.forEach(async f => await f())
-
   useFetchFirestoreAndSetState(["Current User", "Employees"], "App.jsx")
 
   useEffect(() => {
