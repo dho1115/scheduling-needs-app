@@ -29,7 +29,7 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
       };
    }, [])
 
-   return {currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees}
+   return [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees];
 }
 
 export const useSignUp = (collection_name, signUp_details, location=null) => {
