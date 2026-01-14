@@ -1,4 +1,5 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import { DateTime } from "luxon";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 //fetch all documents.
@@ -8,7 +9,7 @@ export const fb_fetchAllDocs = async (collection_name, location=null) => {
    try {
       const collection_name_ref = collection(db, collection_name);
       const snapshot_of_docs = await getDocs(collection_name_ref);
-      snapshot_of_docs.forEach(doc => documents.push({ id: doc.id, data: doc.data() }));
+      snapshot_of_docs.forEach(doc => documents.push({ id: doc.id, ...doc.data() }));
 
       return documents;
    } catch (error) {
@@ -66,5 +67,47 @@ export const fb_deleteOneDocument = async (collection_name, _docID, location = n
       }      
    } catch (error) {
       console.error({ message: "Error in fb_deleteOneDocument (crud_basic_jsx).", location, error, errorMessage: error.message, errorName: error.name });
+   }
+}
+
+export const fb_BatchDelete = async (location) => {
+   const COLLECTIONS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation', 'shiftsConfirmed'];
+
+   const unexpired_shifts = [];
+
+   try {
+      COLLECTIONS.forEach(async collection_name => {
+         const fb_docs_array = await fb_fetchAllDocs(collection_name, location); //[docs (if any)]
+
+         if (fb_docs_array.length) {
+            const BatchDeleteExpiredShifts = fb_docs_array.forEach(async shift => {
+               const currentDate = DateTime.local(); //current date
+
+               if (shift.date_of_shift) {
+                  const dateTime_dateOfShift = DateTime.fromISO(shift.date_of_shift); //convert shift date to DateTime format.
+                  (currentDate > dateTime_dateOfShift) ?
+                     await fb_deleteOneDocument(collection_name, shift.id, location, shift)
+                     :
+                     unexpired_shifts.push(shift);
+               } else if (shift.date) {
+                  const dateTime_date = DateTime.fromISO(shift.date); //convert shift date to DateTime format.
+                  (currentDate > dateTime_date) ?
+                     fb_deleteOneDocument(collection_name, shift.id, location, shift)
+                     :
+                     unexpired_shifts.push(shift)
+               }
+            });
+         }
+         
+         return unexpired_shifts;
+      })
+      return {
+         message: `Batch Delete Successful!!! The following shifts are still current: ${JSON.stringify(unexpired_shifts)}.`,
+         undeleted_shifts: unexpired_shifts
+      };
+   } catch (error) {
+      console.error({ message: "ERROR with fb_BatchDelete Function!!!", location, unexpired_shifts, error, errorMessage: error.message, errorName: error.name });
+
+      return { message: "ERROR with fb_BatchDelete Function!!!", location, unexpired_shifts, error, errorMessage: error.message, errorName: error.name }
    }
 }
