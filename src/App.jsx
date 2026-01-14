@@ -32,11 +32,7 @@ import ShiftCandidatesPage from "./pages/supervisor/shift/ShiftCandidatesPage";
 export const ShiftContext = createContext();
 
 function App() {
-  // const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
-
   const [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees] = useFetchFirestoreAndSetState(["Current User", "Employees", "Shifts Available", "Shifts With Applicants", "Shifts Pending Confirmation", "Shifts Confirmed"], "App.jsx");
-
-  console.log({ currentUser, employees, shiftStatuses });
 
   useEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY });
