@@ -1,31 +1,52 @@
 import { useEffect, useState } from "react"
-import { fb_addOneDocument, fb_fetchAllDocs, fb_fetchOneDoc } from "./firebase/crud_basic";
-fb_fetchAllDocs
-import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import { fb_addOneDocument, fb_BatchDelete, fb_deleteOneDocument, fb_fetchAllDocs, fb_fetchOneDoc } from "./firebase/crud_basic";
 import { fb_signUpNewUser } from "./firebase/authorization";
+import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 
 export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
    if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
 
+   fb_BatchDelete(location)
+      .then(result => console.log(result))
+      .catch(error => console.error(error)) //Deletes any expired shifts.
+   
+   getDocs(collection(db, "Current User"))
+      .then(snapshot => {
+         snapshot.docs.forEach(document => {
+            const snapshot_doc = { id: document.id, docID: document.data().id, docName: document.data().name };
+
+            if (!(snapshot_doc.docID && snapshot_doc.docName)) return fb_deleteOneDocument("Current User", snapshot_doc.id)
+         });
+      })
+      .then(deleteConfirmation => console.log(deleteConfirmation))
+      .catch(error => console.error(error)) //Delete logic to execute IF there is no id and name property in Current User collection.
+   
+   //===== state/set state =====
    const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
 
    const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
 
    const [employees, setEmployees] = useState([]);
+   //============================
 
    const MapDatabaseToState = {
       "Current User": setCurrentUser,
-      "Employees": setEmployees
+      "Employees": setEmployees,
+      "Shifts Available": documents => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: documents })),
+      "Shifts With Applicants": documents => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: documents })),
+      "Shifts Pending Confirmation": documents => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: documents })),
+      "Shifts Confirmed": documents => setShiftStatuses(prv => ({...prv, shiftsWithApplicants: documents}))
    }
 
    useEffect(() => {
       allFirestoreCollections.forEach(async collection_name => {
          const documents = await fb_fetchAllDocs(collection_name, location)
          MapDatabaseToState[collection_name](documents);
+         console.log({collection_name: MapDatabaseToState[collection_name](documents)})
       })
       return () => {
-         
+         setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
       };
    }, [])
 
