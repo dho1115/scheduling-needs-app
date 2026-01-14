@@ -54,7 +54,7 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
    useEffect(() => {
       onAuthStateChanged(auth, user => {
          console.log("Inside onAuthStateChanged:")
-         console.log({ ...currentUser });
+         console.log({ currentUser, id: currentUser.id, user });
          if (user && (currentUser.id && currentUser.role)) {
             fb_addOneDocument("Current User", findMatch, findMatch.id)
                .then(({ _documentID, newDataObject }) => setCurrentUser({ id: _documentID, ...newDataObject }))
