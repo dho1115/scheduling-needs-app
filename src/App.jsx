@@ -40,22 +40,6 @@ function App() {
 
   useEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY });
-
-    // fetchOneAndAddToFB("http://localhost:3003/currentUser", "Current User", "App.js")
-    //   .then(result => console.log(result))
-    //   .catch(error => console.error(error));
-
-    // fetchAndAddtoFB("http://localhost:3003/shiftsAvailable", "Shifts Available", "App.js")
-    //   .then(result => console.log(result))
-    //   .catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
-    
-    // fetchAndAddtoFB("http://localhost:3003/shiftsPendingConfirmation", "Shifts Pending Confirmation", "App.js")
-    //   .then(result => console.log(result))
-    //   .catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
-    
-    // fetchAndAddtoFB("http://localhost:3003/shiftsConfirmed", "Shifts Confirmed", "App.js")
-    //   .then(result => console.log(result))
-    //   .catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
   }, []);
 
   //emailjs configuration keys.
