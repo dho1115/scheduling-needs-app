@@ -32,13 +32,11 @@ import ShiftCandidatesPage from "./pages/supervisor/shift/ShiftCandidatesPage";
 export const ShiftContext = createContext();
 
 function App() {
-  // const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
-
   // const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
 
-  // const [employees, setEmployees] = useState([]);
+  const [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees] = useFetchFirestoreAndSetState(["Current User", "Employees", "Shifts Available", "Shifts With Applicants", "Shifts Pending Confirmation", "Shifts Confirmed"], "App.jsx");
 
-  const [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees] = useFetchFirestoreAndSetState(["Current User", "Employees"], "App.jsx")
+  console.log({ currentUser, employees, shiftStatuses });
 
   useEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY });
@@ -47,11 +45,17 @@ function App() {
     //   .then(result => console.log(result))
     //   .catch(error => console.error(error));
 
-    // fetchAndAddtoFB("http://localhost:3003/employees", "Employees", "App.js").then(result => console.log(result)).catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
+    // fetchAndAddtoFB("http://localhost:3003/shiftsAvailable", "Shifts Available", "App.js")
+    //   .then(result => console.log(result))
+    //   .catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
     
-    // BatchDelete(DateTime)
-    //   .then(res => callFunctionDeclarations(functionDeclarations))
-    //   .catch(error => ({ message: "BatchDelete ERROR on function call!!!", error, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
+    // fetchAndAddtoFB("http://localhost:3003/shiftsPendingConfirmation", "Shifts Pending Confirmation", "App.js")
+    //   .then(result => console.log(result))
+    //   .catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
+    
+    // fetchAndAddtoFB("http://localhost:3003/shiftsConfirmed", "Shifts Confirmed", "App.js")
+    //   .then(result => console.log(result))
+    //   .catch(error => console.error({ error, from: location.pathname, errorMessage: error.message, errorStack: error.stack, errorName: error.name }));
   }, []);
 
   //emailjs configuration keys.
