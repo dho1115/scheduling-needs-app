@@ -16,7 +16,10 @@ export const fb_userLogin = async (email, password, location=null) => {
       const login_credential = await signInWithEmailAndPassword(auth, email, password);
       const currentUser = login_credential.user;
       console.log(`Successfully logged in ${JSON.stringify(currentUser)}.`);
-      return currentUser;  
+
+      if (!currentUser) throw new Error(`ERROR in fb_userLogin (authorization.jsx), located in ${location}!!!\ncurrentUser = ${currentUser}!!!`)
+      
+      return currentUser;
    } catch (error) {
       console.error({ message: "userLogin error (authorization.jsx)", location, error, errorMessage: error.message, errorName: error.name });
    }
