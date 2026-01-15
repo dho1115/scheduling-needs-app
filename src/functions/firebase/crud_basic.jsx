@@ -70,7 +70,7 @@ export const fb_deleteOneDocument = async (collection_name, _docID, location = n
    }
 }
 
-export const fb_BatchDelete = async (location) => {
+export const fb_BatchDeleteExpiredShifts = async (location) => {
    const COLLECTIONS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation', 'shiftsConfirmed'];
 
    const unexpired_shifts = [];
