@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import uniqid from 'uniqid';
 import { Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { ShiftContext } from '../../../App';
-import { fb_signUpNewUser } from '../../../functions/firebase/authorization';
-import { fb_addOneDocument } from '../../../functions/firebase/crud_basic';
+import { fb_fs_NewUserRegistration } from '../../../functions/firebase/miscellaneous';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 
@@ -15,27 +14,31 @@ const Register = ({ isOpen, toggle }) => {
    const formRef = useRef();
    const navigate = useNavigate();
    const { currentUser, setCurrentUser } = useContext(ShiftContext);
+   const [documentExists, setDocumentExists] = useState(false);
    const { name, password } = currentUser;
 
    async function handleRegistration(e) {
       e.preventDefault()
       try {
          const _id = uniqid(currentUser.role == 'candidate' ? 'c-' : 's-');
-         const UserEmail = `${currentUserDetails.name.split(' ').join('') + currentUserDetails.id}@email.com`
          const currentUserDetails = { ...currentUser, id: _id };
-         const newUserAuth = await fb_signUpNewUser(UserEmail, currentUserDetails.password, location.pathname)
-         const addUserToFB = await fb_addOneDocument("Employees", currentUserDetails, currentUserDetails.id, location.pathname)
          setCurrentUser(currentUserDetails);
+         const NewUserRegistration = await fb_fs_NewUserRegistration(currentUserDetails, location.pathname);
+         const CurrentUserDocReference = doc(db, "Current User", currentUserDetails.id);
+         const documentSnapshot = await getDoc(CurrentUserDocReference);
 
-         const docReference = doc(db, "Employees", currentUserDetails.id);
-         const documentSnapshot = await getDoc(docReference);
-
-         if (documentSnapshot.exists()) navigate("/");
+         if (documentSnapshot.exists()) setDocumentExists(true)
          else console.error(`documentSnapshot.exists() for ${_id} returned ${documentSnapshot.exists()}.`)
       } catch (error) {
          console.error({ message: "Error in handleRegistration function!!!", location: location.pathname, error, errorMessage: error.message, errorName: error.name });
       }
    }
+
+   useEffect(() => {
+      if (documentExists && (currentUser.id && currentUser.name)) navigate(currentUser.id.startsWith('s') ? `/supervisor/welcome/${currentUser.id}/` : `/candidate/welcome/${currentUser.id}/`);
+
+      return () => setDocumentExists(false)
+   }, [documentExists, currentUser.id, currentUser.name])
 
    return (
       <Modal
