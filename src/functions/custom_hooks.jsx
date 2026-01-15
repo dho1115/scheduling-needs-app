@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { fb_addOneDocument, fb_BatchDelete, fb_deleteOneDocument, fb_fetchAllDocs } from "./firebase/crud_basic";
+import { fb_addOneDocument, fb_BatchDeleteExpiredShifts, fb_deleteOneDocument, fb_fetchAllDocs } from "./firebase/crud_basic";
 import { fb_signUpNewUser } from "./firebase/authorization";
 import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebase";
@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
    if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
 
-   fb_BatchDelete(location)
+   //========= Deleted Expired Shifts From Firestore!!! =========
+   fb_BatchDeleteExpiredShifts(location)
       .then(result => console.log(result))
       .catch(error => console.error(error)) //Deletes any expired shifts.
+   //=============================================================
    
    getDocs(collection(db, "Current User"))
       .then(snapshot => {
@@ -19,7 +21,7 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
 
             console.log("snapshot_doc:", snapshot_doc);
 
-            if (!(snapshot_doc.docID && snapshot_doc.docName)) return fb_deleteOneDocument("Current User", snapshot_doc.id)
+            if (!(snapshot_doc.docID && snapshot_doc.docName)) return fb_deleteOneDocument("Current User", snapshot_doc.id) //Current User shows "" for id and name.
          });
       })
       .then(deleteConfirmation => console.log(deleteConfirmation))
