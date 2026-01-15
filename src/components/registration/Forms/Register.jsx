@@ -30,7 +30,7 @@ const Register = ({ isOpen, toggle }) => {
          if (documentSnapshot.exists()) setDocumentExists(true)
          else console.error(`documentSnapshot.exists() for ${_id} returned ${documentSnapshot.exists()}.`)
       } catch (error) {
-         console.error({ message: "Error in handleRegistration function!!!", location: location.pathname, error, errorMessage: error.message, errorName: error.name });
+         console.error({ message: "Error in handleRegistration function!!!", documentExists, location: location.pathname, error, errorMessage: error.message, errorName: error.name });
       }
    }
 
