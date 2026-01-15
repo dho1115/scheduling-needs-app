@@ -5,9 +5,9 @@ import { ShiftContext } from '../../../App';
 import { auth } from '../../../firebase';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { fb_addOneDocument } from '../../../functions/firebase/crud_basic';
+import { fb_fs_ExistingUserLogin } from '../../../functions/firebase/miscellaneous';
 
 import "../Registration.styles.css";
-
 
 
 const Login = ({ isOpen, toggle, loginIsOpen }) => {
@@ -27,13 +27,7 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
          if (!findMatch) {
             throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees. findMatch returned ${findMatch}... DAMN YOU!!!`);
          } else {
-            const fake_email = `${currentUser.name.split(" ").join("") + currentUser.id}@email.com`
-            const userCredential = await signInWithEmailAndPassword(auth, fake_email, loginData.password);
-            const fb_addLoggedInUser = await fb_addOneDocument("Current User", findMatch, findMatch.id, location.pathname);
-
-            const user = userCredential.user;
-            if (!user) throw new Error("Error!!! Firebase userCredential.user returned:", user);
-
+            const UserLogin = await fb_fs_ExistingUserLogin(findMatch, location.pathname)
             setCurrentUser(findMatch);
          }
       } catch (error) {
