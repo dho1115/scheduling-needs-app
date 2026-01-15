@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { fb_addOneDocument, fb_BatchDelete, fb_deleteOneDocument, fb_fetchAllDocs, fb_fetchOneDoc } from "./firebase/crud_basic";
+import { fb_addOneDocument, fb_BatchDelete, fb_deleteOneDocument, fb_fetchAllDocs } from "./firebase/crud_basic";
 import { fb_signUpNewUser } from "./firebase/authorization";
 import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
    if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
@@ -15,6 +16,8 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
       .then(snapshot => {
          snapshot.docs.forEach(document => {
             const snapshot_doc = { id: document.id, docID: document.data().id, docName: document.data().name };
+
+            console.log("snapshot_doc:", snapshot_doc);
 
             if (!(snapshot_doc.docID && snapshot_doc.docName)) return fb_deleteOneDocument("Current User", snapshot_doc.id)
          });
@@ -47,49 +50,47 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
       })
       return () => {
          setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
+         console.log("About to leave App.js. ")
       };
    }, [])
 
    return [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees];
 }
 
-export const useSignUp = (collection_name, signUp_details, location=null) => {
-   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
+export const useSignUp = (signUp_details, location = null) => {
    const [loading, setLoading] = useState(true);
 
    const addAndFetchSignUp = async () => {
       try {
          const authenticateNewUser = await fb_signUpNewUser(`${signUp_details.name.split(" ").join("") + signUp_details.id}.email.com`, signUp_details.password, location); //firebase authentication.
 
-         const addUserToFirestore = await fb_addOneDocument(collection_name, signUp_details, "current_user", location); //Adds the sign up.
+         const addUserToCurrentUser = await fb_addOneDocument("Current User", signUp_details, signUp_details.id, location); //Add to Current User in FS
 
-         const collectionRef = collection(db, collection_name);
+         const addUserToEmployees = await fb_addOneDocument("Employees", signUp_details, signUp_details.id, location); //Add to Employee in FS.
+
+         const CurrentUserCollectionRef = collection(db, "current User");
 
          const fetchSignUp = onSnapshot(
-            collectionRef,
+            CurrentUserCollectionRef,
             snapshot => {
                if (snapshot.exists()) {
                   console.log("snapshot: ", { id: snapshot.id, ...snapshot.data() });
-                  setCurrentUser({ id: snapshot.id, ...snapshot.data() }) //setState with signup.
                   setLoading(false)
-               } else {
+               }
+               else {
                   console.error(`Unable to fetch logged in user, which returned ${JSON.stringify(snapshot)}. snapshot.exists() returned ${snapshot.exists}.`)
                }
             },
-            error => console.error({ message: "From fetchSignUp error handler", location, error, errorMessage: error.message, errorStack: error.stack, errorName: error.name, errorCause: error.cause })
+            error => console.error({ message: "From fetchSignUp error handler", currentUser: auth.currentUser, location, error, errorMessage: error.message, errorStack: error.stack, errorName: error.name, errorCause: error.cause })
          ); //Provides setCurrentUser and setLoading logic when firebase listener changes.
 
-         return fetchSignUp(); //removes the listener.
+         fetchSignUp(); //removes the listener.
+
+         return signUp_details
       } catch (error) {
          console.error({location, error, errorMessage: error.message, errorName: error.name})
       }
-   }
+   } // promise to add to firebase and firestore.
 
-   useEffect(() => {
-      addAndFetchSignUp()
-         .then(result => console.log(result))
-         .catch(error => console.error({ message: "addAndFetchSignUp ERROR (custom_hooks.jsx)", error, errorMessage: error.message, errorName: error.name }));
-   }, [])
-
-   return [currentUser, loading]
+   return [signUp_details, addAndFetchSignUp]
 }
