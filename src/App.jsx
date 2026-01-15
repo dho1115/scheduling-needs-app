@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 //Components;
@@ -14,8 +14,6 @@ import { auth, db } from "./firebase"; //firebase, firestore.
 import { BatchDelete } from "./functions/deleteRequest";
 import { ConfirmApprovedShiftLogic } from "./functions/emailFunctions";
 import { DateTime } from "luxon";
-import { fetchAndAddtoFB } from "./functions/FetchHook"; //tx. array of data.
-import { fetchOneAndAddToFB } from "./functions/FetchHook"; //tx. one object.
 import { PatchRequest } from "./functions/patchRequest";
 import { FetchDataSetState } from "./functions/FetchHook";
 import emailjs from '@emailjs/browser';
