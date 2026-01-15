@@ -1,12 +1,12 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, Alert } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-
 import { ShiftContext } from '../../../App';
 import { auth } from '../../../firebase';
 
 import { fb_userLogin } from '../../../functions/firebase/authorization';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { useSignUp } from '../../../functions/custom_hooks';
 import { fb_addOneDocument } from '../../../functions/firebase/crud_basic';
 
 import "../Registration.styles.css";
