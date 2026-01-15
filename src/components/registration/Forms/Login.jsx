@@ -1,19 +1,18 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, Alert } from 'reactstrap';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ShiftContext } from '../../../App';
 import { auth } from '../../../firebase';
-
-import { fb_userLogin } from '../../../functions/firebase/authorization';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { useSignUp } from '../../../functions/custom_hooks';
 import { fb_addOneDocument } from '../../../functions/firebase/crud_basic';
 
 import "../Registration.styles.css";
 
 
+
 const Login = ({ isOpen, toggle, loginIsOpen }) => {
    const navigate = useNavigate();
+   const location = useLocation();
    const [loginData, setLoginData] = useState({ id: '', password: '' });
    const [validationAlert, setValidationAlert] = useState({ userNotFound: false });
    const [postError, setPostError] = useState("");
@@ -26,10 +25,15 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
       e.preventDefault()
       try {
          if (!findMatch) {
-            throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees... DAMN YOU!!!`);
+            throw new Error(`Your login of ${JSON.stringify(loginData)} did NOT match any of our employees. findMatch returned ${findMatch}... DAMN YOU!!!`);
          } else {
-            const userCredential = await signInWithEmailAndPassword(auth, `${loginData.id}@email.com`, loginData.password);
+            const fake_email = `${currentUser.name.split(" ").join("") + currentUser.id}@email.com`
+            const userCredential = await signInWithEmailAndPassword(auth, fake_email, loginData.password);
+            const fb_addLoggedInUser = await fb_addOneDocument("Current User", findMatch, findMatch.id, location.pathname);
+
             const user = userCredential.user;
+            if (!user) throw new Error("Error!!! Firebase userCredential.user returned:", user);
+
             setCurrentUser(findMatch);
          }
       } catch (error) {
@@ -52,18 +56,16 @@ const Login = ({ isOpen, toggle, loginIsOpen }) => {
    }, [loginIsOpen]) //cleanup. resets the state to original & removes <Alert />.
 
    useEffect(() => {
-      onAuthStateChanged(auth, user => {
+      const subscribe = onAuthStateChanged(auth, user => {
          console.log("Inside onAuthStateChanged:")
-         console.log({ currentUser, id: currentUser.id, user });
-         if (user && (currentUser.id && currentUser.role)) {
-            fb_addOneDocument("Current User", findMatch, findMatch.id)
-               .then(({ _documentID, newDataObject }) => setCurrentUser({ id: _documentID, ...newDataObject }))
-               .catch(error => console.error({ message: "Error inside body of useEffect/onAuthStateChanged (Login.jsx)", error, errorMessage: error.message, errorName: error.name, errorStack: error.stack })); //sets Current User collection inside Firestore and also setCurrentUser (or throws Error).
-
+         console.log({ currentUser, id: currentUser.id, user, userUID: user?.uid });
+         if (user?.uid && (currentUser.id && currentUser.role)) {
             if (currentUser.role == "supervisor") navigate(`/supervisor/welcome/${currentUser.id}/`)
             else navigate(`/candidate/welcome/${currentUser.id}/`)
          }
       });
+
+      return () => subscribe()
    }, [auth.currentUser, currentUser.id, currentUser.role]);
 
    return (
