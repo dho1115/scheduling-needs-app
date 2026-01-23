@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 //Dependencies.
 import { PostRequest } from '../../../functions/postRequest';
 import { ShiftContext } from '../../../App';
 import { NavigationLinks } from './NavigationLinks';
 import ErrorBoundary from '../../ErrorBoundary';
+import { fb_fs_SignOutProcess } from '../../../functions/firebase/miscellaneous';
 
 import './NavigationBar.styles.css';
 
@@ -15,16 +16,7 @@ const NavigationBar = () => {
   const { shiftsWithApplicants, shiftsAvailable, shiftsPendingConfirmation } = shiftStatuses;
   const { id, role } = currentUser;  
   const navigate = useNavigate();
-  
-  const handleLogoff = () => PostRequest(
-    'http://localhost:3003/currentUser',
-    { id: '', name: '', password: '', role: '', base: '' }
-  )
-    .then(() => {
-      setCurrentUser({ id: '', name: '', password: '', role: '' }); //setstate: set current user to empty object.
-    })
-    .then(() => navigate("/")) //navigate to home page.
-    .catch(error => console.error({ message: 'error on handleLogoff function!!!', error, errorCode: error.code, errorStatus: error.status, errorMessage: error.message }));
+  const location = useLocation();
   
   const [navigationLinks, setNavigationLinks] = useState([]);
   const [candidatesPendingShifts, setCandidatesPendingShifts] = useState([])
@@ -66,7 +58,12 @@ const NavigationBar = () => {
             : 
             ["No...", "NavigationLinks", "Yet!!!"]
         }
-        <strong className='logoff' onClick={handleLogoff}>LOG OUT!!!</strong>
+        <strong className='logoff' onClick={() => fb_fs_SignOutProcess(
+          currentUser.id,
+          () => setCurrentUser({ id: '', name: '', password: '', role: '' }),
+          currentUser,
+          location.pathname
+        )}>LOG OUT!!!</strong>
       </ErrorBoundary>
     </nav>
   )
