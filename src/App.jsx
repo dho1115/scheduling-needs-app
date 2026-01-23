@@ -34,7 +34,7 @@ function App() {
   useEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY });
   }, []);
-
+  
   //emailjs configuration keys.
   const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const PUBLIC_KEY_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
