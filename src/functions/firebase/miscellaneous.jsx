@@ -15,7 +15,7 @@ export const setCurrentUserState = async(currentUser, setCurrentUser_fn_declarat
             setCurrentUser_fn_declaration({ ...document.data }); //setCurrentUser({...document.data});
             snapshot_result = { ...snapshot_result, authCurrentUser: auth.currentUser, uid: auth.currentUser.uid, currentUser };
          } else {
-            const deleteCurrentUser = await fb_deleteOneDocument("Current User", currentUser.id);
+            const deleteCurrentUser = await fb_deleteOneDocument("Current User", currentUser.id, location, currentUser,);
 
             snapshot_result = { ...snapshot_result, authCurrentUser: auth.currentUser, currentUser, deleteCurrentUser_msg: deleteCurrentUser };
          }
