@@ -48,24 +48,12 @@ export const fb_addOneDocument = async (collection_name, newDataObject, _id, loc
 }
 
 //Delete single document.
-export const fb_deleteOneDocument = async (collection_name, _docID, location = null, documentData = {}, condition = null) => {   
+export const fb_deleteOneDocument = async (collection_name, _docID, location = null, documentData = {}) => {   
    try {
-      if (typeof (condition) == 'function') {
-         if (condition()) {
-            const documentReference = doc(db, collection_name, _docID);
-            const deleteDocumentResult = await deleteDoc(documentReference);
+      const documentReference = doc(db, collection_name, _docID);
+      const deleteDocumentResult = await deleteDoc(documentReference);
 
-            return { deleteDocumentResult, _docIDdeleted: _docID, deletedThisData: documentData };
-         }
-         
-         else return { message: `None of the documents came back true for ${condition}.`, documentData };
-         
-      } else {
-         const documentReference = doc(db, collection_name, _docID);
-            const deleteDocumentResult = await deleteDoc(documentReference);
-
-            return { deleteDocumentResult, _docIDdeleted: _docID, deletedThisData: documentData };
-      }      
+      return { deleteDocumentResult, _docIDdeleted: _docID, deletedThisData: documentData };    
    } catch (error) {
       console.error({ message: "Error in fb_deleteOneDocument (crud_basic_jsx).", location, error, errorMessage: error.message, errorName: error.name });
    }
