@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import { fb_addOneDocument, fb_BatchDeleteExpiredShifts, fb_deleteOneDocument, fb_fetchAllDocs } from "./firebase/crud_basic";
+import { fb_addOneDocument, fb_BatchDeleteExpiredShifts, fb_deleteOneDocument, fb_fetchAllDocs, fb_fetchOneDoc } from "./firebase/crud_basic";
 import { fb_signUpNewUser } from "./firebase/authorization";
 import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebase";
-import { useNavigate } from "react-router-dom";
 
 export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
    if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
@@ -46,9 +45,15 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
 
    useEffect(() => {
       allFirestoreCollections.forEach(async collection_name => {
-         const documents = await fb_fetchAllDocs(collection_name, location)
-         MapDatabaseToState[collection_name](documents);
-         console.log({collection_name: MapDatabaseToState[collection_name](documents)})
+         if ((collection_name == "Current User") && (auth.currentUser)) {
+            const document = await fb_fetchAllDocs("Current User", location)[0];
+            MapDatabaseToState["Current User"]({ ...document }); // returns { }
+         } // separate if statement for "Current User" b/c currentUser state is { } and not [ ]
+         else if (collection_name != "Current User") {
+            const documents = await fb_fetchAllDocs(collection_name, location)
+            MapDatabaseToState[collection_name](documents);
+            console.log({collection_name: MapDatabaseToState[collection_name](documents)}) // returns [ ]
+         }
       })
       return () => {
          setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
@@ -56,7 +61,7 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
       };
    }, [])
 
-   return [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees];
+   return [ currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees ];
 }
 
 export const useSignUp = (signUp_details, location = null) => {
