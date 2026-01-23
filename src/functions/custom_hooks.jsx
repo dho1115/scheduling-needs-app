@@ -57,7 +57,6 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
       })
       return () => {
          setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
-         console.log("About to leave App.js. ")
       };
    }, [])
 

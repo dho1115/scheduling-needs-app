@@ -41,34 +41,6 @@ function App() {
   const GENERAL_KEY_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const CONFIRM_SHIFT_KEY_ID = import.meta.env.VITE_EMAILJS_CONFIRM_SHIFT_ID;
 
-  // useEffect(() => {
-  //   if (shiftStatuses.shiftsConfirmed.length) {
-  //     shiftStatuses.shiftsConfirmed.forEach(shift => {
-  //       const { id, date_of_shift, applicantName, storeNumber } = shift;
-
-  //       const todaysDate = DateTime.now();
-  //       const dateOfShift = DateTime.fromISO(date_of_shift);
-  //       const difference = dateOfShift.diff(todaysDate, "days");
-
-  //       if (((Number(difference.days.toFixed(3)) * 1) < 2) && (!shift.sentReminder)) {
-  //         const daysRemainingTillShift = Number(difference.days.toFixed(3)) * 1
-          
-  //         ConfirmApprovedShiftLogic(id, date_of_shift, "http://localhost:3001/", applicantName, storeNumber, emailjs, SERVICE_ID, CONFIRM_SHIFT_KEY_ID, PUBLIC_KEY_ID, `*** REMINDER: YOUR SHIFT IS ${daysRemainingTillShift} DAY AWAY!!! ***`, "REMINDER: UPCOMING SHIFT!!!!!")
-  //           .then(async response => {
-  //             console.log({ message: "SUCCESS!!!", response, status: response.status, responseText: response.text });
-
-  //             const reminderEmailSent = await PatchRequest(`http://localhost:3003/shiftsConfirmed/${id}`, { sentReminder: true });
-
-  //             return reminderEmailSent;
-  //           })
-  //           .catch(error => console.error({ message: "ERROR sending the reminder email!!!", error, errorMessage: error.message, errorName: error.name, errorStack: error.stack })); //logic to send email reminder.
-          
-  //           async () => await FetchDataSetState("http://localhost:3003/shiftsConfirmed", data => setShiftStatuses(data)) //logic to reset shiftsConfirmed state.
-  //       }
-  //     })
-  //   }
-  // }, [shiftStatuses.shiftsConfirmed.length])
-
   return (
     <ShiftContext.Provider
       value={{ customHooks: { useSignUp }, currentUser, setCurrentUser, employees, setEmployees, shiftStatuses, setShiftStatuses, emailjs_keys: { SERVICE_ID, PUBLIC_KEY_ID, GENERAL_KEY_ID, CONFIRM_SHIFT_KEY_ID } }}
