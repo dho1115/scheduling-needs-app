@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, Suspense } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 //Components
 import Registration from '../../components/registration/Registration';
@@ -10,17 +10,22 @@ import Register from '../../components/registration/Forms/Register';
 import { Button, Container } from 'reactstrap';
 import { ShiftContext } from '../../App';
 import { fb_signOut } from '../../functions/firebase/authorization';
+import { fb_fs_SignOutProcess } from '../../functions/firebase/miscellaneous';
 
 import './Homepage.styles.css';
 
 const Homepage = () => {
   const navigate = useNavigate();
-  const { currentUser } = useContext(ShiftContext);
+  const location = useLocation();  
+  const { currentUser, setCurrentUser } = useContext(ShiftContext);
   const [registrationMode, setRegistrationMode] = useState({ register: false, login: false });
   const registerToggle = () => setRegistrationMode(prvMode => ({...prvMode, register: !prvMode.register, login: false}));
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
   useEffect(() => {
+    console.log({ currentUser });
+    debugger;
+    
     if (currentUser.id && currentUser.name) navigate(`/${currentUser.role}/welcome/${currentUser.id}`);
     return () => setRegistrationMode({ register: false, login: false });
   }, [currentUser.id])
@@ -29,7 +34,12 @@ const Homepage = () => {
     <div className='homepage-div'>
       <Suspense fallback={<h3 style={{color: 'red', backgroundColor: 'lightseagreen'}}>LOADING... PLEASE WAIT.</h3>}>
         <Container className='homepage-container'>
-          <Button size='lg' color='bg bg-light' onClick={() => fb_signOut()}>SIGN OUT (TEST)!!!</Button>
+          <Button size='lg' color='bg bg-light' onClick={async () => await fb_fs_SignOutProcess(
+            currentUser.id,
+            () => setCurrentUser({ id: '', name: '', password: '', role: '' }),
+            currentUser,
+            location.pathname
+          )}>SIGN OUT (TEST)!!!</Button>
           <Registration
             text="LOGIN"
             toggle={loginToggle}
