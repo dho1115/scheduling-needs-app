@@ -17,13 +17,13 @@ import './Homepage.styles.css';
 const Homepage = () => {
   const navigate = useNavigate();
   const location = useLocation();  
-  const { currentUser, setCurrentUser } = useContext(ShiftContext);
+  const { currentUser, setCurrentUser, employees } = useContext(ShiftContext);
   const [registrationMode, setRegistrationMode] = useState({ register: false, login: false });
   const registerToggle = () => setRegistrationMode(prvMode => ({...prvMode, register: !prvMode.register, login: false}));
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
   useEffect(() => {
-    console.log({ currentUser });
+    console.log({from: "state", currentUser, employees });
     debugger;
     
     if (currentUser.id && currentUser.name) navigate(`/${currentUser.role}/welcome/${currentUser.id}`);
