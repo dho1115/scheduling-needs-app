@@ -36,13 +36,14 @@ export const fb_fetchOneDoc = async (collection_name, _docID, location = null) =
 
 //Add single document.
 export const fb_addOneDocument = async (collection_name, newDataObject, _id, location = null) => {
+   const args = { collection_name, newDataObject, _id };
    try {
       const collectionReference = doc(db, collection_name, _id);
       const docReference = await setDoc(collectionReference, { ...newDataObject });
 
-      return { _documentID: _id, newDataObject };
+      return { _documentID: _id, newDataObject, docReference };
    } catch (error) {
-      console.error({ message: "Error in fb_addOneDocument (crud_basic.js).", location, error, errorMessage: error.message, errorName: error.name });
+      console.error({ message: "Error in fb_addOneDocument (crud_basic.js).", args, location, error, errorMessage: error.message, errorName: error.name });
    }
 }
 
@@ -71,7 +72,7 @@ export const fb_deleteOneDocument = async (collection_name, _docID, location = n
 }
 
 export const fb_BatchDeleteExpiredShifts = async (location) => {
-   const COLLECTIONS = ['shiftsAvailable', 'shiftsWithApplicants', 'shiftsPendingConfirmation', 'shiftsConfirmed'];
+   const COLLECTIONS = ['Shifts Available', 'Shifts With Applicants', 'Shifts Pending Confirmation', 'Shifts Confirmed'];
 
    const unexpired_shifts = [];
 
@@ -81,17 +82,20 @@ export const fb_BatchDeleteExpiredShifts = async (location) => {
 
          if (fb_docs_array.length) {
             const BatchDeleteExpiredShifts = fb_docs_array.forEach(async shift => {
-               const currentDate = DateTime.local(); //current date
+               const currentDate = DateTime.now(); //current date
 
                if (shift.date_of_shift) {
                   const dateTime_dateOfShift = DateTime.fromISO(shift.date_of_shift); //convert shift date to DateTime format.
-                  (currentDate > dateTime_dateOfShift) ?
+
+                  (currentDate.diff(dateTime_dateOfShift, 'days').days < 1) ?
                      await fb_deleteOneDocument(collection_name, shift.id, location, shift)
                      :
                      unexpired_shifts.push(shift);
-               } else if (shift.date) {
+               }
+               else if (shift.date) {
                   const dateTime_date = DateTime.fromISO(shift.date); //convert shift date to DateTime format.
-                  (currentDate > dateTime_date) ?
+
+                  (currentDate.diff(dateTime_date, 'days').days < 1) ?
                      fb_deleteOneDocument(collection_name, shift.id, location, shift)
                      :
                      unexpired_shifts.push(shift)
