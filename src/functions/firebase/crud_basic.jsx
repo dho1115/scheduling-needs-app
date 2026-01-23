@@ -48,7 +48,7 @@ export const fb_addOneDocument = async (collection_name, newDataObject, _id, loc
 }
 
 //Delete single document.
-export const fb_deleteOneDocument = async (collection_name, _docID, location = null, documentData={}, condition=null) => {
+export const fb_deleteOneDocument = async (collection_name, _docID, location = null, documentData = {}, condition = null) => {   
    try {
       if (typeof (condition) == 'function') {
          if (condition()) {
