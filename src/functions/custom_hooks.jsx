@@ -3,7 +3,7 @@ import { fb_addOneDocument, fb_BatchDeleteExpiredShifts, fb_deleteOneDocument, f
 import { fb_signUpNewUser } from "./firebase/authorization";
 import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebase";
-import { fb_fs_get_docID } from "./firebase/miscellaneous";
+import { fb_fs_get_docID, setCurrentUserState } from "./firebase/miscellaneous";
 
 export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
    if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
@@ -31,6 +31,10 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
    }
    
    useEffect(() => {      
+      setCurrentUserState(currentUser, setCurrentUser, location)
+         .then(message => console.log({ message }))
+         .catch(error => console.error({ error, location })); //new code that replaces previous getDocs(...) which was used to setCurrentUser.
+
       allFirestoreCollections.forEach(async collection_name => {
          console.log({ collection_name, authCurrentUser: auth.currentUser });
 
