@@ -10,7 +10,6 @@ import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/Unconfirme
 import UpcomingShifts from "./components/private/candidate/shifts_i_confirmed/UpcomingShifts";
 
 //Functions & dependencies.
-import { auth, db } from "./firebase"; //firebase, firestore.
 import { BatchDelete } from "./functions/deleteRequest";
 import { ConfirmApprovedShiftLogic } from "./functions/emailFunctions";
 import { DateTime } from "luxon";
