@@ -30,31 +30,7 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
       "Shifts Confirmed": documents => setShiftStatuses(prv => ({...prv, shiftsWithApplicants: documents}))
    }
    
-   useEffect(() => {
-      getDocs(collection(db, "Current User"))
-         .then(snapshot => {
-            let snapshot_result = {};
-            snapshot.docs.forEach(async document => {
-               const snapshot_doc = { id: document.id, docID: document.data().id, docName: document.data() };
-
-               if (auth?.currentUser?.uid) {
-                  setCurrentUser({ ...document.data() });
-
-                  snapshot_result = { ...snapshot_result, ...{ authCurrentUser: auth?.currentUser?.uid, currentUser } };
-               } else {
-                  const deleteDoc = await fb_deleteOneDocument("Current User", snapshot_doc.id)
-
-                  setCurrentUser({ id: '', name: '', password: '', role: '' })
-
-                  snapshot_result = { ...snapshot_result, ...{ authCurrentUser: auth?.currentUser?.uid, currentUser, deleteDocData: deleteDoc } };
-               }
-            });
-
-            return snapshot_result
-         })
-         .then(snapshot_result => console.log({ ...snapshot_result }))
-         .catch(error => console.error(error)) //Delete logic to execute IF there is no id and name property in Current User collection.
-      
+   useEffect(() => {      
       allFirestoreCollections.forEach(async collection_name => {
          console.log({ collection_name, authCurrentUser: auth.currentUser });
 
