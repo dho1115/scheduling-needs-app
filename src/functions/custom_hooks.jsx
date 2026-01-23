@@ -3,6 +3,7 @@ import { fb_addOneDocument, fb_BatchDeleteExpiredShifts, fb_deleteOneDocument, f
 import { fb_signUpNewUser } from "./firebase/authorization";
 import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebase";
+import { fb_fs_get_docID } from "./firebase/miscellaneous";
 
 export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
    if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
@@ -12,48 +13,55 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
       .then(result => console.log(result))
       .catch(error => console.error(error)) //Deletes any expired shifts.
    //=============================================================
+
+      //===== state/set state =====
+      const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
+
+      const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
    
-   getDocs(collection(db, "Current User"))
-      .then(snapshot => {
-         snapshot.docs.forEach(document => {
-            const snapshot_doc = { id: document.id, docID: document.data().id, docName: document.data().name };
-
-            console.log("snapshot_doc:", snapshot_doc);
-
-            if (!(snapshot_doc.docID && snapshot_doc.docName)) return fb_deleteOneDocument("Current User", snapshot_doc.id) //Current User shows "" for id and name.
-         });
-      })
-      .then(deleteConfirmation => console.log(deleteConfirmation))
-      .catch(error => console.error(error)) //Delete logic to execute IF there is no id and name property in Current User collection.
-   
-   //===== state/set state =====
-   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
-
-   const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
-
-   const [employees, setEmployees] = useState([]);
-   //============================
+      const [employees, setEmployees] = useState([]);
+      //============================
 
    const MapDatabaseToState = {
-      "Current User": setCurrentUser,
       "Employees": setEmployees,
       "Shifts Available": documents => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: documents })),
       "Shifts With Applicants": documents => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: documents })),
       "Shifts Pending Confirmation": documents => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: documents })),
       "Shifts Confirmed": documents => setShiftStatuses(prv => ({...prv, shiftsWithApplicants: documents}))
    }
-
+   
    useEffect(() => {
+      getDocs(collection(db, "Current User"))
+         .then(snapshot => {
+            let snapshot_result = {};
+            snapshot.docs.forEach(async document => {
+               const snapshot_doc = { id: document.id, docID: document.data().id, docName: document.data() };
+
+               if (auth?.currentUser?.uid) {
+                  setCurrentUser({ ...document.data() });
+
+                  snapshot_result = { ...snapshot_result, ...{ authCurrentUser: auth?.currentUser?.uid, currentUser } };
+               } else {
+                  const deleteDoc = await fb_deleteOneDocument("Current User", snapshot_doc.id)
+
+                  setCurrentUser({ id: '', name: '', password: '', role: '' })
+
+                  snapshot_result = { ...snapshot_result, ...{ authCurrentUser: auth?.currentUser?.uid, currentUser, deleteDocData: deleteDoc } };
+               }
+            });
+
+            return snapshot_result
+         })
+         .then(snapshot_result => console.log({ ...snapshot_result }))
+         .catch(error => console.error(error)) //Delete logic to execute IF there is no id and name property in Current User collection.
+      
       allFirestoreCollections.forEach(async collection_name => {
-         if ((collection_name == "Current User") && (auth.currentUser)) {
-            const document = await fb_fetchAllDocs("Current User", location)[0];
-            MapDatabaseToState["Current User"]({ ...document }); // returns { }
-         } // separate if statement for "Current User" b/c currentUser state is { } and not [ ]
-         else if (collection_name != "Current User") {
-            const documents = await fb_fetchAllDocs(collection_name, location)
-            MapDatabaseToState[collection_name](documents);
-            console.log({collection_name: MapDatabaseToState[collection_name](documents)}) // returns [ ]
-         }
+         console.log({ collection_name, authCurrentUser: auth.currentUser });
+
+         const documents = await fb_fetchAllDocs(collection_name, location)
+         MapDatabaseToState[collection_name](documents);
+
+         console.log({ current_collection: collection_name, collection_name: MapDatabaseToState[collection_name](documents) }) // returns [ ]
       })
       return () => {
          setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
