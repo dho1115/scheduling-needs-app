@@ -22,10 +22,7 @@ const Homepage = () => {
   const registerToggle = () => setRegistrationMode(prvMode => ({...prvMode, register: !prvMode.register, login: false}));
   const loginToggle = () => setRegistrationMode(prvMode => ({ ...prvMode, register: false, login: !prvMode.login }));
 
-  useEffect(() => {
-    console.log({from: "state", currentUser, employees });
-    debugger;
-    
+  useEffect(() => {    
     if (currentUser.id && currentUser.name) navigate(`/${currentUser.role}/welcome/${currentUser.id}`);
     return () => setRegistrationMode({ register: false, login: false });
   }, [currentUser.id])
@@ -34,12 +31,12 @@ const Homepage = () => {
     <div className='homepage-div'>
       <Suspense fallback={<h3 style={{color: 'red', backgroundColor: 'lightseagreen'}}>LOADING... PLEASE WAIT.</h3>}>
         <Container className='homepage-container'>
-          <Button size='lg' color='bg bg-light' onClick={async () => await fb_fs_SignOutProcess(
+          {/* <Button size='lg' color='bg bg-light' onClick={async () => await fb_fs_SignOutProcess(
             currentUser.id,
             () => setCurrentUser({ id: '', name: '', password: '', role: '' }),
             currentUser,
             location.pathname
-          )}>SIGN OUT (TEST)!!!</Button>
+          )}>SIGN OUT (TEST)!!!</Button> */}
           <Registration
             text="LOGIN"
             toggle={loginToggle}
