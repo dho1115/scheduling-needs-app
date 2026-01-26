@@ -9,10 +9,8 @@ export const setCurrentUserState = async(currentUser, setCurrentUser_fn_declarat
       const currentUserSnapshot = await getDocs(collection(db, "Current User"))
 
       currentUserSnapshot.docs.forEach(async document => {
-         const snapshot_doc = { id: document.id, docID: document.data().id, data: document.data() };
-
          if (auth?.currentUser?.uid) {
-            setCurrentUser_fn_declaration({ ...document.data }); //setCurrentUser({...document.data});
+            setCurrentUser_fn_declaration({ ...document.data() }); //setCurrentUser({...document.data});
             snapshot_result = { ...snapshot_result, authCurrentUser: auth.currentUser, uid: auth.currentUser.uid, currentUser };
          } else {
             const deleteCurrentUser = await fb_deleteOneDocument("Current User", currentUser.id, location, currentUser,);
@@ -61,15 +59,15 @@ export const fb_fs_get_docID = async (collection) => {
 export const fb_fs_SignOutProcess = async (_currentUserID, setCurrentUserDeclaration, currentUser, location) => {
    try {
       const set_current_user = () => new Promise((res, rej) => {
-         console.log("currentUser was", currentUser)
          setCurrentUserDeclaration();
          res({ message: "Successully set currentUser!!!", currentUser });
          rej({ error_message: `currentUser is still ${JSON.stringify(currentUser)}!!!` })
       });
 
       return await Promise.all([
-         fb_signOut(_currentUserID, location),
-         fb_deleteOneDocument("Current User", _currentUserID), set_current_user()
+         await fb_signOut(_currentUserID, location),
+         await fb_deleteOneDocument("Current User", _currentUserID, location),
+         await set_current_user()
             .then(result => console.log("result after set_current_user:", result))
             .catch(error => console.error({ message: `ERROR logging off ${JSON.stringify(currentUser)} (miscellaneous.jsx)!!!`, location, error, errorMessage: error.message, errorName: error.name }))
       ])
