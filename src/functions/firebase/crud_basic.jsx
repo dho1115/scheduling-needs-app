@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 //fetch all documents.
@@ -52,8 +52,11 @@ export const fb_deleteOneDocument = async (collection_name, _docID, location = n
    try {
       const documentReference = doc(db, collection_name, _docID);
       const deleteDocumentResult = await deleteDoc(documentReference);
+      const deletedDocument = await getDoc(documentReference);
 
-      return { deleteDocumentResult, _docIDdeleted: _docID, deletedThisData: documentData };    
+      if (deletedDocument.exists) throw new Error(`WARNING!!! Document id# ${_docID} has not been deleted (yet)!!!\nResult for deletedDocument.exists shows => ${deletedDocument.exists}.`);
+
+      return { message: "From fb_deleteOneDocument", deleteDocumentResult, _docIDdeleted: _docID, deletedThisData: documentData, documentStillExists: deletedDocument.exists };
    } catch (error) {
       console.error({ message: "Error in fb_deleteOneDocument (crud_basic_jsx).", location, error, errorMessage: error.message, errorName: error.name });
    }
