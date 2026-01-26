@@ -32,6 +32,22 @@ const NavigationBar = () => {
     };
   }, [candidatesPendingShifts.length, currentUser.id])
 
+  const signOut_FS_setState = async () => {
+    try {
+      const signOutMessage = await fb_fs_SignOutProcess(currentUser.id, setCurrentUser({ id: '', name: '', password: '', role: '' }), currentUser, location.pathname)
+        .then(result => {
+          console.log(`Successfully signed out!!! currentUser is ${JSON.stringify(currentUser)} and result is:\n${JSON.stringify(result)}.\nAbout to navigate to home.`)
+          return navigate("/")
+        })
+
+      return signOutMessage;
+    } catch (error) {
+      console.error({ message: "ERROR IN signOut_FS_setState!!!", location, error, errorMessage: error.message, errorStack: error.errorStack, errorName: error.name })
+      
+      return {message: "ERROR IN signOut_FS_setState!!!", location, error, errorMessage: error.message, errorStack: error.errorStack, errorName: error.name}
+    }
+  }
+
   return (
     <nav className='navigation p-3'>
       <ErrorBoundary fallback={<h1>COMPILE TIME ERROR IN NavigationBar.jsx!!!</h1>}>
@@ -58,12 +74,7 @@ const NavigationBar = () => {
             : 
             ["No...", "NavigationLinks", "Yet!!!"]
         }
-        <strong className='logoff' onClick={() => fb_fs_SignOutProcess(
-          currentUser.id,
-          () => setCurrentUser({ id: '', name: '', password: '', role: '' }),
-          currentUser,
-          location.pathname
-        )}>LOG OUT!!!</strong>
+        <strong className='logoff' onClick={signOut_FS_setState}>LOG OUT!!!</strong>
       </ErrorBoundary>
     </nav>
   )
