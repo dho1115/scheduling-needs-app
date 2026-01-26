@@ -1,52 +1,74 @@
 import { useEffect, useState } from "react"
-import { fb_addOneDocument, fb_BatchDeleteExpiredShifts, fb_deleteOneDocument, fb_fetchAllDocs, fb_fetchOneDoc } from "./firebase/crud_basic";
+import { fb_addOneDocument, fb_BatchDeleteExpiredShifts, fb_fetchAllDocs, } from "./firebase/crud_basic";
 import { fb_signUpNewUser } from "./firebase/authorization";
-import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebase";
-import { fb_fs_get_docID, setCurrentUserState } from "./firebase/miscellaneous";
+import { setCurrentUserState } from "./firebase/miscellaneous";
+import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=null) => {
    if (!Array.isArray(allFirestoreCollections)) throw new Error(`The arguement, allFirestoreCollections has to be an array!!! You have ${JSON.stringify(allFirestoreCollections)} which is a ${typeof (allFirestoreCollections)}.`);
 
-   //========= Deleted Expired Shifts From Firestore!!! =========
-   fb_BatchDeleteExpiredShifts(location)
-      .then(result => console.log(result))
-      .catch(error => console.error(error)) //Deletes any expired shifts.
-   //=============================================================
+   const navigate = useNavigate();
 
-      //===== state/set state =====
-      const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
+   //===== state/set state =====
+   const [currentUser, setCurrentUser] = useState({ id: '', name: '', password: '', role: '' });
 
-      const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
-   
-      const [employees, setEmployees] = useState([]);
-      //============================
+   const [shiftStatuses, setShiftStatuses] = useState({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
+
+   const [employees, setEmployees] = useState([]);
+   //============================
 
    const MapDatabaseToState = {
       "Employees": setEmployees,
       "Shifts Available": documents => setShiftStatuses(prv => ({ ...prv, shiftsAvailable: documents })),
       "Shifts With Applicants": documents => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: documents })),
       "Shifts Pending Confirmation": documents => setShiftStatuses(prv => ({ ...prv, shiftsPendingConfirmation: documents })),
-      "Shifts Confirmed": documents => setShiftStatuses(prv => ({...prv, shiftsWithApplicants: documents}))
+      // "Shifts Confirmed": documents => setShiftStatuses(prv => ({...prv, shiftsConfirmed: documents}))
    }
    
-   useEffect(() => {      
+   useEffect(() => {
+      //========= Deleted Expired Shifts From Firestore!!! =========
+      fb_BatchDeleteExpiredShifts(location)
+      .then(result => console.log(result))
+      .catch(error => console.error(error)) //Deletes any expired shifts.
+      //=============================================================
+
       setCurrentUserState(currentUser, setCurrentUser, location)
          .then(message => console.log({ message }))
          .catch(error => console.error({ error, location })); //new code that replaces previous getDocs(...) which was used to setCurrentUser.
 
       allFirestoreCollections.forEach(async collection_name => {
-         console.log({ collection_name, authCurrentUser: auth.currentUser });
-
          const documents = await fb_fetchAllDocs(collection_name, location)
-         MapDatabaseToState[collection_name](documents);
 
-         console.log({ current_collection: collection_name, collection_name: MapDatabaseToState[collection_name](documents) }) // returns [ ]
+         if (documents.length) MapDatabaseToState[collection_name](documents)
       })
+
       return () => {
+         setCurrentUser({ id: '', name: '', password: '', role: '' });
          setShiftStatuses({ shiftsAvailable: [], shiftsWithApplicants: [], shiftsPendingConfirmation: [], shiftsConfirmed: [] });
+         setEmployees([])
       };
    }, [])
+
+   useEffect(() => {
+      onAuthStateChanged(auth, function (user) {
+          if (user) {
+             console.log("currently signed in as: ", user.uid);
+             fb_fetchAllDocs("Current User", location)
+                .then(result => {
+                   const currentUser_id = result[0].id;
+
+                   if (currentUser_id.startsWith("s")) navigate(`/supervisor/welcome/${currentUser_id}`);
+                   else navigate(`/candidate/welcome/${currentUser_id}/`);
+                })
+                .catch(error => console.error({ message: "Inside useFetchFirestoreAndSetState (custom_hooks.jsx)", location, error, errorMessage: error.message }));
+          } else {
+             console.log("No user. User is:", user);
+          }
+      })
+   }, [auth.currentUser])
 
    return [ currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees ];
 }
