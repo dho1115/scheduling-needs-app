@@ -16,7 +16,7 @@ import "./SchedulingNeeds.styles.css";
 
 const SchedulingNeeds = () => {
    const { currentUser, emailjs_keys, shiftStatuses: { shiftsAvailable } } = useContext(ShiftContext);
-   const { newShiftAdded, setNewShiftAdded } = useContext(SupervisorPageContext);
+   const sup = useContext(SupervisorPageContext);
 
    const { SERVICE_ID, PUBLIC_KEY_ID, GENERAL_KEY_ID, CONFIRM_SHIFT_KEY_ID } = emailjs_keys;
 
@@ -43,7 +43,7 @@ const SchedulingNeeds = () => {
 
          const PatchNotificationSentDate = await PatchRequest("http://localhost:3003/shiftsNotificationSent", { date: currentDateTimeISO })
 
-         setNewShiftAdded(false);
+         sup?.setNewShiftAdded(false);
       } catch (error) {
          console.error({ message: "handleSendSchedulingNeedsNotification ERROR!!!", error, errorMessage: error.message, errorName: error.name });
       }
@@ -56,7 +56,7 @@ const SchedulingNeeds = () => {
          </header>
          
          {
-            (currentUser.role == 'supervisor' && newShiftAdded)
+            (currentUser.role == 'supervisor' && sup?.newShiftAdded)
             &&
             <div className='m-3 p-1' style={{float: "right"}}>
                <Button size='lg' color='danger' onClick={handleSendSchedulingNeedsNotification}>SEND SCHEDULING NEEDS NOTIFICATION!!!</Button>
@@ -66,7 +66,7 @@ const SchedulingNeeds = () => {
          <Container className='p-3 scheduling-needs-container'>
             <Suspense fallback={<h5>Loading shiftsAvailable...</h5>}>
                {
-                  shiftsAvailable.map((val, idx) => ( /* shiftsAvailable is not a function??? */
+                  shiftsAvailable.map(({...val}, idx) => ( /* shiftsAvailable is not a function??? */
                      <ErrorBoundary fallback={<h3 className='text-danger'>ERROR!!!</h3>}>
                         <Suspense fallback={<h3 className='text-danger'>LOADING...</h3>}>
                            <Shift key={idx} {...val} idx={idx} />
