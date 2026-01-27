@@ -1,5 +1,5 @@
 import React, { createContext, useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 //Components;
 import AddShift from "./components/private/supervisor/add_shift/AddShift";
@@ -10,11 +10,7 @@ import UnconfirmedShifts from "./components/shared/unconfirmed_shifts/Unconfirme
 import UpcomingShifts from "./components/private/candidate/shifts_i_confirmed/UpcomingShifts";
 
 //Functions & dependencies.
-import { BatchDelete } from "./functions/deleteRequest";
-import { ConfirmApprovedShiftLogic } from "./functions/emailFunctions";
-import { DateTime } from "luxon";
 import emailjs from '@emailjs/browser';
-import { fb_deleteOneDocument } from "./functions/firebase/crud_basic";
 
 //CustomHooks
 import { useFetchFirestoreAndSetState, useSignUp } from "./functions/custom_hooks";
@@ -28,7 +24,8 @@ import ShiftCandidatesPage from "./pages/supervisor/shift/ShiftCandidatesPage";
 export const ShiftContext = createContext();
 
 function App() {
-  const [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees] = useFetchFirestoreAndSetState(["Employees", "Shifts Available", "Shifts With Applicants", "Shifts Pending Confirmation", "Shifts Confirmed"], "App.jsx");
+  const location = useLocation();
+  const [currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees] = useFetchFirestoreAndSetState(["Employees", "Shifts Available", "Shifts With Applicants", "Shifts Pending Confirmation", "Shifts Confirmed"], location.pathname);
 
   useEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY });
