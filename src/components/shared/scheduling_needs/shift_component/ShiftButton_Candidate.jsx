@@ -28,17 +28,19 @@ const CandidateShiftButtons = (props) => {
     const shiftWithApplicantID = `${_currentUserID}-${shiftID}`
     const shiftAndCandidate = { id: shiftWithApplicantID, shiftID, applicant: otherUserDetails, ...remainingProps };
 
-    try {
-      const addToShiftsWithApplicants = await PostRequestSetState("http://localhost:3003/shiftsWithApplicants", { ...shiftAndCandidate }, () => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...prv.shiftsWithApplicants, { ...shiftAndCandidate }] })));
+    alert(`${JSON.stringify(shiftAndCandidate)}`)
 
-      console.log({ message: "POST IS SUCCESSFUL!!!", data: { ...otherProps, candidate: otherUserDetails, shiftsWithApplicants } });
+    // try {
+    //   const addToShiftsWithApplicants = await PostRequestSetState("http://localhost:3003/shiftsWithApplicants", { ...shiftAndCandidate }, () => setShiftStatuses(prv => ({ ...prv, shiftsWithApplicants: [...prv.shiftsWithApplicants, { ...shiftAndCandidate }] })));
+
+    //   console.log({ message: "POST IS SUCCESSFUL!!!", data: { ...otherProps, candidate: otherUserDetails, shiftsWithApplicants } });
       
-      navigate(`/candidate/welcome/${_currentUserID}/available shifts`)
+    //   navigate(`/candidate/welcome/${_currentUserID}/available shifts`)
 
-      return { message: "POST IS SUCCESSFUL!!!", data: { ...otherProps, candidate: otherUserDetails } };
-    } catch (error) {
-      console.error({ message: "onSelectShift ERROR!!!", error, errorMessage: error.message, errorStack: error.stack, errorCode: error.code });
-    }
+    //   return { message: "POST IS SUCCESSFUL!!!", data: { ...otherProps, candidate: otherUserDetails } };
+    // } catch (error) {
+    //   console.error({ message: "onSelectShift ERROR!!!", error, errorMessage: error.message, errorStack: error.stack, errorCode: error.code });
+    // }
   } 
 
   return (
