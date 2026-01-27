@@ -31,7 +31,7 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
    useEffect(() => {
       //========= Deleted Expired Shifts From Firestore!!! =========
       fb_BatchDeleteExpiredShifts(location)
-      .then(result => console.log(result))
+      .then(result => console.log({unexpiredShifts: result}))
       .catch(error => console.error(error)) //Deletes any expired shifts.
       //=============================================================
 
