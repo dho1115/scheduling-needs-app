@@ -1,7 +1,20 @@
 import { DeleteRequest } from "../../../functions/deleteRequest"
 import { DeleteRequestSetState } from "../../../functions/deleteRequest"
 import { AddNewShiftToDBandState, PostRequestII, PostRequestSetState } from "../../../functions/postRequest"
-AddNewShiftToDBandState
+
+export const convertMilitaryToStandard = (militaryTime) {
+   const [hours, minutes, seconds] = militaryTime.split(':');
+   const date = new Date();
+   date.setHours(hours, minutes, seconds || 0);
+
+   const options = {
+       hour: 'numeric',
+       minute: '2-digit',
+       second: seconds ? '2-digit' : undefined,
+       hour12: true
+   };
+   return date.toLocaleTimeString('en-US', options);
+}
 
 export const TransferApprovedShift = async (approvedShiftWithApplicant, shiftsWithApplicants, formattedDateApproved /* DateTime API */, currentUser, location=null) => {
    try {
