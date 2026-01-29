@@ -11,7 +11,7 @@ import { ShiftContext } from '../../../../App';
 import ErrorBoundary from '../../../ErrorBoundary';
 
 //functions.
-import { findShiftInArray, youveGotApplicants } from '../functions';
+import { convertMilitaryToStandard, findShiftInArray, youveGotApplicants } from '../functions';
 
 import "./Shift.styles.css";
 
@@ -29,20 +29,6 @@ const Shift = ({ id, idx, date, time: {end, start}, storeNumber, ...rest }) => {
    const shiftDetails = { id, shiftID: id, date, time: { end, start }, storeNumber, currentUser };
    const [modal, setModal] = useState(false);
    const toggle = () => setModal(!modal);
-
-   function convertMilitaryToStandard(militaryTime) {
-      const [hours, minutes, seconds] = militaryTime.split(':');
-      const date = new Date();
-      date.setHours(hours, minutes, seconds || 0);
-  
-      const options = {
-          hour: 'numeric',
-          minute: '2-digit',
-          second: seconds ? '2-digit' : undefined,
-          hour12: true
-      };
-      return date.toLocaleTimeString('en-US', options);
-  }
 
    return (
       <ErrorBoundary fallback={<h3>Something went wrong inside {pathname}.</h3>}>
