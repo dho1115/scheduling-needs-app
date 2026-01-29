@@ -37,6 +37,7 @@ const AddShift = () => {
          setNewShiftAdded(false);
       };
    }, [])
+   
   return (
    <Form onSubmit={handleSubmit} className='add-shift-form p-3 m-1'>
       <FormGroup>
