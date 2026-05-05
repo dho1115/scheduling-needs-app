@@ -2,6 +2,7 @@ import { collection, getDoc, getDocs } from "firebase/firestore";
 import { fb_signOut, fb_signUpNewUser, fb_userLogin } from "./authorization";
 import { fb_addOneDocument, fb_deleteOneDocument } from "./crud_basic";
 import { auth, db } from "../../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const setCurrentUserState = async(currentUser, setCurrentUser_fn_declaration, location=null) => {
    let snapshot_result = {};
@@ -41,9 +42,13 @@ export const fb_fs_NewUserRegistration = async (signUp_details, location=null) =
 export const fb_fs_ExistingUserLogin = async (signUp_details, location) => {
    const fake_email = `${signUp_details.name.split(" ").join("") + signUp_details.id}@email.com`;
    try {
+      console.log({ fake_email, password: signUp_details.password });
+      debugger;
+
       return await Promise.all([
-         await fb_userLogin(fake_email, signUp_details.password, location),
-         await fb_addOneDocument('Current User', signUp_details, signUp_details.id, location)
+         // fb_userLogin(fake_email, signUp_details.password, location),
+         signInWithEmailAndPassword(auth, fake_email, signUp_details.password),
+         fb_addOneDocument('Current User', signUp_details, signUp_details.id, location)
       ]);
    } catch (error) {
       console.error({ message: "ERROR inside fb_fs_ExistingUserLogin (miscellaneous.jsx)!!!", location, error, fake_email, errorStack: error.stack, errorName: error.name, errorCode: error.code, errorMessage: error.message })
