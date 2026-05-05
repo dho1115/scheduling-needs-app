@@ -1,5 +1,4 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { fb_deleteOneDocument } from "./crud_basic";
 import { auth } from "../../firebase";
 
 export const fb_signUpNewUser = async (email, password, location=null) => {
@@ -17,9 +16,9 @@ export const fb_userLogin = async (email, password, location = null) => {
    try {
       const login_credential = await signInWithEmailAndPassword(auth, email, password);
       const currentUser = login_credential.user;
-      console.log(`Successfully logged in ${JSON.stringify(currentUser)}.`);
+      // console.log(`Successfully logged in ${JSON.stringify(currentUser)}.`);
 
-      if (!currentUser) throw new Error(`ERROR in fb_userLogin (authorization.jsx), located in ${location}!!!\ncurrentUser = ${currentUser}!!!`)
+      // if (!currentUser) throw new Error(`ERROR in fb_userLogin (authorization.jsx), located in ${location}!!!\ncurrentUser = ${currentUser}!!!`)
       
       return login_credential
    } catch (error) {
