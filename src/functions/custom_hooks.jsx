@@ -29,7 +29,7 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
    }
    
    useEffect(() => {
-      //========= Deleted Expired Shifts From Firestore!!! =========
+      // ========= Deleted Expired Shifts From Firestore!!! =========
       fb_BatchDeleteExpiredShifts(location)
       .then(result => console.log({unexpiredShifts: result}))
       .catch(error => console.error(error)) //Deletes any expired shifts.
@@ -53,7 +53,7 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
    }, [])
 
    useEffect(() => {
-      onAuthStateChanged(auth, function (user) {
+      const subscribe = onAuthStateChanged(auth, function (user) {
           if (user) {
              console.log("currently signed in as: ", user.uid);
              fb_fetchAllDocs("Current User", location)
@@ -68,6 +68,8 @@ export const useFetchFirestoreAndSetState = (allFirestoreCollections, location=n
              console.log("No user. User is:", user);
           }
       })
+
+      return () => subscribe()
    }, [auth.currentUser])
 
    return [ currentUser, setCurrentUser, shiftStatuses, setShiftStatuses, employees, setEmployees ];
