@@ -87,7 +87,8 @@ export const fb_BatchDeleteExpiredShifts = async (location) => {
                   const dateTime_date = DateTime.fromISO(shift.date); //convert shift date to DateTime format.
 
                   (dateTime_date.diff(currentDate, 'days').days < 1) ?
-                     fb_deleteOneDocument(collection_name, shift.id, location, shift)
+                     // fb_deleteOneDocument(collection_name, shift.id, location, shift)
+                     console.log(`ABOUT TO DELETE ${shift.id}. Shift ${JSON.stringify(shift)}`)
                      :
                      unexpired_shifts.push(shift)
                }
